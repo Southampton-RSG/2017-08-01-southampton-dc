@@ -204,23 +204,23 @@ eventbrite: "12334"           # optional: alphanumeric key for Eventbrite regist
   <div class="col-md-6">
     <h3>Day 1</h3>
     <table class="table table-striped">
-      <tr> <td>09:30</td>  <td>Welcome and Introduction to Software Carpentry</td> </tr>
-      <tr> <td>10:00</td>  <td>Data Organozation in Spreadsheets</td> </tr>
+      <tr> <td>09:30</td>  <td>Welcome and Introduction to Data Carpentry</td> </tr>
+      <tr> <td>10:00</td>  <td>Data Organisation in Spreadsheets</td> </tr>
       <tr> <td>11:00</td>  <td>Break</td> </tr>
       <tr> <td>11:30</td>  <td>Data Cleaning with OpenRefine</td> </tr>
       <tr> <td>12:30</td>  <td>Lunch</td> </tr>
-      <tr> <td>13:30</td>  <td>Data Analysis and Visualization in R (Part I)</td> </tr>
+      <tr> <td>13:30</td>  <td>Introduction to R and RStudio</td> </tr>
       <tr> <td>14:30</td>  <td>Break</td> </tr>
-      <tr> <td>15:00</td>  <td>Data Analysis and Visualization in R (Part I) contd.</td> </tr>
+      <tr> <td>15:00</td>  <td>Introduction to R and RStudio contd.</td> </tr>
       <tr> <td>16:00</td>  <td>Wrap-up</td></tr>
     </table>
   </div>
   <div class="col-md-6">
     <h3>Day 2</h3>
     <table class="table table-striped">
-      <tr> <td>10:00</td>  <td>Data Analysis and Visualization in R (Part II)</td> </tr>
+      <tr> <td>10:00</td>  <td>Data Analysis and Visualization in R</td> </tr>
       <tr> <td>11:00</td>  <td>Break</td> </tr>
-      <tr> <td>11:30</td>  <td>Data Analysis and Visualization in R (Part II) contd.</td> </tr>
+      <tr> <td>11:30</td>  <td>Data Analysis and Visualization in R contd.</td> </tr>
       <tr> <td>12:30</td>  <td>Lunch</td> </tr>
       <tr> <td>13:30</td>  <td>Data Management with SQL</td></tr>
       <tr> <td>14:30</td>  <td>Break</td> </tr>
@@ -302,15 +302,54 @@ eventbrite: "12334"           # optional: alphanumeric key for Eventbrite regist
     </ul>
   </div>
   -->
-  <div class="col-md-6">
-    <h3 id="syllabus-r">Programming in R</h3>
+
+  <div class="col-md-4">
+    <h3 id="syllabus-spreadsheets">Data Organisation in Spreadsheets</h3>
     <ul>
-      <li>Working with vectors and data frames</li>
-      <li>Reading and plotting data</li>
-      <li>Creating and using functions</li>
-      <li>Loops and conditionals</li>
-      <li>Using R from the command line</li>
-      <li><a href="{{site.swc_pages}}/r-novice-inflammation/reference/">Reference...</a></li>
+      <li>Introduction</li>
+      <li>Formatting data tables in Spreadsheets</li>
+      <li>Formatting Problems</li>
+      <li>Dates as data</li>
+      <li>Quality Control</li>
+      <li>Exporting data</li>
+      <li><a href="http://www.datacarpentry.org/spreadsheet-ecology-lesson/">Reference...</a></li>
+    </ul>
+  </div>
+
+    <div class="col-md-4">
+    <h3 id="syllabus-openrefine">Data Cleaning with OpenRefine</h3>
+    <ul>
+      <li>Introduction</li>
+      <li>Working with OpenRefine</li>
+      <li>Filerting and Sorting with OpenRefine</li>
+      <li>Examining Numbers in OpenRefine</li>
+      <li>Scripts from OpenRefine</li>
+      <li>Exporting and Saving Data from OpenRefine</li>
+      <li><a href="http://www.datacarpentry.org/spreadsheet-ecology-lesson/">Reference...</a></li>
+    </ul>
+  </div>
+
+
+  <div class="col-md-4">
+    <h3 id="syllabus-r">Introduction to R and RStudio</h3>
+    <ul>
+      <li>Before we start</li>
+      <li>Introduction to R</li>
+      <li>Starting with data</li>
+      <li><a href="http://www.datacarpentry.org/R-ecology-lesson/">Reference...</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
+    <h3 id="syllabus-r2">Data Analysis and Visualization in R contd.</h3>
+    <ul>
+      <li>Aggregating and analyzing data with dplyr</li>
+      <li>Data visualization with ggplot2</li>
+      <li><a href="http://www.datacarpentry.org/R-ecology-lesson/">Reference...</a></li>
     </ul>
   </div>
   
@@ -327,9 +366,7 @@ eventbrite: "12334"           # optional: alphanumeric key for Eventbrite regist
      </ul>
    </div>
    -->
-</div>
 
-<div class="row">
 <!--
   <div class="col-md-6">
     <h3 id="syllabus-git">Version Control with Git</h3>
@@ -346,18 +383,15 @@ eventbrite: "12334"           # optional: alphanumeric key for Eventbrite regist
     </ul>
   </div>
   -->
-  <div class="col-md-6">
-    <h3 id="syllabus-sql">Managing Data with SQL</h3>
+  <div class="col-md-4">
+    <h3 id="syllabus-sql">Data Management with SQL</h3>
     <ul>
-      <li>Reading and sorting data</li>
-      <li>Filtering with <code>where</code></li>
-      <li>Calculating new values on the fly</li>
-      <li>Handling missing values</li>
-      <li>Combining values using aggregation</li>
-      <li>Combining information from multiple tables using <code>join</code></li>
-      <li>Creating, modifying, and deleting data</li>
-      <li>Programming with databases</li>
-      <li><a href="{{site.swc_pages}}/sql-novice-survey/reference/">Reference...</a></li>
+      <li>Databases using SQL</li>
+      <li>Basic Queries</li>
+      <li>SQL Aggregation</li>
+      <li>Joins and aliases</li>
+      <li>R and Databases</li>
+      <li><a href="http://www.datacarpentry.org/sql-ecology-lesson/">Reference...</a></li>
     </ul>
   </div>
 </div>
