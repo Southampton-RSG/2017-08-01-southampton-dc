@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="last-modified" content="2017-04-05 12:43:11 +0100">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta "search-domain" used for google site search function google_search() -->
+    <meta name="search-domain" value="">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/lesson.css" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon-dc.ico" />
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+    <title>SQL for Ecology: Instructor Notes</title>
+  </head>
+  <body>
+    <div class="container">
+      
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      
+      
+      <a href="http://datacarpentry.org" class="pull-left">
+        <img class="navbar-logo" src="../assets/img/dc-icon-black.svg" alt="Data Carpentry logo" />
+      </a>
+      
+
+      
+      <a class="navbar-brand" href="../">Home</a>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+	
+        <li><a href="../conduct/">Code of Conduct</a></li>
+
+	
+        
+        <li><a href="../setup/">Setup</a></li>
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="../00-sql-introduction/">Databases using SQL</a></li>
+            
+            <li><a href="../01-sql-basic-queries/">Basic Queries</a></li>
+            
+            <li><a href="../02-sql-aggregation/">SQL Aggregation</a></li>
+            
+            <li><a href="../03-sql-joins-aliases/">Joins and aliases</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+	
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Extras <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../reference/">Reference</a></li>
+            
+            <li><a href="../about/">About</a></li>
+            
+            <li><a href="../discuss/">Discussion</a></li>
+            
+            <li><a href="../figures/">Figures</a></li>
+            
+            <li><a href="../guide/">Instructor Notes</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+        <li><a href="../license/">License</a></li>
+	
+	<li><a href="/edit/gh-pages/_extras/guide.md">Improve this page <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
+	
+      </ul>
+      <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<h1 class="maintitle"><a href="../">SQL for Ecology</a>: Instructor Notes</h1>
+
+<h2 id="learning-objectives">Learning objectives</h2>
+<ul>
+  <li>Understand concept of relational database</li>
+  <li>Be able to perform simple queries in SQL from a single table</li>
+  <li>Understand how to filter and sort results from a query</li>
+  <li>Use aggregate functions to combine data</li>
+  <li>Perform queries across tables</li>
+</ul>
+
+<h2 id="data">Data</h2>
+<p>As for all of the <a href="https://github.com/datacarpentry?utf8=%E2%9C%93&amp;query=ecology">Data Carpentry ecology lessons</a>, this
+lesson uses the Portal Project Teaching Database. The data is available at http://dx.doi.org/10.6084/m9.figshare.1314459 and the download includes a
+SQLite database file (portal_mammals.sqlite) as well as three .csv files
+(species.csv, plots.csv, surveys.csv) that can be imported into SQLite.</p>
+
+<p><strong>Note</strong> that the figshare download is an archive (.zip) file that rudely explodes all of the files into your current directory.</p>
+
+<h2 id="instructors-setup-notes">Instructor’s setup notes</h2>
+
+<p>By default SQLite Manager opens in a separate window and it is not possible to
+zoom in to enlarge the font
+so that it is more readable, especially for students in the back rows.</p>
+
+<p>The way to fix this is to:</p>
+
+<ol>
+  <li>Open the SQLite Manager</li>
+  <li>Click on the <img src="../img/options_button.png" alt="Options" /><em>Options</em> button .</li>
+  <li>Chose <em>Start SQLite Manager: in a new tab</em>.</li>
+</ol>
+
+<p>You can then use <strong>Ctrl - +</strong> to zoom just like any other web page.</p>
+
+<h2 id="motivation-and-framing">Motivation and Framing</h2>
+
+<p>See this slide deck as a sample intro for the lesson: 
+<a href="https://speakerdeck.com/christinalk/data-carpentry-sql-introduction">SQL Intro Deck</a></p>
+
+<p>Key points:</p>
+<ul>
+  <li>Want to query data, instead of editing directly</li>
+  <li>Need a solution that is scalable and reproducible</li>
+  <li>Introduce the typical ways of dealing with rectangular data (subsetting, 
+split-apply-combine)</li>
+</ul>
+
+<p>If you’ve written up a diagram of the data analysis pipeline (raw data -&gt; 
+clean data -&gt; import and analyze -&gt; results -&gt; visualization), it can be 
+helpful to identify that you’re now somewhere between clean data and analysis.</p>
+
+<h2 id="lesson-outline">Lesson outline</h2>
+
+<h3 id="00-sql-introduction">00-sql-introduction</h3>
+<ul>
+  <li>Introduce relational databases, database management systems, the SQLite
+Firefox plugin, and the Portal dataset</li>
+  <li>Import .csv files into sqlite</li>
+  <li>Structuring data for database import</li>
+  <li>Discuss the different SQL data types</li>
+</ul>
+
+<p><strong>Tips</strong></p>
+
+<ul>
+  <li><strong>Changing data type</strong>: There is a step on import where you have to select the data type for the field. Some people select the wrong type or nothing at all and wonder what they can do to change it. If you right click or Control click on the column name in the Structure tab, then there’s an Edit Column option and you can type in a new data type. When you go to save it, it does warn you that this is dangerous behavior, so people are being warned, but it might be nice to show this option and also to say why it’s not generally a good idea to change data types.</li>
+  <li><strong>Importing data</strong>: Note how cleanly the csv files import into SQL. If you have also taught the spreadsheet lesson, it would be a good idea to compare the format of the csv files with the messy spreadsheet and ask “Remember that messy spreadsheet? What would have happened if we tried to load that in to SQL?”</li>
+</ul>
+
+<h3 id="00-supplement-database-designmd">00-supplement-database-design.md</h3>
+<p>(optional)
+The first lesson includes a brief introduction to data design and choosing database systems. This material expands on the database design in the first section.</p>
+
+<h3 id="01-sql-basic-queries">01-sql-basic-queries</h3>
+<ul>
+  <li>Write basic queries using SELECT and FROM</li>
+  <li>Filter results using DISTINCT, WHERE</li>
+  <li>Change how results are displayed using ORDER BY and by doing calculations on results</li>
+</ul>
+
+<h3 id="02-sql-aggregation">02-sql-aggregation</h3>
+<ul>
+  <li>Combine results using COUNT and GROUP BY</li>
+  <li>Filtering based on aggregation with HAVING</li>
+  <li>Saving queries using VIEW</li>
+</ul>
+
+<h3 id="03-sql-joins-aliases">03-sql-joins-aliases</h3>
+<ul>
+  <li>combining data from two tables using JOIN, ON, USING</li>
+  <li>depending on time, could introduce different types of JOINs</li>
+  <li>using aliases with AS to simplify queries</li>
+</ul>
+
+<h2 id="alternative-activities">Alternative activities</h2>
+
+<h3 id="queries-on-the-board">Queries on the board</h3>
+
+<p>As you teach the lesson, it can be helpful to pause and write up the query keywords 
+on the board.  This could look like this:</p>
+
+<ul>
+  <li>After 01-sql-basic queries
+~~~
+SELECT column
+     FUNCTION(column)</li>
+</ul>
+
+<p>FROM table</p>
+
+<p>WHERE (conditional statement, applies to row values) 
+      (AND/OR)</p>
+
+<p>ORDER BY column/FUNCTION(column) (ASC/DESC)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+* After 02-sql-aggregation
+</code></pre>
+</div>
+<p>SELECT column
+       FUNCTION(column)
+       AGGREGATE_FUNCTION(column)
+FROM table</p>
+
+<p>WHERE (conditional statement, applies to row values) 
+      (AND/OR) 
+      (IS (NOT) NULL)
+GROUP BY column
+   HAVING (conditional statement, applies to group)
+ORDER BY column/FUNCTION(column) (ASC/DESC)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+* After 03-sql-joins-aliases
+</code></pre>
+</div>
+<p>SELECT column
+       FUNCTION(column)
+       AGGREGATE_FUNCTION(column)
+FROM table
+JOIN table ON table.col = table.col
+WHERE (conditional statement, applies to row values) 
+      (AND/OR) 
+      (IS (NOT) NULL)
+GROUP BY column
+   HAVING (conditional statement, applies to group)
+ORDER BY column/FUNCTION(column) (ASC/DESC)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+As a bonus, if you can leave this on the board, it translates nicely into 
+the `dplyr` portion of the `R` lesson, i.e.: 
+
+</code></pre>
+</div>
+<p>SQL:                                                 dplyr:</p>
+
+<p>SELECT column                                        select(col)
+       FUNCTION(column)                              mutate(col = fcn(col))
+       AGGREGATE_FUNCTION(column)                    summarize(col = fcn(col))
+FROM table
+JOIN table ON table.col = table.col
+WHERE (conditional statement, applies to row values) filter(condition)
+      (AND/OR) 
+      (IS (NOT) NULL)                                is.na()
+GROUP BY column                                      group_by(col)
+   HAVING (conditional statement, applies to group)
+ORDER BY column/FUNCTION(column) (ASC/DESC)          arrange()
+~~~</p>
+
+<h3 id="interactive-database">“Interactive” database</h3>
+
+<p>If you want to try something more active (esp. if you’re teaching SQL in the 
+afternoon!), this is a an interactive activity to try.</p>
+
+<ul>
+  <li>Give each student six cards, with the following labels:
+    <ul>
+      <li>name</li>
+      <li>name</li>
+      <li>height</li>
+      <li>DoC</li>
+      <li>height*2.54</li>
+      <li>dept</li>
+    </ul>
+  </li>
+  <li>Have students fill out their cards:
+    <ul>
+      <li>Name: first name</li>
+      <li>Height: height in INCHES</li>
+      <li>Dept (department): close enough (just pick one if you don’t have a home department)</li>
+      <li>DoC (Dog or Cat): Dog, Cat, Both, Neither, or leave blank</li>
+    </ul>
+  </li>
+  <li>Each student is now a <em>record</em> in an interactive “students” database, where 
+each of the cards they hold is a <em>field</em> in that database.</li>
+  <li>At various points in the lesson, stop and “query” the student database.  To do this:
+    <ul>
+      <li>On a slide (or in a text editor), show or type in a sample query.  Something like:
+        <div class="highlighter-rouge"><pre class="highlight"><code>  SELECT name, name FROM students WHERE height &gt; 66
+</code></pre>
+        </div>
+      </li>
+      <li>If the query applies to a record (student), that student should stand, 
+  and display (hold up) the appropriate field (card)</li>
+      <li>See the following slide deck for a list of sample queries.  <a href="https://speakerdeck.com/christinalk/query-live-database">Sample queries</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+      
+      
+<footer>
+  <div class="row">
+    <div class="col-md-6" align="left">
+      <h4>
+	Copyright &copy; 2016–2017
+	
+	<a href="http://datacarpentry.org">Data Carpentry</a>
+	
+      </h4>
+    </div>
+    <div class="col-md-6" align="right">
+      <h4>
+	
+	<a href="/edit/gh-pages/_extras/guide.md">Edit on GitHub</a>
+	
+	/
+	<a href="/blob/gh-pages/CONTRIBUTING.md">Contributing</a>
+	/
+	<a href="/">Source</a>
+	/
+	<a href="/blob/gh-pages/CITATION">Cite</a>
+	/
+	<a href="mailto:lessons@software-carpentry.org">Contact</a>
+      </h4>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/lesson.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37305346-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
