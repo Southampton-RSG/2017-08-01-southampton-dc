@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="00-before-we-start.html">Before we start</a>
+</li>
+<li>
+  <a href="01-intro-to-R.html">Intro to R</a>
+</li>
+<li>
+  <a href="02-starting-with-data.html">Starting with data</a>
+</li>
+<li>
+  <a href="03-dplyr.html">Manipulating data frames</a>
+</li>
+<li>
+  <a href="04-visualization-ggplot2.html">Visualizing data</a>
+</li>
+<li>
+  <a href="05-r-and-databases.html">R and SQL</a>
+</li>
+<li>
+  <a href="code-handout.R">Code Handout</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/datacarpentry/R-ecology-lesson">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="citation" class="section level1">
+<h1>CITATION</h1>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Data is from the paper S. K. Morgan Ernest, Thomas J. Valone, and James H. Brown. 2009. Long-term monitoring and experimental manipulation of a Chihuahuan Desert ecosystem near Portal, Arizona, USA. Ecology 90:1708.</p>
+<p><a href="http://esapubs.org/archive/ecol/E090/118/" class="uri">http://esapubs.org/archive/ecol/E090/118/</a></p>
+<p>A simplified version of this data, suitable for teaching is available on <a href="https://dx.doi.org/10.6084/m9.figshare.1314459.v5">figshare</a>.</p>
+</div>
+<div id="lessons" class="section level2">
+<h2>Lessons</h2>
+<p>The first workshop was run at NESCent on May 8-9, 2014 with the development and instruction of lessons by Karen Cranston, Hilmar Lapp, Tracy Teal and Ethan White and contributions from Deb Paul and Mike Smorul.</p>
+<p>Original materials adapted from SWC Python lessons by Sarah Supp. John Blischak led the continued development of materials with contributions from Gavin Simpson, Tracy Teal, Greg Wilson, Diego Barneche, Stephen Turner, and Karthik Ram. This original material has been modified and expanded by Francois Michonneau.</p>
+<p>The dplyr lesson was created by Kara Woo, who copied and modified and modified from Jeff Hollister’s <a href="http://usepa.github.io/introR/2015/01/14/03-Clean/">materials</a>.</p>
+<p>The ggplot2 lesson was initially created by Mateusz Kuzak, Diana Marek, and Hedi Peterson, during a Hackathon in Espoo, Finland on March 16-17, 2015, sponsored by the <a href="http://elixir-europe.org/">ELIXIR project</a>.</p>
+<p>You can cite this Data Carpentry lesson as follow:</p>
+<p>
+Obeng A, Pawlik A, Pletzer A, Shiklomanov A, Fouilloux A, Fournier A, Marwick B, Brown CT, Voter C, Bouquin D, Wilson E, Hart E, Sügis E, Gan E, White E, Michonneau F, Boehm F, Dashnow H, Lapp H, Ashander J, Byrnes J, Hollister JW, Keane J, Herr J, Mislan KAS, KWHall, Woo K, Cranston K, Jordan KL, Ram K, Hertweck K, Todd-Brown K, Lotterhos K, Direk K, Chatzidimitriou K, Deer L, Laurent, Wasser L, Tarkowski L, Breckels L, Foos M, Ankenbrand M, Ankenbrand MJ, Kuzak M, Koontz M, Johnston M, Marino N, Carchedi N, Lijnzaad P, Shawn, Labou S, Pederson S, Webster T, Hart T, Sandmann T, Teal T, Furnass W, Pearse W, Li Y, ashander, cbahlai, clarashaw, duffymeg, ejh243, fishman, jsta, markrobinsonuzh, mchiapello, mkuzak, plijnzaad, riverpeek, sarahsupp, sfn_brt, stubbsda and suparee (2017). “Data Carpentry: R for data analysis and visualization of Ecological Data.” <a href="http://datacarpentry.org/R-ecology-lesson">http://datacarpentry.org/R-ecology-lesson</a>.
+</p>
+<p>or as a BibTeX entry:</p>
+<pre><code>@Misc{,
+  author = {Adam Obeng and Aleksandra Pawlik and Alex Pletzer and Alexey Shiklomanov and Anne Fouilloux and Auriel Fournier and Ben Marwick and C. Titus Brown and Carolyn Voter and Daina Bouquin and Earle Wilson and Edmund Hart and Elena Sügis and Emilia Gan and Ethan White and Francois Michonneau and Fred Boehm and Harriet Dashnow and Hilmar Lapp and Jaime Ashander and Jarrett Byrnes and Jeffrey W Hollister and Jonathan Keane and Josh Herr and K. A. S. Mislan and {KWHall} and Kara Woo and Karen Cranston and Kari L. Jordan and Karthik Ram and Kate Hertweck and Kathe Todd-Brown and Katie Lotterhos and Kenan Direk and Kyriakos Chatzidimitriou and Lachlan Deer and {Laurent} and Leah Wasser and Leszek Tarkowski and Lisa Breckels and M. Foos and Markus Ankenbrand and Markus J. Ankenbrand and Mateusz Kuzak and Michael Koontz and Myfanwy Johnston and Nicholas Marino and Nick Carchedi and Philip Lijnzaad and {Shawn} and Stephanie Labou and Steve Pederson and Tara Webster and Ted Hart and Thomas Sandmann and Tracy Teal and Will Furnass and Will Pearse and Ye Li and {ashander} and {cbahlai} and {clarashaw} and {duffymeg} and {ejh243} and {fishman} and {jsta} and {markrobinsonuzh} and {mchiapello} and {mkuzak} and {plijnzaad} and {riverpeek} and {sarahsupp} and {sfn_brt} and {stubbsda} and {suparee}},
+  title = {Data Carpentry: R for data analysis and visualization of Ecological Data},
+  editor = {Francois Michonneau and Auriel Fournier},
+  month = {February},
+  year = {2017},
+  url = {http://datacarpentry.org/R-ecology-lesson},
+}</code></pre>
+</div>
+</div>
+
+<hr/>
+
+<p><a href="http://datacarpentry.org/">Data Carpentry</a>, 2017. <br/>
+  <a href="LICENSE.html">License</a>. Questions?  Feedback?
+  Please <a href="https://github.com/datacarpentry/R-ecology-lesson/issues/new">file
+    an issue on GitHub</a>. <br/>
+  On Twitter: <a href="https://twitter.com/datacarpentry">@datacarpentry</a></p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
