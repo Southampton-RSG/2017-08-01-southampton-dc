@@ -24,12 +24,19 @@ serve : lesson-md
 site : lesson-md
 	${JEKYLL} build
 
+
+## deploy           : build files for Git commit, do not run a server.
+deploy : site
+	@cp -R ${DST}/* .
+
 # repo-check        : check repository settings.
 repo-check :
 	@bin/repo_check.py -s .
 
 ## clean            : clean up junk files.
 clean :
+	@rm -rf ${HTML_DST}
+	@rm -rf ${HTML_DIRS}
 	@rm -rf ${DST}
 	@rm -rf .sass-cache
 	@rm -rf bin/__pycache__
@@ -72,13 +79,16 @@ MARKDOWN_SRC = \
 
 # Generated lesson files in the order they appear in the navigation menu.
 HTML_DST = \
-  ${DST}/index.html \
-  ${DST}/conduct/index.html \
-  ${DST}/setup/index.html \
-  $(patsubst _episodes/%.md,${DST}/%/index.html,$(wildcard _episodes/*.md)) \
-  ${DST}/reference/index.html \
-  $(patsubst _extras/%.md,${DST}/%/index.html,$(wildcard _extras/*.md)) \
-  ${DST}/license/index.html
+  index.html \
+  conduct/index.html \
+  setup/index.html \
+  $(patsubst _episodes/%.md,%/index.html,$(wildcard _episodes/*.md)) \
+  reference/index.html \
+  $(patsubst _extras/%.md,%/index.html,$(wildcard _extras/*.md)) \
+  license/index.html
+
+# Directories where HTML is generated (apart from root),
+HTML_DIRS = $(patsubst ./,,$(dir ${HTML_DST}))
 
 ## lesson-md        : convert Rmarkdown files to markdown
 lesson-md : ${RMD_DST}
