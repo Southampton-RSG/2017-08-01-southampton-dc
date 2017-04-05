@@ -1,0 +1,70 @@
+<p>Materials by: <strong>Jeffrey Hollister</strong>, <strong>Alexander Duryee</strong>, <strong>Jennifer Bryan</strong>, <strong>Daisie Huang</strong>, <strong>Ben Marwick</strong>, <strong>Christie Bahlai</strong>, <strong>Owen Jones</strong>, <strong>Aleksandra Pawlik</strong></p>
+
+<h1 id="learning-objectives">Learning Objectives</h1>
+<ul>
+  <li>Identify problems with using the .csv file format.</li>
+  <li>Apply best practices for data cleaning to avoid problems with the .csv file format.</li>
+</ul>
+
+<p>###Commas as part of data values in <code class="highlighter-rouge">*.csv</code> files</p>
+
+<p>In the <a href="05-exporting-data.md">previous lesson</a> we discussed how to export Excel file formats into <code class="highlighter-rouge">*.csv</code>. Whilst Comma Separated Value files are indeed very useful allowing for easily exchanging and sharing data.</p>
+
+<p>However, there are some significant problems with this particular format. Quite often the data values themselves may include commas (,). In that case, the software which you use (including Excel) will most likely incorrectly display the data in columns. It is because the commas which are a part of the data values will be interpreted as a delimiter.</p>
+
+<p>For example, our data could look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	species_id,genus,species,taxa
+	AB,Amphispiza,bilineata,Bird
+	AH,Ammospermophilus,harrisi,Rodent-not,censused
+	AS,Ammodramus,savannarum,Bird
+</code></pre>
+</div>
+
+<p>In record <code class="highlighter-rouge">AH,Ammospermophilus,harrisi,Rodent-not,censused</code> the value for <em>taxa</em> includes a comma (<code class="highlighter-rouge">Rodent-not,censused</code>). 
+If we try to read the above into Excel (or other spreadsheet programme), we will get something like this:</p>
+
+<p><img src="../fig/csv-mistake.png" alt="Issue with importing csv format" /></p>
+
+<p>The value for ‘taxa’ was split into two columns (instead of being put in one column <code class="highlighter-rouge">D</code>). This can propagate to a number of further errors. For example, the “extra” column will be interpreted as a column with many missing values (and without a proper header!). In addition to that, the value in column <code class="highlighter-rouge">D</code> for the record in row 3 (so the one where the value for ‘taxa’ contained the comma) is now incorrect.</p>
+
+<h3 id="dealing-with-commas-as-part-of-data-values-in-csv-files">Dealing with commas as part of data values in <code class="highlighter-rouge">*.csv</code> files</h3>
+
+<p>If you want to store your data in <code class="highlighter-rouge">*.csv</code> and expect that your data may contain commas in their values, you can avoid the problem discussed above by putting the values in quotes (“”). This <a href="./data/biology/species.csv">example data file</a> applies this rule so the actual data looks like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>species_id,genus,species,taxa
+"AB","Amphispiza","bilineata","Bird"
+"AH","Ammospermophilus","harrisi","Rodent-not censused"
+"AS","Ammodramus","savannarum","Bird"
+"BA","Baiomys","taylori","Rodent"
+"CB","Campylorhynchus","brunneicapillus","Bird"
+"CM","Calamospiza","melanocorys","Bird"
+"CQ","Callipepla","squamata","Bird"
+"CS","Crotalus","scutalatus","Reptile"
+"CT","Cnemidophorus","tigris","Reptile"
+"CU","Cnemidophorus","uniparens","Reptile"
+</code></pre>
+</div>
+
+<p>This original file does not contain commas in the values.</p>
+
+<p>But let’s see what would happen if we introduced a comma into  <code class="highlighter-rouge">"Rodent-not censused"</code> - so that it looks like this: <code class="highlighter-rouge">"Rodent-not, censused"</code>.</p>
+
+<ol>
+  <li>Open the <a href="./data/biology/species.csv">species.csv</a> file in Excel (or Calc in Libre Office).</li>
+  <li>Add the comma (,) in <code class="highlighter-rouge">"Rodent-not censused"</code>.</li>
+  <li>Save the file under a <strong>different name</strong> (but also in the <code class="highlighter-rouge">csv</code> format) and reopen it in Excel.</li>
+  <li>The issue with the “extra” incorrect column should not appear.</li>
+</ol>
+
+<p>However, if you are working with already existing dataset in which the data values are not included in “” and but which have commas as both delimiters and parts of data values, you are potentially facing a major problem with <strong>data cleaning</strong>.</p>
+
+<p>If the dataset you’re dealing with contains hundreds or thousands of records, cleaning them up manually (by either removing commas from the data values or putting the values into quotes - “”) is not only going to take hours and hours but may potentially end up with you accidentally introducing many errors.</p>
+
+<p>Cleaning up datasets is one of major problems in many scientific disciplines. The approach almost always depends on the particular context. However, it is a good practice to clean the data in an automated fashion, for example by writing and running a script. Other lessons in Data Carpentry covering shell, Python and R will give you the basis for developing skills to build relevant scripts.</p>
+
+<p>###Tab Separated Values format</p>
+
+<p>###Other delimiters for data formats</p>
+
+<p>Previous: <a href="05-exporting-data.html">Exporting data from spreadsheets.</a></p>

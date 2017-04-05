@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="last-modified" content="2017-04-05 12:38:18 +0100">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta "search-domain" used for google site search function google_search() -->
+    <meta name="search-domain" value="">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/lesson.css" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon-dc.ico" />
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+    <title>Data Organization in Spreadsheets: Instructor Notes</title>
+  </head>
+  <body>
+    <div class="container">
+      
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      
+      
+      <a href="http://datacarpentry.org" class="pull-left">
+        <img class="navbar-logo" src="../assets/img/dc-icon-black.svg" alt="Data Carpentry logo" />
+      </a>
+      
+
+      
+      <a class="navbar-brand" href="../">Home</a>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+	
+        <li><a href="../conduct/">Code of Conduct</a></li>
+
+	
+        
+        <li><a href="../setup/">Setup</a></li>
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="../00-intro/">Introduction</a></li>
+            
+            <li><a href="../01-format-data/">Formatting data tables in Spreadsheets</a></li>
+            
+            <li><a href="../02-common-mistakes/">Formatting problems</a></li>
+            
+            <li><a href="../03-dates-as-data/">Dates as data</a></li>
+            
+            <li><a href="../04-quality-control/">Quality control</a></li>
+            
+            <li><a href="../05-exporting-data/">Exporting data</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+	
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Extras <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../reference/">Reference</a></li>
+            
+            <li><a href="../extras/06-data-formats-caveats.html">Caveats of popular data and file formats</a></li>
+            
+            <li><a href="../about/">About</a></li>
+            
+            <li><a href="../discuss/">Discussion</a></li>
+            
+            <li><a href="../figures/">Figures</a></li>
+            
+            <li><a href="../guide/">Instructor Notes</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+        <li><a href="../license/">License</a></li>
+	
+	<li><a href="/edit/gh-pages/_extras/guide.md">Improve this page <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
+	
+      </ul>
+      <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<h1 class="maintitle"><a href="../">Data Organization in Spreadsheets</a>: Instructor Notes</h1>
+
+<h2 id="instructor-notes">Instructor notes</h2>
+
+<h3 id="lesson-purpose">Lesson purpose</h3>
+
+<p>The purpose of this lesson is not to teach how to do data analysis in spreadsheets, 
+but to teach good data organization and how to do some data cleaning and 
+quality control in a spreadsheet program.</p>
+
+<h3 id="narrative">Narrative</h3>
+
+<h4 id="introduction"><a href="/00-intro/">Introduction</a></h4>
+
+<ul>
+  <li>Introduce that we’re teaching data organization, and that we’re using
+spreadsheets, because most people do data entry in spreadsheets or 
+have data in spreadsheets.</li>
+  <li>Emphasize that we are teaching good practice in data organization and that
+this is the foundation of their research practice. Without organized and clean
+data, it will be difficult for them to apply the things we’re teaching in the
+rest of the workshop to their data.</li>
+  <li>Much of their lives as a researcher will be spent on this ‘data wrangling’ stage, but
+some of it can be prevented with good strategies for data collection up front.</li>
+  <li>Tell that we’re not teaching data analysis or plotting in spreadsheets, because it’s
+very manual and also not reproducible. That’s why we’re teaching SQL, R, Python!</li>
+  <li>Now let’s talk about spreadsheets, and when we say spreadsheets, we mean any program that
+does spreadsheets like Excel, LibreOffice, OpenOffice. Most learners are probably using Excel.</li>
+  <li>Ask the audience any things they’ve accidentally done in spreadsheets. Talk about an example of your own, like that you accidentally sorted only a single column and not the rest
+of the data in the spreadsheet. What are the pain points!?</li>
+  <li>As people answer highlight some of these issues with spreadsheets</li>
+</ul>
+
+<h4 id="formatting-data"><a href="/01-format-data/">Formatting data</a></h4>
+
+<ul>
+  <li>Go through the point about keeping track of your steps and keeping raw data raw</li>
+  <li>Go through the cardinal rule of spreadsheets about columns, rows and cells</li>
+  <li>Hand them a messy data file and have them pair up and work together to clean up the data.
+<em>Give them 15 minutes to do this.</em></li>
+  <li>Ask for what people did to clean the data. As they bring up different points you can
+refer to them in the 02-common-mistakes.md file, or expand a bit on the point they brought up.
+If you are just teaching the lesson, it would be good to familiarize yourself with 
+the set of mistakes in 02-common-mistakes. All these mistakes are present in the messy
+dataset.</li>
+  <li>If you get a response where they’ve fixed the date, you can pause and go to the
+03-dates-as-data.md lesson. Or you can say you’ll come back to dates at the end. 
+There’s an exercise in that file about how to change the
+date into three columns using Excel’s built in MONTH, DAY, YEAR functions. Have them
+run through that exercise.</li>
+</ul>
+
+<h4 id="common-formatting-problems"><a href="/02-common-mistakes/">Common formatting problems</a></h4>
+
+<ul>
+  <li><strong>Don’t go through this chapter</strong> except to refer to as responses to the exercise in
+the previous chapter.</li>
+</ul>
+
+<h4 id="dates-as-data"><a href="/03-dates-as-data/">Dates as data</a></h4>
+
+<ul>
+  <li>Do the exercise and make the point about dates either in reponse to a learner bringing
+up date as an issue during the responses, or at the end of the response time.</li>
+</ul>
+
+<h4 id="quality-control"><a href="/04-quality-control/">Quality control</a></h4>
+<p><em>This lesson is optional</em></p>
+
+<p>The challenge with this lesson is that the instructor’s version of the spreadsheet software is going to look different than about half the room’s. It makes
+it challenging to show where you can find menu options and navigate through.</p>
+
+<p>Instead discuss the concepts of quality control, and how things like sorting can help you find outliers in your data.</p>
+
+<h4 id="exporting-data"><a href="/05-exporting-data/">Exporting data</a></h4>
+
+<ul>
+  <li>Have the students export their cleaned data as csv. Reiterate again the need for
+data in this format for the other tools we’ll be using.</li>
+</ul>
+
+<h4 id="concluding-points">Concluding points</h4>
+
+<ul>
+  <li>Now your data is organized so that a computer can read and understand it. This
+let’s you use the full power of the computer for your analyses as we’ll see in the
+rest of the workshop.</li>
+  <li>While your data is now neatly organized, it still might have errors or missing data
+or other problems. It’s like you put all your data in the right drawers, but the
+drawers might still be messy. The next lesson is going to teach you OpenRefine which 
+is great for data cleaning and for some of the quality control that we touched on 
+in this lesson. It also has the advantage that it automatically keeps track of the
+steps you take.</li>
+</ul>
+
+<h3 id="potential-issues">Potential issues</h3>
+
+<h4 id="excel-looks-and-acts-different-on-different-oses">Excel looks and acts different on different OSes</h4>
+
+<p>The main challenge with this lesson is that Excel looks very different and how you
+do things is even different between Mac and PC, and between different versions of
+Excel. So, the presenter’s environment will only be the same as some of the learners.</p>
+
+<p>We need better notes and screenshots of how things work on both Mac and PC. But we
+likely won’t be able to cover all the different versions of Excel.</p>
+
+<p>If you have a helper who has experience with the other OS than you, it would be good
+to prep them to help with this lesson and tell how people to do things in the other OS.</p>
+
+<h4 id="people-are-not-interactive-or-responsive-on-the-exercise">People are not interactive or responsive on the Exercise</h4>
+
+<p>This lesson depends on people working on the exercise and responding with things
+that are fixed. If your audience is reluctant to participate, start out with
+some things on your own, or ask a helper for their answers. This generally gets
+even a reluctant audience started.</p>
+
+
+      
+      
+<footer>
+  <div class="row">
+    <div class="col-md-6" align="left">
+      <h4>
+	Copyright &copy; 2016–2017
+	
+	<a href="http://datacarpentry.org">Data Carpentry</a>
+	
+      </h4>
+    </div>
+    <div class="col-md-6" align="right">
+      <h4>
+	
+	<a href="/edit/gh-pages/_extras/guide.md">Edit on GitHub</a>
+	
+	/
+	<a href="/blob/gh-pages/CONTRIBUTING.md">Contributing</a>
+	/
+	<a href="/">Source</a>
+	/
+	<a href="/blob/gh-pages/CITATION">Cite</a>
+	/
+	<a href="mailto:lessons@datacarpentry.org">Contact</a>
+      </h4>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/lesson.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37305346-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
