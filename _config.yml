@@ -66,5 +66,11 @@ exclude:
   - Makefile
   - bin
 
+includes:
+  - novice/R-ecology-lesson/_includes
+  - novice/sql-ecology-lesson/_includes
+  - novice/spreadsheet-ecology-lesson/_includes
+  - novice/OpenRefine-ecology-lesson/_includes
+
 # Turn off built-in syntax highlighting.
 highlighter: false
