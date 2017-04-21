@@ -25,7 +25,7 @@ and the readr package
 
 # Importing and inspecting data
 
-In this lesson we will learn how to download, import and inspect the rodent
+In this lesson we will learn how to download, import, and inspect the rodent
 survey data.
 
 ## Creating a R script

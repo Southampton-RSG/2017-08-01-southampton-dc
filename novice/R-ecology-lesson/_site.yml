@@ -8,7 +8,7 @@ navbar:
       href: 02_R_and_Rstudio.html
     - text: "Introduction to R"
       href: 03_intro_to_R.html
-    - text: "Importing and tidying data"
+    - text: "Importing and inspecting data"
       href: 04_import_and_inspect.html
     - text: "Transforming data"
       href: 05_transforming_data.html

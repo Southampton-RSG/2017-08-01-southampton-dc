@@ -44,7 +44,7 @@ Using an ecology dataset from desert rodent surveys, we then move
 through how to **import and tidy** CSV files, perform some basic **transformations**, and **visualise** the data with a brief introduction to plotting. By the end of this process we should be able to **understand and communicate** some general findings
 contained within the dataset.
 
-Concretely, we will aim to understand more abour how rodent species populations 
+Concretely, we will aim to understand more about how rodent species populations 
 vary over time in this survey data, and in doing so perform tasks common to many 
 data projects irrespective of subject area.
 
