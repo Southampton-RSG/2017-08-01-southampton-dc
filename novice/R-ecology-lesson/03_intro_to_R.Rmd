@@ -1,0 +1,83 @@
+---
+title: Introduction to R
+author:  Alistair Bailey and Data Carpentry contributors
+minutes: 45
+---
+
+
+```{r, echo=FALSE, purl=FALSE, message = FALSE}
+source("setup.R")
+```
+
+------------
+
+> ### Learning Objectives
+>
+> * Assign values to objects and variables in R.
+> * Define the following terms as they relate to R: script, function, working directory, assign, object, variable.
+> * Describe what vectors are and how they are manipulated in R.
+> * Inspect the content of vectors in R and manipulate their content.
+> * Extract elements from vectors in R.
+> * Employ logic (i.e. TRUE, FALSE) to subset data in a vector.
+> * Analyze vectors with missing data.
+> * Call functions with zero or more named or unnamed arguments.
+
+------------
+
+The aim is get us working with, and exploring the data as soon as possible,
+but first we will step back to cover some R fundamentals.
+
+## Entering input, assigning objects and evaluation
+
+We'll start in the console. At the prompt we type expressions using the
+`<- ` assignment operator to create objects. In the example below we create 
+an object called `weight` with a value of `55`. 
+
+To evaluate the expression, that is to create `weight`, we simply press 
+<kbd>Enter</kbd>. 
+
+(Tips: pushing <kbd>Alt</kbd> at the same time as the
+<kbd>-</kbd> key) will write ` <- `)
+
+
+```{r, purl=FALSE}
+# Assign weight a value of 55
+weight <- 55
+```
+
+Having created `weight`, evaluating the object itself by typing it's name,
+will print the object to the console:
+
+```{r, purl=FALSE, results='show'}
+# Assign weight a value of 55
+weight <- 55
+# Print the value of the object weight
+weight
+```
+
+## R objects
+
+R has five basic (atomic) classes of objects:
+
++ character
++ numeric (real numbers)
++ integers (whole numbers)
++ complex numbers
++ logical (True/False)
+
+Collections of objects are vectors, and vectors will only store one class of 
+basic object. If you mix classes e.g. characters and integers, R will coerce
+them to be all the same class e.g. your integers may become characters.
+
+## Vectors
+
+### Inspecting and extracting elements from vectors
+
+### Subsetting vectors
+
+## Functions
+
+### Function help files
+
+## Dealing with missing data
+

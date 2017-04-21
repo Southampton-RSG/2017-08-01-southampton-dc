@@ -2,20 +2,20 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Before we start"
-      href: 00-before-we-start.html
-    - text: "Intro to R"
-      href: 01-intro-to-R.html
-    - text: "Starting with data"
-      href: 02-starting-with-data.html
-    - text: "Manipulating data frames"
-      href: 03-dplyr.html
-    - text: "Visualizing data"
-      href: 04-visualization-ggplot2.html
-    - text: "R and SQL"
-      href: 05-r-and-databases.html
-    - text: "Code Handout"
-      href: code-handout.R
+    - text: "Ecology Data Overiew"
+      href: 01_ecology_data_overview.html
+    - text: "R and RStudio"
+      href: 02_R_and_Rstudio.html
+    - text: "Introduction to R"
+      href: 03_intro_to_R.html
+    - text: "Importing and tidying data"
+      href: 04_import_and_inspect.html
+    - text: "Transforming data"
+      href: 05_transforming_data.html
+    - text: "Visualising data"
+      href: 06_visualising_data.html
+    - text: "Summary"
+      href: 07_summary_of_ecology_data.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/datacarpentry/R-ecology-lesson

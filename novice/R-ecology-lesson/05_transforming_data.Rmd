@@ -1,0 +1,48 @@
+---
+title: Manipulating and analyzing data with dplyr; Exporting data
+author: Data Carpentry contributors
+---
+
+```{r, echo=FALSE, purl=FALSE, message = FALSE}
+source("setup.R")
+surveys <- read.csv("data/portal_data_joined.csv")
+```
+
+```{r, echo=FALSE, purl=TRUE}
+## The dplyr lesson
+```
+
+------------
+
+> ### Learning Objectives
+>
+> By the end of this lesson the learner will:
+>
+> * Recall the six data manipulation ‘verbs’ in the dplyr package and know what they do.
+> * Select subsets of columns and filter rows in a data.frame according to a condition(s).
+> * Employ the ‘pipe’ operator to link together a sequence of dplyr commands.
+> * Employ the ‘mutate’ command to apply functions to existing columns and create new columns of data.
+> * Export a data.frame to a .csv file.
+
+------------
+
+# Data Manipulation using dplyr
+
+## Motivation
+
+In this lesson we'll transform the data using `dplyr` to:
+
++ change the focus. For example, filtering only a few species of rodent or 
+a particular time period.
++ create new variables that are functions of existing variables. 
++ calculate summary statistics of the rodent data, such as mean weight.
++ create a tidy dataset of complete sets of observations.
+
+## What is tidy data?
+
+## `dplyr` verbs
+
+## Piping operations
+
+## Split-apply-combine
+

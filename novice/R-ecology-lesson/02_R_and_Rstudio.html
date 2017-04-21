@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Alistair Bailey and Data Carpentry contributors" />
+
+
+<title>R and RStudio</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="01_ecology_data_overview.html">Ecology Data Overiew</a>
+</li>
+<li>
+  <a href="02_R_and_Rstudio.html">R and RStudio</a>
+</li>
+<li>
+  <a href="03_intro_to_R.html">Introduction to R</a>
+</li>
+<li>
+  <a href="04_import_and_tidy.html">Importing and tidying data</a>
+</li>
+<li>
+  <a href="05_transforming_data.html">Transforming data</a>
+</li>
+<li>
+  <a href="06_visualising_data.html">Visualising data</a>
+</li>
+<li>
+  <a href="07_summary_of_ecology_data.html">Summary</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/datacarpentry/R-ecology-lesson">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R and RStudio</h1>
+<h4 class="author"><em>Alistair Bailey and Data Carpentry contributors</em></h4>
+
+</div>
+
+
+<hr />
+<blockquote>
+<h3 id="learning-objectives">Learning Objectives</h3>
+<p>After completing this module, the learner should be able to:</p>
+<ul>
+<li>Understand what R is and the the relationship between R and RStudio</li>
+<li>Have a general understanding of the RStudio interactive development envrionment</li>
+<li>Create a R Project and understand how to organise files.</li>
+<li>Know how to use the built-in RStudio help interface to search for more information on R functions.</li>
+<li>Know how to seek help from the R user community.</li>
+</ul>
+</blockquote>
+<hr />
+<div id="what-is-r-what-is-rstudio" class="section level2">
+<h2>What is R? What is RStudio?</h2>
+<p><em>There are only two kinds of languages: the ones people complain about and the ones nobody uses</em> - Bjarne Stroustrup</p>
+<p>R is a programming language that follows the philosophy laid down by it’s predecessor S that users begin in an interactive environment where they don’t consciously think of themselves as programming. It was created in 1993, and in 1996 it was documented in a paper entitled</p>
+<p><em>Ross Ihaka and Robert Gentleman. R: A language for data analysis and graphics. Journal of Computational and Graphical Statistics, 5(3):299–314, 1996</em></p>
+<p>Reasons it has become popular include that it is both open source and cross platform, and that it has broad functionality, from the analysis of data and creating powerful graphical visualisations and web apps. It therefore has a large community of users and developers.</p>
+<p>Like all languages though it has limitations, for example the syntax is initially confusing.</p>
+<p>R Studio is an integrated development environment, or IDE for R programming. It is regularly updated, and upgrading enables access to the latest features. The latest version can be downloaded here: <a href="http://www.rstudio.com/download" class="uri">http://www.rstudio.com/download</a>.</p>
+</div>
+<div id="why-learn-r" class="section level2">
+<h2>Why learn R?</h2>
+<p>The learning curve might be steeper than with other software, but with R, you can save all the steps you used to go from the data to the results. So, if you want to redo your analysis because you collected more data, you don’t have to remember which button you clicked in which order to obtain your results, you just have to run your script again.</p>
+<p>Working with scripts makes the steps you used in your analysis clear, and the code you write can be inspected by someone else who can give you feedback and spot mistakes.</p>
+<p>Working with scripts forces you to have deeper understanding of what you are doing, and facilitates your learning and comprehension of the methods you use.</p>
+<div id="r-code-is-great-for-reproducibility" class="section level3">
+<h3>R code is great for reproducibility</h3>
+<p>Reproducibility is when someone else (including your future self) can obtain the same results from the same dataset when using the same analysis.</p>
+<p>R integrates with other tools to generate manuscripts from your code. If you collect more data, or fix a mistake in your dataset, the figures and the statistical tests in your manuscript are updated automatically.</p>
+<p>An increasing number of journals and funding agencies expect analyses to be reproducible, so knowing R will give you an edge with these requirements.</p>
+</div>
+<div id="r-is-interdisciplinary-and-extensible" class="section level3">
+<h3>R is interdisciplinary and extensible</h3>
+<p>With 10,000+ packages that can be installed to extend its capabilities, R provides a framework that allows you to combine analyses across many scientific disciplines to best suit the analyses you want to use on your data. For instance, R has packages for image analysis, GIS, time series, population genetics, and a lot more.</p>
+</div>
+<div id="r-works-on-data-of-all-shapes-and-size" class="section level3">
+<h3>R works on data of all shapes and size</h3>
+<p>The skills you learn with R scale easily with the size of your dataset. Whether your dataset has hundreds or millions of lines, it won’t make much difference to you.</p>
+<p>R is designed for data analysis. It comes with special data structures and data types that make handling of missing data and statistical factors convenient.</p>
+<p>R can connect to spreadsheets, databases, and many other data formats, on your computer or on the web.</p>
+</div>
+<div id="r-produces-high-quality-graphics" class="section level3">
+<h3>R produces high-quality graphics</h3>
+<p>The plotting functionalities in R are endless, and allow you to adjust any aspect of your graph to convey most effectively the message from your data.</p>
+</div>
+<div id="r-has-a-large-community" class="section level3">
+<h3>R has a large community</h3>
+<p>Thousands of people use R daily. Many of them are willing to help you through mailing lists and <a href="https://stackoverflow.com/">Stack Overflow</a>.</p>
+</div>
+<div id="not-only-r-is-free-but-it-is-also-open-source-and-cross-platform" class="section level3">
+<h3>Not only R is free, but it is also open-source and cross-platform</h3>
+<p>Anyone can inspect the source code to see how R works. Because of this transparency, there is less chance for mistakes, and if you (or someone else) find some, you can report and fix bugs.</p>
+</div>
+</div>
+<div id="knowing-your-way-around-rstudio" class="section level2">
+<h2>Knowing your way around RStudio</h2>
+<p>Let’s start by learning about <a href="https://www.rstudio.com/">RStudio</a>, the Integrated Development Environment (IDE).</p>
+<p>We will use R Studio IDE to write code, navigate the files found on our computer, inspect the variables we are going to create, and visualize the plots we will generate. R Studio can also be used for other things (e.g., version control, developing packages, writing Shiny apps) that we will not cover during the workshop.</p>
+<div class="figure">
+<img src="img/rstudio_ide_image.png" alt="RStudio interface screeshot" />
+<p class="caption">RStudio interface screeshot</p>
+</div>
+<p>R Studio is divided into “Panes”. When you first open it, there are three panes, the console where you type commands, your environment/history (top-right), and your files/plots/packages/help/viewer (bottom-right).</p>
+<p>The enivronment shows all the R objects you have created or are using, such as data you have imported.</p>
+<p>The output pane can be used to view any plots you have created.</p>
+<p>Not opened at first start up is the fourth default pane: the script editor pane, but this will open as soon as we create/edit a R script (or many other document types). <em>The script editor is where will be typing most of the time.</em></p>
+<p>The placement of these panes and their content can be customized (see menu, R Studio -&gt; Tools -&gt; Global Options -&gt; Pane Layout). One of the advantages of using R Studio is that all the information you need to write code is available ina single window. Additionally, with many shortcuts, auto-completion, and highlighting for the major file types you use while developing in R, R Studio will make typing easier and less error-prone.</p>
+</div>
+<div id="what-is-real" class="section level2">
+<h2>What is real?</h2>
+<p>At the start, we might consider our environment “real” - that is to say the objects we’ve created/loaded and are using are “real”. But it’s much better in the long run to consider our scripts as “real” - our scripts are where we write down the code that creates our objects that we’ll be using in our environment.</p>
+<p><strong>As a script is a document, it is reproducible</strong></p>
+<p>Or to put it another way: we can easily recreate an environment from our scripts, but not so easily create a script from an enivronment.</p>
+<p>To support this notion of thinking in terms of our scripts as real, we recommend turning off the preservation of workspaces between sessions by setting the Tools &gt; Global Options menu in R studio as shown:</p>
+<div class="figure">
+<img src="img/rdata_turn_off.png" alt="Turning off workspace saving and restoration" />
+<p class="caption">Turning off workspace saving and restoration</p>
+</div>
+</div>
+<div id="where-am-i" class="section level2">
+<h2>Where am I?</h2>
+<p>R studio tells you where you are in terms of directory address like so:</p>
+<div class="figure">
+<img src="img/rstudio_working_directory.png" alt="Working directory" />
+<p class="caption">Working directory</p>
+</div>
+<p>If you are unfamiliar with how computers structure folders and files, then consider a tree with a root from which the trunk extends and branches divide. In the image above, the ~ symbol represents a contraction of the path from the root to the ‘home’ directory (in Windows this is ‘Documents’) and then the forward slashes are the branches. (Note: Windows uses backslashes, Unix type systems and R use forwardslashes).</p>
+<p>It is good practice to keep a set of related data, analyses, and text self-contained in a single folder, called the <strong>working directory</strong>. All of the scripts within this folder can then use <em>relative paths</em> to files that indicate where inside the project a file is located (as opposed to absolute paths, which point to where a file is on a specific computer). Working this way makes it a lot easier to move your project around on your computer and share it with others without worrying about whether or not the underlying scripts will still work.</p>
+<div class="figure">
+<img src="img/R-ecology-work_dir_structure.png" alt="Example of a working directory structure" />
+<p class="caption">Example of a working directory structure</p>
+</div>
+<p>R Studio provides a helpful set of tools to do this through its “Projects” interface, which not only creates a working directory for you but also remembers its location (allowing you to quickly navigate to it) and optionally preserves custom settings and open files to make it easier to resume work after a break.</p>
+<div class="figure">
+<img src="img/rstudio_create_project.PNG" alt="R Projects" />
+<p class="caption">R Projects</p>
+</div>
+<p>Below, we will go through the steps for creating an “R Project” for this tutorial.</p>
+<ul>
+<li>Start R Studio (presentation of R Studio -below- should happen here)</li>
+<li>Under the <code>File</code> menu, click on <code>New project</code>, choose <code>New directory</code>, then <code>Empty project</code></li>
+<li>Enter a name for this new folder (or “directory”, in computer science), and choose a convenient location for it. This will be your <strong>working directory</strong> for the rest of the day (e.g., <code>~/data-carpentry</code>)</li>
+<li>Click on “Create project”</li>
+<li>Under the <code>Files</code> tab on the right of the screen, click on <code>New Folder</code> and create a folder named <code>data</code> within your newly created working directory. (e.g., <code>~/data-carpentry/data</code>)</li>
+<li>Create a new R script (File &gt; New File &gt; R script) and save it in your working directory (e.g. <code>data-carpentry-script.R</code>)</li>
+</ul>
+<p>Your working directory should now look like this:</p>
+<div class="figure">
+<img src="img/r_starting_how_it_should_like.png" alt="How it should look like at the beginning of this lesson" />
+<p class="caption">How it should look like at the beginning of this lesson</p>
+</div>
+<div id="organizing-your-working-directory" class="section level3">
+<h3>Organizing your working directory</h3>
+<p>Using a consistent folder structure across your projects will help keep things organized, and will also make it easy find/file things in the future. This can be especially helpful when you have multiple projects. In general, you may create directories (folders) for <strong>scripts</strong>, <strong>data</strong>, and <strong>documents</strong>.</p>
+<ul>
+<li><strong><code>data/</code></strong> Use this folder to store your raw data and intermediate datasets you may create for the need of a particular analysis. For the sake of transparency and <a href="https://en.wikipedia.org/wiki/Provenance">provenance</a>, you should <em>always</em> keep a copy of your raw data accessible and do as much of your data clean-up and preprocessing programmatically (i.e. with scripts, rather than manually) as possible. Separating raw data from processed data is also a good idea. For example, you could have files <code>data/raw/tree_survey.plot1.txt</code> and <code>...plot2.txt</code> kept separate from a <code>data/processed/tree.survey.csv</code> file generated by the <code>scripts/01.preprocess.tree_survey.R</code> script.</li>
+<li><strong><code>documents/</code></strong> This would be a place to keep outlines, drafts, and other text.</li>
+<li><strong><code>scripts/</code></strong> This would be the location to keep your R scripts for different analyses or plotting, and potentially a separate folder for your functions (more on that later).</li>
+</ul>
+<p>You may want additional directories or subdirectories depending on your project needs, but these should form the backbone of your working directory. For this workshop, we will need a <code>data/</code> folder to store our raw data, and we will create later a <code>data_output/</code> folder when we learn how to export data as CSV files.</p>
+</div>
+</div>
+<div id="interacting-with-r" class="section level2">
+<h2>Interacting with R</h2>
+<p>The basis of programming is that we write down instructions for the computer to follow, and then we tell the computer to follow those instructions. We write, or <em>code</em>, instructions in R because it is a common language that both the computer and we can understand. We call the instructions <em>commands</em> and we tell the computer to follow the instructions by <em>executing</em> (also called <em>running</em>) those commands.</p>
+<p>There are two main ways of interacting with R: by using the console or by using script files (plain text files that contain your code). We want our code and workflow to be reproducible. In other words, we want to write code in a way that anyone can easily replicate our results on their computer.</p>
+<p>The console pane (in R Studio, the bottom left panel) is the place where R is waiting for you to tell it what to do, and where it will show the results of a command that has been executed. You can type commands directly into the console and press <code>Enter</code> to execute those commands, but they will be forgotten when you close the session. It is better to enter the commands in the script editor, and save the script. This way, you have a complete record of what you did, you can easily show others how you did it and you can do it again later on if needed. R Studio allows you to execute commands directly from the script editor by using the <kbd><code>Ctrl</code></kbd> + <kbd><code>Enter</code></kbd> shortcut. The command on the current line in the script or all of the commands in the currently selected text will be sent to the console and executed when you press <kbd><code>Ctrl</code></kbd> + <kbd><code>Enter</code></kbd>.</p>
+<p>At some point in your analysis you may want to check the content of a variable or the structure of an object, without necessarily keeping a record of it in your script. You can type these commands and execute them directly in the console. R Studio provides the <kbd><code>Ctrl</code></kbd> + <kbd><code>1</code></kbd> and <kbd><code>Ctrl</code></kbd> + <kbd><code>2</code></kbd> shortcuts allow you to jump between the script and the console windows.</p>
+<p>If R is ready to accept commands, the R console shows a <code>&gt;</code> prompt. If it receives a command (by typing, copy-pasting or sent from the script editor using <kbd><code>Ctrl</code></kbd> + <kbd><code>Enter</code></kbd>), R will try to execute it, and when ready, will show the results and come back with a new <code>&gt;</code>-prompt to wait for new commands.</p>
+<p>If R is still waiting for you to enter more data because it isn’t complete yet, the console will show a <code>+</code> prompt. It means that you haven’t finished entering a complete command. This is because you have not ‘closed’ a parenthesis or quotation, i.e. you don’t have the same number of left-parentheses as right-parentheses, or the same number of opening and closing quotation marks. If you’re in R Studio and this happens, click inside the console window and press <code>Esc</code>; this will cancel the incomplete command and return you to the <code>&gt;</code> prompt.</p>
+</div>
+<div id="seeking-help" class="section level2">
+<h2>Seeking help</h2>
+<div id="i-know-the-name-of-the-function-i-want-to-use-but-im-not-sure-how-to-use-it" class="section level3">
+<h3>I know the name of the function I want to use, but I’m not sure how to use it</h3>
+<p>If you need help with a specific function, let’s say <code>barplot()</code>, you can type:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?barplot</code></pre></div>
+<p>If you just need to remind yourself of the names of the arguments, you can use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">args</span>(lm)</code></pre></div>
+</div>
+<div id="i-want-to-use-a-function-that-does-x-there-must-be-a-function-for-it-but-i-dont-know-which-one" class="section level3">
+<h3>I want to use a function that does X, there must be a function for it but I don’t know which one…</h3>
+<p>If you are looking for a function to do a particular task, you can use <code>help.search()</code> function, which is called by the double question mark <code>??</code>. However, this only looks through the installed packages for help pages with a match to your search request</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">??kruskal</code></pre></div>
+<p>If you can’t find what you are looking for, you can use the <a href="http://www.rdocumentation.org">rdocumention.org</a> website that searches through the help files across all packages available.</p>
+<p>Finally, a generic Google or internet search “R &lt;task&gt;” will often either send you to the appropriate package documentation or a helpful forum question that someone else already asked.</p>
+</div>
+<div id="i-am-stuck-i-get-an-error-message-that-i-dont-understand" class="section level3">
+<h3>I am stuck… I get an error message that I don’t understand</h3>
+<p>Start by googling the error message. However, this doesn’t always work very well because often, package developers rely on the error catching provided by R. You end up with general error messages that might not be very helpful to diagnose a problem (e.g. “subscript out of bounds”). If the message is very generic, you might also include the name of the function or package you’re using in your query.</p>
+<p>However, you should check Stack Overflow. Search using the <code>[r]</code> tag. Most questions have already been answered, but the challenge is to use the right words in the search to find the answers: <a href="http://stackoverflow.com/questions/tagged/r" class="uri">http://stackoverflow.com/questions/tagged/r</a></p>
+<p>The <a href="http://cran.r-project.org/doc/manuals/R-intro.pdf">Introduction to R</a> can also be dense for people with little programming experience but it is a good place to understand the underpinnings of the R language.</p>
+<p>The <a href="http://cran.r-project.org/doc/FAQ/R-FAQ.html">R FAQ</a> is dense and technical but it is full of useful information.</p>
+</div>
+<div id="asking-for-help" class="section level3">
+<h3>Asking for help</h3>
+<p>The key to get help from someone is for them to grasp your problem rapidly. You should make it as easy as possible to pinpoint where the issue might be.</p>
+<p>Try to use the correct words to describe your problem. For instance, a package is not the same thing as a library. Most people will understand what you meant, but others have really strong feelings about the difference in meaning. The key point is that it can make things confusing for people trying to help you. Be as precise as possible when describing your problem.</p>
+<p>If possible, try to reduce what doesn’t work to a simple <em>reproducible example</em>. If you can reproduce the problem using a very small <code>data.frame</code> instead of your 50,000 rows and 10,000 columns one, provide the small one with the description of your problem. When appropriate, try to generalize what you are doing so even people who are not in your field can understand the question. For instance instead of using a subset of your real dataset, create a small (3 columns, 5 row) generic one. For more information on how to write a reproducible example see <a href="http://adv-r.had.co.nz/Reproducibility.html">this article by Hadley Wickham</a>.</p>
+<p>To share an object with someone else, if it’s relatively small, you can use the function <code>dput()</code>. It will output R code that can be used to recreate the exact same object as the one in memory:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dput</span>(<span class="kw">head</span>(iris)) <span class="co"># iris is an example data.frame that comes with R</span></code></pre></div>
+<pre><code>## structure(list(Sepal.Length = c(5.1, 4.9, 4.7, 4.6, 5, 5.4), 
+##     Sepal.Width = c(3.5, 3, 3.2, 3.1, 3.6, 3.9), Petal.Length = c(1.4, 
+##     1.4, 1.3, 1.5, 1.4, 1.7), Petal.Width = c(0.2, 0.2, 0.2, 
+##     0.2, 0.2, 0.4), Species = structure(c(1L, 1L, 1L, 1L, 1L, 
+##     1L), .Label = c(&quot;setosa&quot;, &quot;versicolor&quot;, &quot;virginica&quot;), class = &quot;factor&quot;)), .Names = c(&quot;Sepal.Length&quot;, 
+## &quot;Sepal.Width&quot;, &quot;Petal.Length&quot;, &quot;Petal.Width&quot;, &quot;Species&quot;), row.names = c(NA, 
+## 6L), class = &quot;data.frame&quot;)</code></pre>
+<p>If the object is larger, provide either the raw file (i.e., your CSV file) with your script up to the point of the error (and after removing everything that is not relevant to your issue). Alternatively, in particular if your questions is not related to a <code>data.frame</code>, you can save any R object to a file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">saveRDS</span>(iris, <span class="dt">file=</span><span class="st">&quot;/tmp/iris.rds&quot;</span>)</code></pre></div>
+<p>The content of this file is however not human readable and cannot be posted directly on Stack Overflow. It can however be sent to someone by email who can read it with this command:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">some_data &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file=</span><span class="st">&quot;~/Downloads/iris.rds&quot;</span>)</code></pre></div>
+<p>Last, but certainly not least, <strong>always include the output of <code>sessionInfo()</code></strong> as it provides critical information about your platform, the versions of R and the packages that you are using, and other information that can be very helpful to understand your problem.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.3.2 (2016-10-31)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 14393)
+## 
+## locale:
+## [1] LC_COLLATE=English_United Kingdom.1252 
+## [2] LC_CTYPE=English_United Kingdom.1252   
+## [3] LC_MONETARY=English_United Kingdom.1252
+## [4] LC_NUMERIC=C                           
+## [5] LC_TIME=English_United Kingdom.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] RevoUtilsMath_10.0.0
+## 
+## loaded via a namespace (and not attached):
+##  [1] backports_1.0.5  magrittr_1.5     RevoUtils_10.0.2 rprojroot_1.2   
+##  [5] tools_3.3.2      htmltools_0.3.5  yaml_2.1.14      Rcpp_0.12.9     
+##  [9] stringi_1.1.2    rmarkdown_1.3    knitr_1.15.1     stringr_1.2.0   
+## [13] digest_0.6.12    evaluate_0.10</code></pre>
+</div>
+<div id="where-to-ask-for-help" class="section level3">
+<h3>Where to ask for help?</h3>
+<ul>
+<li>The person sitting next to you during the workshop. Don’t hesitate to talk to your neighbour during the workshop, compare your answers, and ask for help. You might also be interested in organizing regular meetings following the workshop to keep learning from each others.</li>
+<li>Your friendly colleagues: if you know someone with more experience than you, they might be able and willing to help you.</li>
+<li><a href="http://stackoverflow.com/questions/tagged/r">Stack Overflow</a>: if your question hasn’t been answered before and is well crafted, chances are you will get an answer in less than 5 min. Remember to follow their guidelines on <a href="http://stackoverflow.com/help/how-to-ask">how to ask a good question</a>.</li>
+<li>The <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R-help mailing list</a>: it is read by a lot of people (including most of the R core team), a lot of people post to it, but the tone can be pretty dry, and it is not always very welcoming to new users. If your question is valid, you are likely to get an answer very fast but don’t expect that it will come with smiley faces. Also, here more than everywhere else, be sure to use correct vocabulary (otherwise you might get an answer pointing to the misuse of your words rather than answering your question). You will also have more success if your question is about a base function rather than a specific package.</li>
+<li>If your question is about a specific package, see if there is a mailing list for it. Usually it’s included in the DESCRIPTION file of the package that can be accessed using <code>packageDescription(&quot;name-of-package&quot;)</code>. You may also want to try to email the author of the package directly, or open an issue on the code repository (e.g., GitHub).</li>
+<li>There are also some topic-specific mailing lists (GIS, phylogenetics, etc…), the complete list is <a href="http://www.r-project.org/mail.html">here</a>.</li>
+</ul>
+</div>
+<div id="more-resources" class="section level3">
+<h3>More resources</h3>
+<ul>
+<li>The <a href="http://www.r-project.org/posting-guide.html">Posting Guide</a> for the R mailing lists.</li>
+<li><a href="http://blog.revolutionanalytics.com/2014/01/how-to-ask-for-r-help.html">How to ask for R help</a> useful guidelines</li>
+<li><a href="http://codeblog.jonskeet.uk/2010/08/29/writing-the-perfect-question/">This blog post by Jon Skeet</a> has quite comprehensive advice on how to ask programming questions.</li>
+</ul>
+</div>
+</div>
+
+<hr/>
+
+<p><a href="http://datacarpentry.org/">Data Carpentry</a>, 2017. <br/>
+  <a href="LICENSE.html">License</a>. Questions?  Feedback?
+  Please <a href="https://github.com/datacarpentry/R-ecology-lesson/issues/new">file
+    an issue on GitHub</a>. <br/>
+  On Twitter: <a href="https://twitter.com/datacarpentry">@datacarpentry</a></p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

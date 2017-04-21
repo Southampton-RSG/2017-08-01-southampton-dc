@@ -1,0 +1,78 @@
+---
+title: Importing and inspecting data
+author: Alistair Bailey
+minutes: 20
+---
+
+```{r, echo=FALSE, purl=FALSE, message = FALSE}
+source("setup.R")
+```
+
+------------
+
+> ### Learning Objectives
+>
+> * How to create a script
+> * Learn how to download and import data into a data frame using download.file 
+and the readr package
+> * Describe what a data frame is.
+> * Learn how examine imported data and what it means to tidy data.
+> * Summarize the contents of a data frame in R.
+> * Manipulate categorical data in R
+> * Change how character strings are handled in a data frame.
+
+------------
+
+# Importing and inspecting data
+
+In this lesson we will learn how to download, import and inspect the rodent
+survey data.
+
+## Creating a R script
+
+We first need to create a script that will form the basis of our analysis.
+
+TO-DO
+
+## Downloading and importing the rodent survey data
+
+### Downloading data from the web
+
+Often you'll be working with data you've generated and stored locally, but you 
+may need to download data on occaison.
+
+This gives us the chance to practice creating objects and try out using function 
+with a condition. 
+
++ First we create the `url` object containing the web address of the 
+data we need.
++ Second we a `path` object containing the address of where we want to download
+the data to and what to call the file. In this case it is the `data` folder we
+created and we will call it `portal_data_joined.csv`.
++ Then we use an `if` statement combined with a condition with the logical (TRUE/FALSE)
+ `file.exists()` function to decide whether or not to download 
+the data. The NOT condition `!` means if `portal_data_joined.csv` doesn't 
+exist already, download it.
+
+
+```{r purl=FALSE}
+# URL for portal joined survey data
+url <- "https://ndownloader.figshare.com/files/2292169"
+# Path and filename for downloading
+path <- "data/portal_data_joined.csv"
+
+# Check if the file exists, and if not download it to the data folder
+if (!file.exists(path)) { download.file(url,path) }
+```
+
+### Importing data using `readr`
+
+Now we have downloaded it (check your data folder) we need to import it.
+As we have the `tidyverse` packages we can use the `readr` package it contains,
+which has the useful function `read_csv()`
+
+Having imported the data...
+
+### Inspecting the dataset
+
+## Dealing with catergorical variables called factors

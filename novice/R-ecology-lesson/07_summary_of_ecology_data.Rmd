@@ -1,0 +1,31 @@
+---
+title: "A summary of the rodent survey data"
+author: "A.Bailey"
+minutes: 10
+---
+
+```{r, echo=FALSE, purl=TRUE}
+knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
+```
+
+------------
+
+> ### Learning Objectives
+>
+> By the end of this lesson the learner will:
+>
+> * Learn how to turn a R script into a shareable report.
+> * How to export tidy data for sharing in CSV format.
+
+--------------
+
+# A summary of the rodent survey data
+
+Show the learner how to convert the script to a report - emphasising why
+good comments are important
+
+Show them how to export the tidy dataset to a csv file
+
+Sum up what we've learnt about the rodent survey and how we got there.
+
+TO-DO

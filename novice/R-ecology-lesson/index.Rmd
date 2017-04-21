@@ -1,6 +1,7 @@
 ---
-title: "Data Carpentry: R for data analysis and visualization of Ecological Data"
-author: François Michonneau & Auriel Fournier (Lesson Maintainers)
+title: 'Data Carpentry: R for data analysis and visualization of Ecological Data'
+author: Alistair Bailey, based upon lessons created by François Michonneau & Auriel
+  Fournier
 ---
 
 <p></p>
@@ -11,30 +12,62 @@ author: François Michonneau & Auriel Fournier (Lesson Maintainers)
 
 <p></p>
 
+## Motivation
 
 Data Carpentry's aim is to teach researchers basic concepts, skills,
 and tools for working with data so that they can get more done in less
-time, and with less pain. The lessons below were designed for those interested
-in working with ecology data in R.
+time, and with less pain. The lessons below are based upon using ecology data in 
+R, and this is an introduction to R designed for participants with no programming
+experience. 
 
-This is an introduction to R designed for participants with no programming
-experience. These lessons can be taught in a day. They start with some basic
-information about R syntax, the RStudio interface, and move through how to
-import CSV files, the structure of data frames, how to deal with factors, how to
-add/remove rows and columns, and finish with how to calculate summary statistics
-for each level and a very brief introduction to plotting.
+A typical data science project looks something like this:
 
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![[Data project workflow as shown in R for data science](http://r4ds.had.co.nz/introduction.html)](./img/data_project_pipeline.png)
+</div>
 
-## Chapters
+The overall aim is to *understand and communicate* findings from our 
+data, but this is preceded by the fundamental tasks of importing, tidying and 
+often transforming the data. Transformation means for example, selecting a 
+subset of the data to work with, or calculating the mean of a set of observations.
 
-1. [Before we start](00-before-we-start.html)
-2. [Introduction to R](01-intro-to-R.html)
-3. [Starting with data](02-starting-with-data.html)
-4. [Aggregating and analyzing data with dplyr](03-dplyr.html)
-5. [Data visualization with ggplot2](04-visualization-ggplot2.html)
-6. [R and Databases](05-r-and-databases.html)
+This entire process can be encompased within a single programming language. Here
+we will be using R, but Python and other programming languages can acheive the
+same thing.
 
+These lessons are designed to be taught in a day, and cover only a fraction of
+what is possible, but will help you take your first steps towards managing your
+own data projects.
 
+The lessons start with some basic information about R and the RStudio interface. 
+Using an ecology dataset from desert rodent surveys, we then move 
+through how to **import and tidy** CSV files, perform some basic **transformations**, and **visualise** the data with a brief introduction to plotting. By the end of this process we should be able to **understand and communicate** some general findings
+contained within the dataset.
+
+Concretely, we will aim to understand more abour how rodent species populations 
+vary over time in this survey data, and in doing so perform tasks common to many 
+data projects irrespective of subject area.
+
+### Chapters
+
+1. [Ecology Data Overiew](01_ecology_data_overview.html)
+2. [R and RStudio](02_R_and_Rstudio.html)
+3. [Introduction to R](03_intro_to_R.html)
+4. [Importing and inspecting data](04_import_and_inspect.html)
+5. [Transforming data](05_transforming_data.html)
+6. [Data visualization](06_visualising_data.html)
+7. [Summary report](07_summary_of_ecology_data.html)
+
+### Data
+
+Ideally all datasets should come with a codebook describing the contents, 
+structure, and layout of a data collection. This is a text document containing information intended to be complete and self-explanatory for each variable in a 
+data file. As this has not been generated for this data, we will use the description 
+found in [Chapter 1](06-ecology-data-overview.html). 
+
+Data files for the lesson are available here: <http://dx.doi.org/10.6084/m9.figshare.1314459>
+
+We will download the *combined.csv* file during the lesson.
 
 ## Requirements
 
@@ -45,14 +78,6 @@ working through this lesson requires working copies of the software described
 below.  To most effectively use these materials, please make sure to download
 the data and install everything *before* working through this lesson.
 
-### Data
-
-Data files for the lesson are available here: <http://dx.doi.org/10.6084/m9.figshare.1314459>
-
-Please download the *\*.csv* (Comma Separated Value) files: *species.csv*,
-*plots.csv*, *surveys.csv*, and *combined.csv*.
-
-
 ### Setup instructions
 
 **R** and **RStudio** are separate downloads and installations. R is the
@@ -61,8 +86,8 @@ fun. RStudio is a graphical integrated development environment (IDE) that makes
 using R much easier and more interactive. You need to install R before you
 install RStudio. After installing both programs, you will need to install the
 `tidyverse` package from within RStudio. Follow the instructions below for your
-operating system, and then follow the instructions to install `tidyverse` and
-`RSQLite`.
+operating system, and then follow the instructions to install `tidyverse`.
+More about the [tidyverse](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/).
 
 #### Windows
 
@@ -141,12 +166,12 @@ operating system, and then follow the instructions to install `tidyverse` and
 
 #### For everyone
 
-**After installing R and RStudio, you need to install the "tidyverse" and
-"RSQLite" packages.**
+**After installing R and RStudio, you need to install the "tidyverse" packages.**
+More about the [tidyverse](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/).
 
 * After starting RStudio, at the console type:
-  `install.packages(c("tidyverse", "RSQLite"))`
+  `install.packages("tidyverse")`
 
 ## Contributors
 
-The list of contributors to this lesson is available [here](AUTHORS),
+The list of contributors to this lesson is available [here](AUTHORS).

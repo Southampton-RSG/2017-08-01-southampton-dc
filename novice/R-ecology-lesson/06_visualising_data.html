@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Alistair Bailey" />
+
+
+<title>Data visualisation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="01_ecology_data_overview.html">Ecology Data Overiew</a>
+</li>
+<li>
+  <a href="02_R_and_Rstudio.html">R and RStudio</a>
+</li>
+<li>
+  <a href="03_intro_to_R.html">Introduction to R</a>
+</li>
+<li>
+  <a href="04_import_and_tidy.html">Importing and tidying data</a>
+</li>
+<li>
+  <a href="05_transforming_data.html">Transforming data</a>
+</li>
+<li>
+  <a href="06_visualising_data.html">Visualising data</a>
+</li>
+<li>
+  <a href="07_summary_of_ecology_data.html">Summary</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/datacarpentry/R-ecology-lesson">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data visualisation</h1>
+<h4 class="author"><em>Alistair Bailey</em></h4>
+
+</div>
+
+
+<hr />
+<blockquote>
+<h3 id="learning-objectives">Learning Objectives</h3>
+<p>By the end of this lesson the learner will:</p>
+<ul>
+<li>Produce scatter plots, bloxplots, and time series plots using ggplot.</li>
+<li>Set universal plot settings.</li>
+<li>Modify the aesthetics of an existing ggplot plot (including axis labels and color).</li>
+<li>Build complex and customized plots from data in a dataframe.</li>
+<li>Combine plotting with modelling to explore data.</li>
+</ul>
+</blockquote>
+<hr />
+<div id="visualisation-with-ggplot2" class="section level1">
+<h1>Visualisation with ggplot2</h1>
+<p>This lesson will take the tidy data and use it to explore the data for interesting patterns, and then iterate through further cycles of exploration to demonstrate how plotting helps guide our understanding. If time, this will include generating a simple model of a subset of the data.</p>
+<p>THE CODE BELOW IS A PLACEHOLDER FOR THE LESSON.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load packages and data -------------------------------------------------------</span>
+<span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using this we avoid stringsasfactors</span>
+surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/portal_data_joined.csv&quot;</span>)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   record_id = col_integer(),
+##   month = col_integer(),
+##   day = col_integer(),
+##   year = col_integer(),
+##   plot_id = col_integer(),
+##   species_id = col_character(),
+##   sex = col_character(),
+##   hindfoot_length = col_integer(),
+##   weight = col_integer(),
+##   genus = col_character(),
+##   species = col_character(),
+##   taxa = col_character(),
+##   plot_type = col_character()
+## )</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use dplyr and logical operators to remove missing values</span>
+surveys_complete &lt;-<span class="st"> </span>surveys %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(species_id !=<span class="st"> &quot;&quot;</span>,         <span class="co"># remove missing species_id</span>
+         !<span class="kw">is.na</span>(weight),           <span class="co"># remove missing weight</span>
+         !<span class="kw">is.na</span>(hindfoot_length),  <span class="co"># remove missing hindfoot_length</span>
+         sex !=<span class="st"> &quot;&quot;</span>)                <span class="co"># remove missing sex</span>
+
+## Extract the most common species_id
+species_counts &lt;-<span class="st"> </span>surveys_complete %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(species_id) %&gt;%
+<span class="st">  </span>tally %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(n &gt;=<span class="st"> </span><span class="dv">50</span>)
+
+## Only keep the most common species
+surveys_complete &lt;-<span class="st"> </span>surveys_complete %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(species_id %in%<span class="st"> </span>species_counts$species_id)
+
+## Subset three species and three conditions
+<span class="co"># Control, Rodent Exclosure (rodents kept out), Spectab exclosure (Plants added)</span>
+survey_sub &lt;-<span class="st"> </span>surveys_complete %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(species %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;penicillatus&quot;</span>,<span class="st">&quot;ordii&quot;</span>,<span class="st">&quot;baileyi&quot;</span>) &amp;<span class="st"> </span>plot_type %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>,<span class="st">&quot;Rodent Exclosure&quot;</span>,<span class="st">&quot;Spectab exclosure&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(sex,species)
+
+<span class="co"># Is there a relationship between variables?</span>
+<span class="co"># Introduce factors to discuss comparing catergorical variables</span>
+<span class="co"># Sex, Year, Month extra are catergories whilst weight is not</span>
+<span class="co"># So it&#39;s more useful to work with them as factors</span>
+survey_sub$sex &lt;-<span class="st"> </span><span class="kw">factor</span>(survey_sub$sex)
+<span class="kw">levels</span>(survey_sub$sex)</code></pre></div>
+<pre><code>## [1] &quot;F&quot; &quot;M&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Let&#39;s rename them to something more useful</span>
+<span class="kw">levels</span>(survey_sub$sex) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>,<span class="st">&quot;Male&quot;</span>)
+<span class="co"># Or in one go using factor labels</span>
+survey_sub$sex &lt;-<span class="st"> </span><span class="kw">factor</span>(survey_sub$sex,<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>,<span class="st">&quot;Male&quot;</span>))
+survey_sub$species &lt;-<span class="st"> </span><span class="kw">factor</span>(survey_sub$species,
+                             <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Bush Tail&quot;</span>,<span class="st">&quot;Kangeroo&quot;</span>,<span class="st">&quot;Bailey&quot;</span>))
+
+<span class="co"># How do these species compare for size?</span>
+<span class="kw">ggplot</span>(survey_sub,<span class="kw">aes</span>(<span class="dt">x=</span>weight,<span class="dt">fill=</span>species)) +
+<span class="st">  </span><span class="kw">geom_density</span>()
+
+<span class="co"># Get annual populations</span>
+annual_rat_pop &lt;-<span class="st"> </span>survey_sub %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(sex,species,year,plot_type) %&gt;%
+<span class="st">  </span>tally
+
+<span class="co"># Plot rat numbers</span>
+<span class="co"># Are the populations changing over time?</span>
+<span class="kw">ggplot</span>(annual_rat_pop,<span class="kw">aes</span>(year,n,<span class="dt">group=</span>species,<span class="dt">colour=</span>sex)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="co">#geom_smooth() +</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(plot_type~species)</code></pre></div>
+<p><img src="06_visualising_data_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+
+<hr/>
+
+<p><a href="http://datacarpentry.org/">Data Carpentry</a>, 2017. <br/>
+  <a href="LICENSE.html">License</a>. Questions?  Feedback?
+  Please <a href="https://github.com/datacarpentry/R-ecology-lesson/issues/new">file
+    an issue on GitHub</a>. <br/>
+  On Twitter: <a href="https://twitter.com/datacarpentry">@datacarpentry</a></p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
