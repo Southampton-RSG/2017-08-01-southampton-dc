@@ -14,7 +14,7 @@ code-handout.R: skeleton-00-before-we-start.R skeleton-01-intro-to-R.R skeleton-
 	for f in $^; do cat $$f; echo "\n"; done > $@
 	make clean-skeleton
 
-pages: 01_ecology_data_overview.html 02_R_and_Rstudio.html 03_intro_to_R.html 04_import_and_inspect.html 05_transforming_data.html 06_visualising_data.html 07_summary_of_ecology_data.html index.html LICENSE.html CITATION.html
+pages: index.html 01_ecology_data_overview.html 02_R_and_Rstudio.html 03_intro_to_R.html 04_import_and_inspect.html 05_transforming_data.html 06_visualising_data.html 07_summary_of_ecology_data.html LICENSE.html CITATION.html
 	make clean-md
 
 clean-skeleton:

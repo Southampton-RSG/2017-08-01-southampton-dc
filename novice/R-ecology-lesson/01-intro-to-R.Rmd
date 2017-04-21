@@ -1,6 +1,6 @@
 ---
 title: Introduction to R
-author: Data Carpentry contributors
+author:  Alistair Bailey and Data Carpentry contributors
 minutes: 45
 ---
 
