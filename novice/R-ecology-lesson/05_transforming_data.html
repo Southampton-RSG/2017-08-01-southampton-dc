@@ -426,8 +426,39 @@ surveys_sub &lt;-<span class="st"> </span>surveys %&gt;%<span class="st"> </span
   
 
 <span class="kw">glimpse</span>(surveys_sub)</code></pre></div>
+<pre><code>#&gt; Observations: 9,603
+#&gt; Variables: 13
+#&gt; $ record_id       &lt;int&gt; 226, 233, 245, 251, 257, 259, 268, 346, 350, 3...
+#&gt; $ month           &lt;int&gt; 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 12, ...
+#&gt; $ day             &lt;int&gt; 13, 13, 16, 16, 16, 16, 16, 12, 12, 12, 12, 10...
+#&gt; $ year            &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1977...
+#&gt; $ plot_id         &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2...
+#&gt; $ species_id      &lt;chr&gt; &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;...
+#&gt; $ sex             &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;...
+#&gt; $ hindfoot_length &lt;int&gt; 37, 25, 37, 36, 37, 36, 36, 37, 37, 38, 36, 37...
+#&gt; $ weight          &lt;int&gt; 51, 44, 39, 49, 47, 41, 55, 36, 47, 44, 40, 42...
+#&gt; $ genus           &lt;chr&gt; &quot;Dipodomys&quot;, &quot;Dipodomys&quot;, &quot;Dipodomys&quot;, &quot;Dipodo...
+#&gt; $ species         &lt;chr&gt; &quot;merriami&quot;, &quot;merriami&quot;, &quot;merriami&quot;, &quot;merriami&quot;...
+#&gt; $ taxa            &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Roden...
+#&gt; $ plot_type       &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;C...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Q: How many of each type genus?</span>
 surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)</code></pre></div>
+<pre><code>#&gt; Source: local data frame [26 x 4]
+#&gt; Groups: genus, species [?]
+#&gt; 
+#&gt;          genus      species                 plot_type     n
+#&gt;          &lt;chr&gt;        &lt;chr&gt;                     &lt;chr&gt; &lt;int&gt;
+#&gt; 1  Chaetodipus penicillatus                   Control   118
+#&gt; 2  Chaetodipus penicillatus  Long-term Krat Exclosure   153
+#&gt; 3  Chaetodipus penicillatus Short-term Krat Exclosure   105
+#&gt; 4    Dipodomys     merriami                   Control  3248
+#&gt; 5    Dipodomys     merriami  Long-term Krat Exclosure   136
+#&gt; 6    Dipodomys     merriami Short-term Krat Exclosure   899
+#&gt; 7    Dipodomys        ordii                   Control   853
+#&gt; 8    Dipodomys        ordii  Long-term Krat Exclosure     3
+#&gt; 9    Dipodomys        ordii Short-term Krat Exclosure   249
+#&gt; 10   Dipodomys  spectabilis                   Control  1088
+#&gt; # ... with 16 more rows</code></pre>
 </div>
 <div id="factors" class="section level2">
 <h2>Factors</h2>
@@ -440,9 +471,9 @@ surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genu
 <span class="co"># Then we can group them accordingly.</span>
 
 <span class="co"># Check levels</span>
-<span class="kw">levels</span>(surveys_sub$species)
-
-<span class="co"># We have three groups we want: the Kangeroo Rats, the smaller granivores,</span>
+<span class="kw">levels</span>(surveys_sub$species)</code></pre></div>
+<pre><code>#&gt; NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We have three groups we want: the Kangeroo Rats, the smaller granivores,</span>
 <span class="co"># and the grasshopper mouse.</span>
 surveys_sub &lt;-<span class="st"> </span>surveys_sub %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">genus =</span> <span class="kw">fct_collapse</span>(genus,
@@ -456,8 +487,37 @@ surveys_sub &lt;-<span class="st"> </span>surveys_sub %&gt;%<span class="st"> </
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">species =</span> <span class="kw">as.factor</span>(species))
 
 <span class="co"># Check the new levels</span>
-surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)
-surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(genus)</code></pre></div>
+surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)</code></pre></div>
+<pre><code>#&gt; Source: local data frame [26 x 4]
+#&gt; Groups: genus, species [?]
+#&gt; 
+#&gt;        genus     species                 plot_type     n
+#&gt;       &lt;fctr&gt;      &lt;fctr&gt;                    &lt;fctr&gt; &lt;int&gt;
+#&gt; 1  Granivore    eremicus                   Control   243
+#&gt; 2  Granivore    eremicus  Long-term Krat Exclosure   164
+#&gt; 3  Granivore    eremicus Short-term Krat Exclosure   180
+#&gt; 4  Granivore      flavus                   Control   144
+#&gt; 5  Granivore      flavus  Long-term Krat Exclosure   248
+#&gt; 6  Granivore      flavus Short-term Krat Exclosure   107
+#&gt; 7  Granivore maniculatus                   Control    46
+#&gt; 8  Granivore maniculatus  Long-term Krat Exclosure   144
+#&gt; 9  Granivore maniculatus Short-term Krat Exclosure    56
+#&gt; 10 Granivore   megalotis                   Control   283
+#&gt; # ... with 16 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(genus)</code></pre></div>
+<pre><code>#&gt; Source: local data frame [8 x 3]
+#&gt; Groups: genus [?]
+#&gt; 
+#&gt;               genus                 plot_type     n
+#&gt;              &lt;fctr&gt;                    &lt;fctr&gt; &lt;int&gt;
+#&gt; 1         Granivore                   Control   834
+#&gt; 2         Granivore  Long-term Krat Exclosure  1235
+#&gt; 3         Granivore Short-term Krat Exclosure   675
+#&gt; 4      Kangeroo Rat                   Control  5189
+#&gt; 5      Kangeroo Rat  Long-term Krat Exclosure   155
+#&gt; 6      Kangeroo Rat Short-term Krat Exclosure  1510
+#&gt; 7 Grasshopper mouse                   Control     3
+#&gt; 8 Grasshopper mouse  Long-term Krat Exclosure     2</code></pre>
 </div>
 </div>
 

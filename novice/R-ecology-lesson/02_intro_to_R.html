@@ -394,6 +394,20 @@ div.tocify {
 <p>Included in ggplot2 is a data frame called <code>mpg</code> containing variables in columns and observations in rows collected by the US Environmental Protection Agency for 38 models of cars.</p>
 <p>Type <code>mpg</code> in the console window to take a look:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mpg</code></pre></div>
+<pre><code>## # A tibble: 234 × 11
+##    manufacturer      model displ  year   cyl      trans   drv   cty   hwy
+##           &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;      &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+## 1          audi         a4   1.8  1999     4   auto(l5)     f    18    29
+## 2          audi         a4   1.8  1999     4 manual(m5)     f    21    29
+## 3          audi         a4   2.0  2008     4 manual(m6)     f    20    31
+## 4          audi         a4   2.0  2008     4   auto(av)     f    21    30
+## 5          audi         a4   2.8  1999     6   auto(l5)     f    16    26
+## 6          audi         a4   2.8  1999     6 manual(m5)     f    18    26
+## 7          audi         a4   3.1  2008     6   auto(av)     f    18    27
+## 8          audi a4 quattro   1.8  1999     4 manual(m5)     4    18    26
+## 9          audi a4 quattro   1.8  1999     4   auto(l5)     4    16    25
+## 10         audi a4 quattro   2.0  2008     4 manual(m6)     4    20    28
+## # ... with 224 more rows, and 2 more variables: fl &lt;chr&gt;, class &lt;chr&gt;</code></pre>
 <p>Try <code>?mpg</code> to learn more about the data.</p>
 <ol style="list-style-type: decimal">
 <li>Engine size in litres is in the <code>displ</code> column.</li>
@@ -422,6 +436,20 @@ div.tocify {
 <p>Also, we only looked at one type of geometric object, <code>geom_point</code>, last time. Geoms are the type of data display ggplot2 creates e.g. points, boxplots, bar charts. Here we’ll see some of the other geom types.</p>
 <p>Let’s look at another built in data set <code>diamonds</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds</code></pre></div>
+<pre><code>## # A tibble: 53,940 × 10
+##    carat       cut color clarity depth table price     x     y     z
+##    &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
+## 2   0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
+## 3   0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
+## 4   0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
+## 5   0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
+## 6   0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48
+## 7   0.24 Very Good     I    VVS1  62.3    57   336  3.95  3.98  2.47
+## 8   0.26 Very Good     H     SI1  61.9    55   337  4.07  4.11  2.53
+## 9   0.22      Fair     E     VS2  65.1    61   337  3.87  3.78  2.49
+## 10  0.23 Very Good     H     VS1  59.4    61   338  4.00  4.05  2.39
+## # ... with 53,930 more rows</code></pre>
 <p>This data set has records of about 54,000 diamonds, including price (dollars), quality of the cut (cut) and weight (carat).</p>
 <p>Let’s create a barplot of diamond cut quality using our code snippet:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
@@ -456,8 +484,10 @@ div.tocify {
 <div id="performing-calculations-and-assigning-objects" class="section level2">
 <h2>Performing calculations and assigning objects</h2>
 <p>R can be used as a calculator:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">3</span> +<span class="st"> </span><span class="dv">5</span>
-<span class="dv">12</span> /<span class="st"> </span><span class="dv">7</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">3</span> +<span class="st"> </span><span class="dv">5</span></code></pre></div>
+<pre><code>## [1] 8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">12</span> /<span class="st"> </span><span class="dv">7</span></code></pre></div>
+<pre><code>## [1] 1.714286</code></pre>
 <p>Or you can created objects using the assignment operator <code>&lt;-</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg &lt;-<span class="st"> </span><span class="dv">55</span></code></pre></div>
 <p>Read this as <em>“weight_kg gets value 55”</em> in your head.</p>
@@ -478,6 +508,7 @@ div.tocify {
 <p>Start typing <code>se</code> in the console and you should see a list of functions appear, add <code>q</code> to shorten the list, then use the up and down arrow to hilight the function of interest <code>seq()</code> and hit Tab to select.</p>
 <p>RStudio puts the cursor between the parathenses to prompt us to enter some arguements. Here we’ll use 1 as the start and 10 as the end:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)</code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
 <p>If we left off a parantheses to close the function, then when we hit enter we’ll see a <code>+</code> indicating RStudio is expecting further code. We either add the missing part or press Escape to cancel the code.</p>
 <p>Let’s call a function and make an assignment at the same time:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)</code></pre></div>

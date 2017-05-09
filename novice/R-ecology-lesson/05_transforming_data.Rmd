@@ -40,7 +40,7 @@ In this lesson we'll transform the data using another tidyverse package `dplyr` 
 
 ## Split-apply-combine
 
-```{r,purl=FALSE}
+```{r,purl=FALSE,results='show'}
 # Subsetting data --------------------------------------------------------------
 
 # Q: Which plots do we need for this analysis?
@@ -83,7 +83,7 @@ surveys_sub <- surveys %>%
 glimpse(surveys_sub)
 ```
 
-```{r}
+```{r,results='show'}
 # Q: How many of each type genus?
 surveys_sub %>% group_by(genus,species,plot_type) %>% count(species)
 
@@ -102,7 +102,7 @@ This is useful when visualising data or grouping catergories.
 
 For example:
 
-```{r,purl=FALSE}
+```{r,purl=FALSE,results='show'}
 # Factors ----------------------------------------------------------------------
 
 # Let's turn the genus,species and plot_types into factors.

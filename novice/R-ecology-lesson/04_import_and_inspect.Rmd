@@ -188,7 +188,7 @@ Usage instructions can be found here: http://readxl.tidyverse.org/
 
 Having imported the data...
 
-```{r,purl=FALSE}
+```{r,purl=FALSE,results='show'}
 # Inspect the data with 'glimpse' ----------------------------------------------
 
 glimpse(surveys)

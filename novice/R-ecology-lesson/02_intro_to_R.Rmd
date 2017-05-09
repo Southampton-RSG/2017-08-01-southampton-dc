@@ -59,7 +59,7 @@ and observations in rows collected by the US Environmental Protection Agency for
 
 Type `mpg` in the console window to take a look:
 
-```{r,purl=FALSE}
+```{r,purl=FALSE,results='show'}
 mpg
 ```
 
@@ -125,7 +125,7 @@ boxplots, bar charts. Here we'll see some of the other geom types.
 
 Let's look at another built in data set `diamonds`.
 
-```{r,purl=FALSE}
+```{r,purl=FALSE,results='show'}
 diamonds
 ```
 
@@ -196,14 +196,14 @@ to conclude this part of the lesson.
 
 R can be used as a calculator:
 
-```{r, purl=FALSE}
+```{r, purl=FALSE,results='show'}
 3 + 5
 12 / 7
 ```
 
 Or you can created objects using the assignment operator `<-`:
 
-```{r, purl=FALSE}
+```{r, purl=FALSE,results='show'}
 weight_kg <- 55
 ```
 
@@ -251,7 +251,7 @@ of interest `seq()` and hit Tab to select.
 RStudio puts the cursor between the parathenses to prompt us to enter some 
 arguements. Here we'll use 1 as the start and 10 as the end:
 
-```{r, purl=FALSE}
+```{r, purl=FALSE,results='show'}
 seq(1,10)
 ```
 
