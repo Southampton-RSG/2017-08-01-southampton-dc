@@ -44,17 +44,25 @@ Using an ecology dataset from desert rodent surveys, we then move
 through how to **import and tidy** CSV files, perform some basic **transformations**, and **visualise** the data with a brief introduction to plotting. By the end of this process we should be able to **understand and communicate** some general findings
 contained within the dataset.
 
-Concretely, we will aim to understand more about how different rodent species populations 
-vary over time in this survey data, and in doing so perform tasks common to many 
-data projects irrespective of subject area.
+Concretely, using rodent survey data covering a period a period from 1977 to 
+1991, we will aim to understand the effect on the populations of small 
+seed eating rodents as a result of the exclusion of larger competitor kangeroo
+rats. In doing so perform tasks common to many data projects irrespective of 
+subject area.
+
+**Note**:
+
+Much of the material in the first two lessons is derived from [R for data science](http://r4ds.had.co.nz/introduction.html) by Garrett Grolemund and
+Hadley Wickham. This book contains many more detailed examples and advanced 
+concepts not covered here.
 
 ### Chapters
 
-1. [Ecology Data Overiew](01_ecology_data_overview.html)
-2. [R and RStudio](02_R_and_Rstudio.html)
-3. [Introduction to R](03_intro_to_R.html)
-4. [Importing and inspecting data](04_import_and_inspect.html)
-5. [Transforming data](05_transforming_data.html)
+1. [R and RStudio](01_R_and_Rstudio.html)
+2. [Introduction to R](02_intro_to_R.html)
+3. [Ecology Data Overiew](03_ecology_data_overview.html)
+4. [Importing and inspecting the data](04_import_and_inspect.html)
+5. [Transforming the data](05_transforming_data.html)
 6. [Data visualization](06_visualising_data.html)
 7. [Summary report](07_summary_of_ecology_data.html)
 

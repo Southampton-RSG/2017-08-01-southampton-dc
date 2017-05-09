@@ -1,7 +1,7 @@
 ---
 title: R and RStudio
 author: Alistair Bailey and Data Carpentry contributors
-minutes: 15
+minutes: 30
 ---
 
 
@@ -17,9 +17,9 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 >
 > * Understand what R is and the the relationship between R and RStudio
 > * Have a general understanding of the RStudio interactive development envrionment
-> * Create a R Project and understand how to organise files.
+> * Know how to create a R project
 > * Know how to use the built-in RStudio help interface to search for more information on R functions.
-> * Know how to seek help from the R user community.
+> * Know best practices for seeking help with R on-line.
 
 ------------
 
@@ -39,8 +39,7 @@ Journal of Computational and Graphical Statistics, 5(3):299–314, 1996*
 
 Reasons it has become popular include that it is both open source and cross platform,
 and that it has broad functionality, from the analysis of data and creating 
-powerful graphical visualisations and web apps. It therefore has a large community 
-of users and developers.
+powerful graphical visualisations and web apps.
 
 Like all languages though it has limitations, for example the syntax is initially
 confusing.
@@ -49,73 +48,20 @@ R Studio is an integrated development environment, or IDE for R programming. It
 is regularly updated, and upgrading enables access to the latest features. The
 latest version can be downloaded here: http://www.rstudio.com/download.
 
-## Why learn R?
-
-The learning curve might be steeper than with other software, but with R, you
-can save all the steps you used to go from the data to the results. So, if you
-want to redo your analysis because you collected more data, you don't have to
-remember which button you clicked in which order to obtain your results, you
-just have to run your script again.
+## Why learn R (or any language)?
 
 Working with scripts makes the steps you used in your analysis clear, and the
 code you write can be inspected by someone else who can give you feedback and
 spot mistakes.
 
 Working with scripts forces you to have deeper understanding of what you are
-doing, and facilitates your learning and comprehension of the methods you use.
+doing, and facilitates your learning and comprehension of the methods you use:
 
-### R code is great for reproducibility
-
-Reproducibility is when someone else (including your future self) can obtain the
-same results from the same dataset when using the same analysis.
-
-R integrates with other tools to generate manuscripts from your code. If you
-collect more data, or fix a mistake in your dataset, the figures and the
-statistical tests in your manuscript are updated automatically.
-
-An increasing number of journals and funding agencies expect analyses to be
-reproducible, so knowing R will give you an edge with these requirements.
-
-
-### R is interdisciplinary and extensible
-
-With 10,000+ packages that can be installed to extend its capabilities, R
-provides a framework that allows you to combine analyses across many scientific
-disciplines to best suit the analyses you want to use on your data. For
-instance, R has packages for image analysis, GIS, time series, population
-genetics, and a lot more.
-
-
-### R works on data of all shapes and size
-
-The skills you learn with R scale easily with the size of your dataset. Whether
-your dataset has hundreds or millions of lines, it won't make much difference to
-you.
-
-R is designed for data analysis. It comes with special data structures and data
-types that make handling of missing data and statistical factors convenient.
-
-R can connect to spreadsheets, databases, and many other data formats, on your
-computer or on the web.
-
-
-### R produces high-quality graphics
-
-The plotting functionalities in R are endless, and allow you to adjust any
-aspect of your graph to convey most effectively the message from your data.
-
-
-### R has a large community
-
-Thousands of people use R daily. Many of them are willing to help you through
-mailing lists and [Stack Overflow](https://stackoverflow.com/).
-
-
-### Not only R is free, but it is also open-source and cross-platform
-
-Anyone can inspect the source code to see how R works. Because of this
-transparency, there is less chance for mistakes, and if you (or someone else)
-find some, you can report and fix bugs.
++ Writing and publishing code is important for reproducible resarch
++ R has many thousands of packages covering many disciplines.
++ R can work with many types of data.
++ They is a large R community for development and support.
++ Using R (or Python) gives you control over your figures and reports.
 
 ## Finding your way around RStudio
 
@@ -140,7 +86,7 @@ as data you have imported.
 The output pane can be used to view any plots you have created.
 
 Not opened at first start up is the fourth default pane: the script editor pane, 
-but this will open as soon as we create/edit a R script (or many other document types). *The script editor is where will be typing most of the time.*
+but this will open as soon as we create/edit a R script (or many other document types). *The script editor is where will be typing much of the time.*
 
 The placement of these panes and their content can be customized (see menu, 
 R Studio -> Tools -> Global Options -> Pane Layout). One of the advantages of 
@@ -167,6 +113,8 @@ Global Options menu in R studio as shown:
 
 ![Turning off workspace saving and restoration](img/rdata_turn_off.png)
 
+We'll learn more about scripts as we go along.
+
 ## Where am I?
 
 R studio tells you where you are in terms of directory address like so:
@@ -190,8 +138,12 @@ work.
 
 ![Example of a working directory structure](img/R-ecology-work_dir_structure.png)
 
-R Studio provides a helpful set of tools to do this through its "Projects"
-interface, which not only creates a working directory for you but also remembers
+## R projects
+
+RStudio also has a facility to keep all files associated with a particular 
+analysis together called a project.
+
+Creating a project creates a working directory for you and also remembers
 its location (allowing you to quickly navigate to it) and optionally preserves
 custom settings and open files to make it easier to resume work after a
 break. 
@@ -246,54 +198,6 @@ workshop, we will need a `data/` folder to store our raw data, and we will
 create later a `data_output/` folder when we learn how to export data as CSV
 files.
 
-## Interacting with R
-
-The basis of programming is that we write down instructions for the computer to
-follow, and then we tell the computer to follow those instructions. We write, or
-*code*, instructions in R because it is a common language that both the computer
-and we can understand. We call the instructions *commands* and we tell the
-computer to follow the instructions by *executing* (also called *running*) those
-commands.
-
-There are two main ways of interacting with R: by using the console or by using
-script files (plain text files that contain your code). We want our code and
-workflow to be reproducible. In other words, we want to write code in a way that
-anyone can easily replicate our results on their computer.
-
-The console pane (in R Studio, the bottom left panel) is the place where R is
-waiting for you to tell it what to do, and where it will show the results of a
-command that has been executed.  You can type commands directly into the console
-and press `Enter` to execute those commands, but they will be forgotten when you
-close the session. It is better to enter the commands in the script editor, and
-save the script. This way, you have a complete record of what you did, you can
-easily show others how you did it and you can do it again later on if needed.
-R Studio allows you to execute commands directly from the script editor by using
-the <kbd>`Ctrl`</kbd> + <kbd>`Enter`</kbd> shortcut. The command on the current
-line in the script or all of the commands in the currently selected text will be
-sent to the console and executed when you press <kbd>`Ctrl`</kbd> +
-<kbd>`Enter`</kbd>.
-
-At some point in your analysis you may want to check the content of a variable or
-the structure of an object, without necessarily keeping a record of it in your
-script. You can type these commands and execute them directly in the console.
-R Studio provides the <kbd>`Ctrl`</kbd> + <kbd>`1`</kbd> and <kbd>`Ctrl`</kbd> +
-<kbd>`2`</kbd> shortcuts allow you to jump between the script and the console
-windows.
-
-If R is ready to accept commands, the R console shows a `>` prompt. If it
-receives a command (by typing, copy-pasting or sent from the script editor using
-<kbd>`Ctrl`</kbd> + <kbd>`Enter`</kbd>), R will try to execute it, and when
-ready, will show the results and come back with a new `>`-prompt to wait for new
-commands.
-
-If R is still waiting for you to enter more data because it isn't complete yet,
-the console will show a `+` prompt. It means that you haven't finished entering
-a complete command. This is because you have not 'closed' a parenthesis or
-quotation, i.e. you don't have the same number of left-parentheses as
-right-parentheses, or the same number of opening and closing quotation marks. If
-you're in R Studio and this happens, click inside the console window and press
-`Esc`; this will cancel the incomplete command and return you to the `>` prompt.
-
 ## Seeking help
 
 ### I know the name of the function I want to use, but I'm not sure how to use it
@@ -325,27 +229,8 @@ If you can't find what you are looking for, you can use the
 [rdocumention.org](http://www.rdocumentation.org) website that searches through
 the help files across all packages available.
 
-Finally, a generic Google or internet search "R \<task\>" will often either send you to the appropriate package documentation or a helpful forum question that someone else already asked.
-
-### I am stuck... I get an error message that I don't understand
-
-Start by googling the error message. However, this doesn't always work very well
-because often, package developers rely on the error catching provided by R. You
-end up with general error messages that might not be very helpful to diagnose a
-problem (e.g. "subscript out of bounds"). If the message is very generic, you might
-also include the name of the function or package you're using in your query.
-
-However, you should check Stack Overflow. Search using the `[r]` tag. Most
-questions have already been answered, but the challenge is to use the right
-words in the search to find the answers:
-[http://stackoverflow.com/questions/tagged/r](http://stackoverflow.com/questions/tagged/r)
-
-The [Introduction to R](http://cran.r-project.org/doc/manuals/R-intro.pdf) can
-also be dense for people with little programming experience but it is a good
-place to understand the underpinnings of the R language.
-
-The [R FAQ](http://cran.r-project.org/doc/FAQ/R-FAQ.html) is dense and technical
-but it is full of useful information.
+A Google or internet search "R \<task\>" will often either send you to the appropriate package documentation or a helpful forum question that someone else already asked,
+such as [Stack Overflow](http://stackoverflow.com/questions/tagged/r).
 
 ### Asking for help
 
@@ -401,40 +286,3 @@ to understand your problem.
 sessionInfo()
 ```
 
-### Where to ask for help?
-
-* The person sitting next to you during the workshop. Don't hesitate to talk to
-  your neighbour during the workshop, compare your answers, and ask for
-  help. You might also be interested in organizing regular meetings following
-  the workshop to keep learning from each others.
-* Your friendly colleagues: if you know someone with more experience than you,
-  they might be able and willing to help you.
-* [Stack Overflow](http://stackoverflow.com/questions/tagged/r): if your question
-  hasn't been answered before and is well crafted, chances are you will get an
-  answer in less than 5 min. Remember to follow their guidelines on [how to ask
-  a good question](http://stackoverflow.com/help/how-to-ask).
-* The [R-help mailing list](https://stat.ethz.ch/mailman/listinfo/r-help): it is
-  read by a lot of people (including most of the R core team), a lot of people
-  post to it, but the tone can be pretty dry, and it is not always very
-  welcoming to new users. If your question is valid, you are likely to get an
-  answer very fast but don't expect that it will come with smiley faces. Also,
-  here more than everywhere else, be sure to use correct vocabulary (otherwise
-  you might get an answer pointing to the misuse of your words rather than
-  answering your question). You will also have more success if your question is
-  about a base function rather than a specific package.
-* If your question is about a specific package, see if there is a mailing list
-  for it. Usually it's included in the DESCRIPTION file of the package that can
-  be accessed using `packageDescription("name-of-package")`. You may also want
-  to try to email the author of the package directly, or open an issue on the
-  code repository (e.g., GitHub).
-* There are also some topic-specific mailing lists (GIS, phylogenetics, etc...),
-  the complete list is [here](http://www.r-project.org/mail.html).
-
-### More resources
-
-* The [Posting Guide](http://www.r-project.org/posting-guide.html) for the R
-  mailing lists.
-* [How to ask for R help](http://blog.revolutionanalytics.com/2014/01/how-to-ask-for-r-help.html)
-  useful guidelines
-* [This blog post by Jon Skeet](http://codeblog.jonskeet.uk/2010/08/29/writing-the-perfect-question/)
-  has quite comprehensive advice on how to ask programming questions.

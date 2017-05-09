@@ -2,13 +2,13 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Ecology Data Overiew"
-      href: 01_ecology_data_overview.html
     - text: "R and RStudio"
-      href: 02_R_and_Rstudio.html
-    - text: "Introduction to R"
-      href: 03_intro_to_R.html
-    - text: "Import & inspect data"
+      href: 01_R_and_Rstudio.html
+    - text: "Getting started"
+      href: 02_intro_to_R.html
+    - text: "Rodent Survey Overview"
+      href: 03_ecology_data_overview.html
+    - text: "Importing data"
       href: 04_import_and_inspect.html
     - text: "Transforming data"
       href: 05_transforming_data.html

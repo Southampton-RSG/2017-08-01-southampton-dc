@@ -9,10 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Alistair Bailey and Data Carpentry contributors" />
+<meta name="author" content="A.Bailey" />
 
 
-<title>Introduction to R</title>
+<title>07-summary-of-ecology-data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -314,25 +314,28 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="01_ecology_data_overview.html">Ecology Data Overiew</a>
+  <a href="06-ecology-data-overview.html">Ecology Data Overiew</a>
 </li>
 <li>
-  <a href="02_R_and_Rstudio.html">R and RStudio</a>
+  <a href="00-R-and-Rstudio.html">R and Rstudio</a>
 </li>
 <li>
-  <a href="03_intro_to_R.html">Introduction to R</a>
+  <a href="01-intro-to-R.html">Intro to R</a>
 </li>
 <li>
-  <a href="04_import_and_inspect.html">Import &amp; inspect data</a>
+  <a href="02-starting-with-data.html">Starting with data</a>
 </li>
 <li>
-  <a href="05_transforming_data.html">Transforming data</a>
+  <a href="03-dplyr.html">Transforming data</a>
 </li>
 <li>
-  <a href="06_visualising_data.html">Visualising data</a>
+  <a href="04-visualization-ggplot2.html">Visualizing data</a>
 </li>
 <li>
-  <a href="07_summary_of_ecology_data.html">Summary</a>
+  <a href="05-r-and-databases.html">R and SQL</a>
+</li>
+<li>
+  <a href="code-handout.R">Code Handout</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -351,71 +354,23 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Introduction to R</h1>
-<h4 class="author"><em>Alistair Bailey and Data Carpentry contributors</em></h4>
+<h1 class="title toc-ignore">07-summary-of-ecology-data</h1>
+<h4 class="author"><em>A.Bailey</em></h4>
 
 </div>
 
 
-<hr />
-<blockquote>
-<h3 id="learning-objectives">Learning Objectives</h3>
-<ul>
-<li>Assign values to objects and variables in R.</li>
-<li>Define the following terms as they relate to R: script, function, working directory, assign, object, variable.</li>
-<li>Describe what vectors are and how they are manipulated in R.</li>
-<li>Inspect the content of vectors in R and manipulate their content.</li>
-<li>Extract elements from vectors in R.</li>
-<li>Employ logic (i.e. TRUE, FALSE) to subset data in a vector.</li>
-<li>Analyze vectors with missing data.</li>
-<li>Call functions with zero or more named or unnamed arguments.</li>
-</ul>
-</blockquote>
-<hr />
-<p>The aim is get us working with, and exploring the data as soon as possible, but first we will step back to cover some R fundamentals.</p>
-<div id="entering-input-assigning-objects-and-evaluation" class="section level2">
-<h2>Entering input, assigning objects and evaluation</h2>
-<p>We’ll start in the console. At the prompt we type expressions using the <code>&lt;-</code> assignment operator to create objects. In the example below we create an object called <code>weight</code> with a value of <code>55</code>.</p>
-<p>To evaluate the expression, that is to create <code>weight</code>, we simply press <kbd>Enter</kbd>.</p>
-<p>(Tips: pushing <kbd>Alt</kbd> at the same time as the <kbd>-</kbd> key) will write <code>&lt;-</code>)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Assign weight a value of 55</span>
-weight &lt;-<span class="st"> </span><span class="dv">55</span></code></pre></div>
-<p>Having created <code>weight</code>, evaluating the object itself by typing it’s name, will print the object to the console:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Assign weight a value of 55</span>
-weight &lt;-<span class="st"> </span><span class="dv">55</span>
-<span class="co"># Print the value of the object weight</span>
-weight</code></pre></div>
-<pre><code>#&gt; [1] 55</code></pre>
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(cars)</code></pre></div>
 </div>
-<div id="r-objects" class="section level2">
-<h2>R objects</h2>
-<p>R has five basic (atomic) classes of objects:</p>
-<ul>
-<li>character</li>
-<li>numeric (real numbers)</li>
-<li>integers (whole numbers)</li>
-<li>complex numbers</li>
-<li>logical (True/False)</li>
-</ul>
-<p>Collections of objects are vectors, and vectors will only store one class of basic object. If you mix classes e.g. characters and integers, R will coerce them to be all the same class e.g. your integers may become characters.</p>
-</div>
-<div id="vectors" class="section level2">
-<h2>Vectors</h2>
-<div id="inspecting-and-extracting-elements-from-vectors" class="section level3">
-<h3>Inspecting and extracting elements from vectors</h3>
-</div>
-<div id="subsetting-vectors" class="section level3">
-<h3>Subsetting vectors</h3>
-</div>
-</div>
-<div id="functions" class="section level2">
-<h2>Functions</h2>
-<div id="function-help-files" class="section level3">
-<h3>Function help files</h3>
-</div>
-</div>
-<div id="dealing-with-missing-data" class="section level2">
-<h2>Dealing with missing data</h2>
+<div id="including-plots" class="section level2">
+<h2>Including Plots</h2>
+<p>You can also embed plots, for example:</p>
+<p><img src="img/r-lesson-pressure-1.png" width="672" /></p>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
 </div>
 
 <hr/>

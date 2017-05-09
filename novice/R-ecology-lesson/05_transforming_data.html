@@ -27,6 +27,49 @@
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -271,16 +314,16 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="01_ecology_data_overview.html">Ecology Data Overiew</a>
+  <a href="01_R_and_Rstudio.html">R and RStudio</a>
 </li>
 <li>
-  <a href="02_R_and_Rstudio.html">R and RStudio</a>
+  <a href="02_intro_to_R.html">Getting started</a>
 </li>
 <li>
-  <a href="03_intro_to_R.html">Introduction to R</a>
+  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
 </li>
 <li>
-  <a href="04_import_and_inspect.html">Import &amp; inspect data</a>
+  <a href="04_import_and_inspect.html">Importing data</a>
 </li>
 <li>
   <a href="05_transforming_data.html">Transforming data</a>
@@ -319,28 +362,21 @@ div.tocify {
 <h3 id="learning-objectives">Learning Objectives</h3>
 <p>By the end of this lesson the learner will:</p>
 <ul>
-<li>Recall the six data manipulation ‘verbs’ in the dplyr package and know what they do.</li>
-<li>Select subsets of columns and filter rows in a data.frame according to a condition(s).</li>
-<li>Employ the ‘pipe’ operator to link together a sequence of dplyr commands.</li>
-<li>Employ the ‘mutate’ command to apply functions to existing columns and create new columns of data.</li>
-<li>Export a data.frame to a .csv file.</li>
+<li></li>
 </ul>
 </blockquote>
 <hr />
-<div id="data-manipulation-using-dplyr" class="section level1">
-<h1>Data Manipulation using dplyr</h1>
+<div id="transforming-data-using-dplyr" class="section level1">
+<h1>Transforming data using dplyr</h1>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>In this lesson we’ll transform the data using <code>dplyr</code> to:</p>
+<p>In this lesson we’ll transform the data using another tidyverse package <code>dplyr</code> to:</p>
 <ul>
-<li>change the focus. For example, filtering only a few species of rodent or a particular time period.</li>
+<li>change the focus. For example, filtering only a few species of rodent.</li>
 <li>create new variables that are functions of existing variables.</li>
-<li>calculate summary statistics of the rodent data, such as mean weight.</li>
+<li>calculate summary statistics of the rodent data.</li>
 <li>create a tidy dataset of complete sets of observations.</li>
 </ul>
-</div>
-<div id="what-is-tidy-data" class="section level2">
-<h2>What is tidy data?</h2>
 </div>
 <div id="dplyr-verbs" class="section level2">
 <h2><code>dplyr</code> verbs</h2>
@@ -350,6 +386,78 @@ div.tocify {
 </div>
 <div id="split-apply-combine" class="section level2">
 <h2>Split-apply-combine</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Subsetting data --------------------------------------------------------------</span>
+
+<span class="co"># Q: Which plots do we need for this analysis?</span>
+exp_plots &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>,
+               <span class="st">&quot;Long-term Krat Exclosure&quot;</span>,  
+               <span class="st">&quot;Short-term Krat Exclosure&quot;</span>)
+
+<span class="co"># Q: Which species do we need for this analysis?</span>
+<span class="co"># Use: https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv for codes.</span>
+
+<span class="co"># Kangeroo Rats:</span>
+<span class="co"># DM    Dipodomys merriami  Rodent  Merriam&#39;s kangaroo rat</span>
+<span class="co"># DO    Dipodomys ordii     Rodent  Ord&#39;s kangaroo rat</span>
+<span class="co"># DS    Dipodomys spectabilis   Rodent  Banner-tailed kangaroo rat</span>
+
+<span class="co"># Granivores:</span>
+<span class="co"># PP    Chaetodipus penicillatus    Rodent  Desert pocket mouse</span>
+<span class="co"># PF    Perognathus flavus  Rodent  Silky pocket mouse</span>
+<span class="co"># PE    Peromyscus eremicus     Rodent  Cactus mouse</span>
+<span class="co"># PM    Peromyscus maniculatus  Rodent  Deer Mouse</span>
+<span class="co"># RM    Reithrodontomys megalotis   Rodent  Western harvest mouse</span>
+
+<span class="co"># Grasshopper mouse:</span>
+<span class="co"># OX    Onychomys sp.   Rodent  Grasshopper mouse</span>
+
+<span class="co"># List of species_id</span>
+rodents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span>,<span class="st">&quot;DO&quot;</span>,<span class="st">&quot;DS&quot;</span>,<span class="st">&quot;PP&quot;</span>,<span class="st">&quot;PF&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PM&quot;</span>,<span class="st">&quot;RM&quot;</span>,<span class="st">&quot;OX&quot;</span>)
+
+<span class="co"># Let&#39;s get filter the data we need:</span>
+surveys_sub &lt;-<span class="st"> </span>surveys %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(species_id !=<span class="st"> &quot;&quot;</span>,            <span class="co"># remove missing species_id</span>
+         !<span class="kw">is.na</span>(weight),              <span class="co"># remove missing weight</span>
+         !<span class="kw">is.na</span>(hindfoot_length),     <span class="co"># remove missing hindfoot_length</span>
+         sex !=<span class="st"> &quot;&quot;</span>,                   <span class="co"># remove missing sex</span>
+         year &lt;=<span class="st"> </span><span class="dv">1991</span>,                <span class="co"># Subset time period 1977 to 1991</span>
+         plot_type %in%<span class="st"> </span>exp_plots,    <span class="co"># Subset the plots used in the paper</span>
+         species_id %in%<span class="st"> </span>rodents)
+  
+
+<span class="kw">glimpse</span>(surveys_sub)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Q: How many of each type genus?</span>
+surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)</code></pre></div>
+</div>
+<div id="factors" class="section level2">
+<h2>Factors</h2>
+<p>Factors are how R represents catergorical variables, such as types of fruit or months of the year, these are variables that have a fixed set of known possible values.</p>
+<p>The key thing to know about factors is they have attributes called `levels’. The main advantage of this additional levels attribute to each catergorical variable is that it allows one to change the order and/or value of the level of each catergory. This is useful when visualising data or grouping catergories.</p>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Factors ----------------------------------------------------------------------</span>
+
+<span class="co"># Let&#39;s turn the genus,species and plot_types into factors.</span>
+<span class="co"># Then we can group them accordingly.</span>
+
+<span class="co"># Check levels</span>
+<span class="kw">levels</span>(surveys_sub$species)
+
+<span class="co"># We have three groups we want: the Kangeroo Rats, the smaller granivores,</span>
+<span class="co"># and the grasshopper mouse.</span>
+surveys_sub &lt;-<span class="st"> </span>surveys_sub %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">genus =</span> <span class="kw">fct_collapse</span>(genus,
+                                <span class="st">&quot;Kangeroo Rat&quot;</span> =<span class="st"> &quot;Dipodomys&quot;</span>,
+                                <span class="st">&quot;Granivore&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Perognathus&quot;</span>,
+                                                <span class="st">&quot;Peromyscus&quot;</span>,
+                                                <span class="st">&quot;Chaetodipus&quot;</span>,
+                                                <span class="st">&quot;Reithrodontomys&quot;</span>),
+                                <span class="st">&quot;Grasshopper mouse&quot;</span>=<span class="st"> &quot;Onychomys&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">plot_type =</span> <span class="kw">as.factor</span>(plot_type)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">species =</span> <span class="kw">as.factor</span>(species))
+
+<span class="co"># Check the new levels</span>
+surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)
+surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(genus)</code></pre></div>
 </div>
 </div>
 

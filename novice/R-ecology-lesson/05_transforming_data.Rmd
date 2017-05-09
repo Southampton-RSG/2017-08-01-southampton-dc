@@ -5,11 +5,11 @@ author: Data Carpentry contributors
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
 source("setup.R")
-surveys <- read.csv("data/portal_data_joined.csv")
-```
-
-```{r, echo=FALSE, purl=TRUE}
-## The dplyr lesson
+knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
+# Load the tidyverse set of packages -------------------------------------------
+library(tidyverse)
+library(forcats)
+surveys <- read_csv('data/portal_data_joined.csv')
 ```
 
 ------------
@@ -18,27 +18,21 @@ surveys <- read.csv("data/portal_data_joined.csv")
 >
 > By the end of this lesson the learner will:
 >
-> * Recall the six data manipulation ‘verbs’ in the dplyr package and know what they do.
-> * Select subsets of columns and filter rows in a data.frame according to a condition(s).
-> * Employ the ‘pipe’ operator to link together a sequence of dplyr commands.
-> * Employ the ‘mutate’ command to apply functions to existing columns and create new columns of data.
-> * Export a data.frame to a .csv file.
+> * 
+>
 
 ------------
 
-# Data Manipulation using dplyr
+# Transforming data using dplyr
 
 ## Motivation
 
-In this lesson we'll transform the data using `dplyr` to:
+In this lesson we'll transform the data using another tidyverse package `dplyr` to:
 
-+ change the focus. For example, filtering only a few species of rodent or 
-a particular time period.
++ change the focus. For example, filtering only a few species of rodent.
 + create new variables that are functions of existing variables. 
-+ calculate summary statistics of the rodent data, such as mean weight.
++ calculate summary statistics of the rodent data.
 + create a tidy dataset of complete sets of observations.
-
-## What is tidy data?
 
 ## `dplyr` verbs
 
@@ -46,3 +40,91 @@ a particular time period.
 
 ## Split-apply-combine
 
+```{r,purl=FALSE}
+# Subsetting data --------------------------------------------------------------
+
+# Q: Which plots do we need for this analysis?
+exp_plots <- c("Control",
+               "Long-term Krat Exclosure",  
+               "Short-term Krat Exclosure")
+
+# Q: Which species do we need for this analysis?
+# Use: https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv for codes.
+
+# Kangeroo Rats:
+# DM 	Dipodomys merriami 	Rodent 	Merriam's kangaroo rat
+# DO 	Dipodomys ordii 	Rodent 	Ord's kangaroo rat
+# DS 	Dipodomys spectabilis 	Rodent 	Banner-tailed kangaroo rat
+
+# Granivores:
+# PP 	Chaetodipus penicillatus 	Rodent 	Desert pocket mouse
+# PF 	Perognathus flavus 	Rodent 	Silky pocket mouse
+# PE 	Peromyscus eremicus 	Rodent 	Cactus mouse
+# PM 	Peromyscus maniculatus 	Rodent 	Deer Mouse
+# RM 	Reithrodontomys megalotis 	Rodent 	Western harvest mouse
+
+# Grasshopper mouse:
+# OX 	Onychomys sp. 	Rodent 	Grasshopper mouse
+
+# List of species_id
+rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM","OX")
+
+# Let's get filter the data we need:
+surveys_sub <- surveys %>% 
+  filter(species_id != "",            # remove missing species_id
+         !is.na(weight),              # remove missing weight
+         !is.na(hindfoot_length),     # remove missing hindfoot_length
+         sex != "",                   # remove missing sex
+         year <= 1991,                # Subset time period 1977 to 1991
+         plot_type %in% exp_plots,    # Subset the plots used in the paper
+         species_id %in% rodents)
+  
+
+glimpse(surveys_sub)
+```
+
+```{r}
+# Q: How many of each type genus?
+surveys_sub %>% group_by(genus,species,plot_type) %>% count(species)
+
+```
+
+## Factors
+
+Factors are how R represents catergorical variables, such as types of fruit or 
+months of the year, these are variables that have a fixed set of known possible 
+values.
+
+The key thing to know about factors is they have attributes called `levels'. The
+main advantage of this additional levels attribute to each catergorical variable 
+is that it  allows one to change the order and/or value of the level of each catergory. 
+This is useful when visualising data or grouping catergories.
+
+For example:
+
+```{r,purl=FALSE}
+# Factors ----------------------------------------------------------------------
+
+# Let's turn the genus,species and plot_types into factors.
+# Then we can group them accordingly.
+
+# Check levels
+levels(surveys_sub$species)
+
+# We have three groups we want: the Kangeroo Rats, the smaller granivores,
+# and the grasshopper mouse.
+surveys_sub <- surveys_sub %>% 
+  mutate(genus = fct_collapse(genus,
+                                "Kangeroo Rat" = "Dipodomys",
+                                "Granivore" = c("Perognathus",
+                                                "Peromyscus",
+                                                "Chaetodipus",
+                                                "Reithrodontomys"),
+                                "Grasshopper mouse"= "Onychomys")) %>% 
+  mutate(plot_type = as.factor(plot_type)) %>% 
+  mutate(species = as.factor(species))
+
+# Check the new levels
+surveys_sub %>% group_by(genus,species,plot_type) %>% count(species)
+surveys_sub %>% group_by(genus,plot_type) %>% count(genus)
+```

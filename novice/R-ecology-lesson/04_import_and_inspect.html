@@ -314,16 +314,16 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="01_ecology_data_overview.html">Ecology Data Overiew</a>
+  <a href="01_R_and_Rstudio.html">R and RStudio</a>
 </li>
 <li>
-  <a href="02_R_and_Rstudio.html">R and RStudio</a>
+  <a href="02_intro_to_R.html">Getting started</a>
 </li>
 <li>
-  <a href="03_intro_to_R.html">Introduction to R</a>
+  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
 </li>
 <li>
-  <a href="04_import_and_inspect.html">Import &amp; inspect data</a>
+  <a href="04_import_and_inspect.html">Importing data</a>
 </li>
 <li>
   <a href="05_transforming_data.html">Transforming data</a>
@@ -362,22 +362,67 @@ div.tocify {
 <h3 id="learning-objectives">Learning Objectives</h3>
 <ul>
 <li>How to create a script</li>
-<li>Learn how to download and import data into a data frame using download.file and the readr package</li>
+<li>Learn how to download and import data into a data frame using <code>download.file()</code> and the readr package</li>
+<li>Learn how examine imported data and what tidy data is.</li>
 <li>Describe what a data frame is.</li>
-<li>Learn how examine imported data and what it means to tidy data.</li>
-<li>Summarize the contents of a data frame in R.</li>
-<li>Manipulate categorical data in R</li>
-<li>Change how character strings are handled in a data frame.</li>
+<li>Know how to inspect imported data.</li>
 </ul>
 </blockquote>
 <hr />
-<div id="importing-and-inspecting-data" class="section level1">
-<h1>Importing and inspecting data</h1>
-<p>In this lesson we will learn how to download, import, and inspect the rodent survey data.</p>
+<p>In the remaining lessons we are going to recapitulate some of the analysis found in the paper by Heske et. al., “Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years of Competition”, <a href="DOI:10.2307/1939547" class="uri">DOI:10.2307/1939547</a>.</p>
+<p>Specifically we are going to look at the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangeroo rats over a period from 1977 to 1991.</p>
+<p>This will provide the opportunnity to practice importing data, transforming data, and plotting data, and finally turning this script into a report.</p>
+<div id="importing-inspecting-and-tidy-data" class="section level1">
+<h1>Importing, inspecting and tidy data</h1>
+<p>First we will learn how to download, import and inspect the rodent survey data, and the meaning of tidy data.</p>
+<ul>
+<li>Importing means getting data into our R environment by turning into into a R object that we can then manipulate. The raw data file remains unchanged.</li>
+<li>Inspecting means looking at the dataset to understand what it contains.</li>
+<li>Tidying refers to gettingg data into a consistent format that makes it easy to use in later steps.</li>
+</ul>
+<p>A note here is that we are focusing on rectangular data, the sort that comes in rows and columns such as in a spreadsheet. Lots of our data types exist, such as images, which are beyond the scope of this lesson, but can also be handled by R.</p>
+<p>A further note on tidy data. Tidy data can also come in various forms, but for rectangular data we will use the convention where every variable forms a column, every row forms an observation and every type of observational unit is stored in a separate table (we only have one table here, so the last point is moot.)</p>
 <div id="creating-a-r-script" class="section level2">
 <h2>Creating a R script</h2>
 <p>We first need to create a script that will form the basis of our analysis.</p>
-<p>TO-DO</p>
+<p>Go to the file menu and select New Files &gt; R script. This should open the script editor pane.</p>
+<p>Now let’s save the script, by going to File &gt; Save and we should find ourselves prompted to save the script in our Project Directory.</p>
+<div id="filenames" class="section level3">
+<h3>Filenames</h3>
+<p>Filenames should be meaningful and end in <code>.R</code>. A good name would be <code>ecology-data-analysis.R</code> and a bad name would be <code>file.R</code>. Let’s use the good example for our filename.</p>
+</div>
+<div id="comments" class="section level3">
+<h3>Comments</h3>
+<p>In R, any line begining <code>#</code> is a comment line. Comments all your code to explain (to yourself) what is happening. The script can be turned into a report so the more comments you add the more time you save later on.</p>
+<p>Starting on line 1, let’s put comment lines for the script title, our name and date.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ecology data analysis</span>
+<span class="co"># My name and today&#39;s date</span></code></pre></div>
+</div>
+<div id="line-length" class="section level3">
+<h3>Line length</h3>
+<p>It’s a good idea to keep lines to 80 characters to help make the code easy to read. You can display a margin from the Tools menu to show where 80 characters ends.</p>
+</div>
+<div id="code-sections" class="section level3">
+<h3>Code sections</h3>
+<p>We don’t always want to run the entire script, so it’s useful to split our script into sections, or code regions. Any comment line which includes at least four trailing dashes (-), equal signs (=), or hash/pound signs (#) to automatically creates a code section:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># This is a comment</span>
+
+<span class="co"># The dashes create a code region ----</span>
+
+<span class="co"># Let&#39;s create a character object called myName here:</span>
+myName &lt;-<span class="st"> &quot;Alistair&quot;</span>
+
+<span class="co"># Equals signs also create another code region =====</span>
+
+<span class="co"># And hash/pound symbols also create code regions ####</span></code></pre></div>
+<p>We can run each region separately, or the entrire thing.</p>
+</div>
+</div>
+<div id="setting-up-our-r-environment" class="section level2">
+<h2>Setting up our R environment</h2>
+<p>We only need the <code>tidyverse</code> library, which contains all the packages we need for our analysis, so we add this to our script as before:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the tidyverse set of packages -------------------------------------------</span>
+<span class="kw">library</span>(tidyverse)</code></pre></div>
 </div>
 <div id="downloading-and-importing-the-rodent-survey-data" class="section level2">
 <h2>Downloading and importing the rodent survey data</h2>
@@ -390,7 +435,17 @@ div.tocify {
 <li>Second we a <code>path</code> object containing the address of where we want to download the data to and what to call the file. In this case it is the <code>data</code> folder we created and we will call it <code>portal_data_joined.csv</code>.</li>
 <li>Then we use an <code>if</code> statement combined with a condition with the logical (TRUE/FALSE) <code>file.exists()</code> function to decide whether or not to download the data. The NOT condition <code>!</code> means if <code>portal_data_joined.csv</code> doesn’t exist already, download it.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># URL for portal joined survey data</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Download the and import the data ---------------------------------------------</span>
+
+<span class="co"># First we assign the web address as a string to a R object called &#39;url&#39;.</span>
+<span class="co"># Then we assign another string object called &#39;path&#39; that states where we </span>
+<span class="co"># want to import the data to.</span>
+<span class="co"># Next we use and &#39;if not&#39; statement to check if the data has alredy been </span>
+<span class="co"># downloaded. The &#39;!&#39; in front of &#39;file.exists&#39; is a logical operator for &#39;not&#39;.</span>
+<span class="co"># If there is no file called &#39;portal_data_joined.csv&#39; in the &#39;data&#39; folder,</span>
+<span class="co"># download the file.</span>
+
+<span class="co"># URL for portal joined survey data</span>
 url &lt;-<span class="st"> &quot;https://ndownloader.figshare.com/files/2292169&quot;</span>
 <span class="co"># Path and filename for downloading</span>
 path &lt;-<span class="st"> &quot;data/portal_data_joined.csv&quot;</span>
@@ -398,17 +453,59 @@ path &lt;-<span class="st"> &quot;data/portal_data_joined.csv&quot;</span>
 <span class="co"># Check if the file exists, and if not download it to the data folder</span>
 if (!<span class="kw">file.exists</span>(path)) { <span class="kw">download.file</span>(url,path) }</code></pre></div>
 </div>
-<div id="importing-data-using-readr" class="section level3">
-<h3>Importing data using <code>readr</code></h3>
-<p>Now we have downloaded it (check your data folder) we need to import it. As we have the <code>tidyverse</code> packages we can use the <code>readr</code> package it contains, which has the useful function <code>read_csv()</code></p>
-<p>Having imported the data…</p>
 </div>
+<div id="importing-data-using-readr" class="section level2">
+<h2>Importing data using <code>readr</code></h2>
+<p>Now we have downloaded it (check your data folder) we need to import it. As we have the <code>tidyverse</code> packages we can use the <code>readr</code> package it contains, which has many functions for reading files, including <code>read_csv()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Next we import the data using the &#39;readr&#39; package and &#39;read_csv&#39; function</span>
+<span class="co"># We&#39;ll assign the data to a R object called &#39;surveys&#39;. </span>
+<span class="co"># read_csv creates a &#39;tibble&#39; a modified form of data frame with enhanced</span>
+<span class="co"># printing and checking capabilites.</span>
+surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;data/portal_data_joined.csv&#39;</span>)</code></pre></div>
+<pre><code>#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   record_id = col_integer(),
+#&gt;   month = col_integer(),
+#&gt;   day = col_integer(),
+#&gt;   year = col_integer(),
+#&gt;   plot_id = col_integer(),
+#&gt;   species_id = col_character(),
+#&gt;   sex = col_character(),
+#&gt;   hindfoot_length = col_integer(),
+#&gt;   weight = col_integer(),
+#&gt;   genus = col_character(),
+#&gt;   species = col_character(),
+#&gt;   taxa = col_character(),
+#&gt;   plot_type = col_character()
+#&gt; )</code></pre>
+</div>
+<div id="a-note-on-importing-excel-files" class="section level2">
+<h2>A note on importing excel files</h2>
+<p><code>readxl</code> is a <code>tidyverse</code> package that can be used for importing exel files to R. Usage instructions can be found here: <a href="http://readxl.tidyverse.org/" class="uri">http://readxl.tidyverse.org/</a></p>
 <div id="inspecting-the-dataset" class="section level3">
 <h3>Inspecting the dataset</h3>
+<p>Having imported the data…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the data with &#39;glimpse&#39; ----------------------------------------------</span>
+
+<span class="kw">glimpse</span>(surveys)
+
+<span class="co"># This data is tidy already: each variable is a column, each observation is a</span>
+<span class="co"># row and each cell contains a single variable.</span>
+
+<span class="co"># Q: Is there missing data?</span>
+
+<span class="co"># Q: How long a period does the dataset cover?</span>
+
+<span class="co"># Q: How many different taxa are there? </span>
+<span class="co"># (taxa are organism types e.g. plants or birds)</span>
+
+<span class="co"># Q: How many species are there?</span>
+<span class="co"># (individual species belong in their taxa)</span>
+
+<span class="co"># For this analysis we need to subset the plots that were used in the paper,</span>
+<span class="co"># the species and taxa that were analysed, the time period of the experiment, and</span>
+<span class="co"># remove any missing data.</span></code></pre></div>
 </div>
-</div>
-<div id="dealing-with-catergorical-variables-called-factors" class="section level2">
-<h2>Dealing with catergorical variables called factors</h2>
 </div>
 </div>
 

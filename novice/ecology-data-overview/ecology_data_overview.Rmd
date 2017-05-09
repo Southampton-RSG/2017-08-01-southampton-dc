@@ -3,16 +3,11 @@ title: "Ecology Data Overview"
 author: "Alistair Bailey"
 minutes: 10
 ---
-
-```{r, echo=FALSE, purl=TRUE}
-knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
+```{r, echo=FALSE, purl=TRUE, message = FALSE}
+#source("setup.R")
 ```
 
------------------------------
-
 Adapted from the [**Portal Data README**](https://github.com/weecology/PortalData/blob/master/Rodents/README.md)
-
------------------------------
 
 # Portal Rodent Monitoring Metadata
 
@@ -22,7 +17,7 @@ Adapted from the [**Portal Data README**](https://github.com/weecology/PortalDat
 
 The data set includes continuing monthly rodent surveys. Each month rodents are trapped on all 24 experimental plots and information on each captured rodent is contained in this file. The data set should prove useful for **studying population dynamics and species interactions**. Sampling is ongoing and data will be added over time.
 
-### Site description 
+### Site description: 
 
 Within the 20 ha study area there are 24 experimental plots. Each plot has an area of 0.25 ha and is fenced to regulate rodent access to the plot. Access is regulated using gates cut into the fencing. Large gates (3.7 x 5.7 cm) allow all small mammals to access plots. Small gates (1.9 x 1.9 cm) exclude kangaroo rats (Dipodomys) whose inflated auditory bullae make their skulls too large to pass through the gates. Rodent removal plots do not contain any gates and animals caught on those plots are removed and released outside the cattle exclosure fence.
 
@@ -30,11 +25,11 @@ On each plot there are 49 permanent trapping stations marked by rebar stakes for
 
 ![Portal Overview Metadata, Fig 1](img/Portal_Figure1.jpg)
 
-#### Treatments 
+#### Treatments: 
 
 See [Portal Overview Metadata, Table 2](https://github.com/weecology/PortalData/blob/master/SiteandMethods/Portal_plot_treatments.csv), for details on treatment assignments for each plot. See the latest (link at top) and previous data publications (Ernest et al 2009) for a history of plot treatments and methods.
 
-### Data Collection 
+### Data Collection: 
 
 From 1977-present, plots were trapped around each new moon - which occurs approximately once a month, though occasionally blue moons do occur, resulting in 2 separate surveys in a month. Occasionally, months are missed. Months that are entirely missed are not noted in the database. Sometimes weather or other unforeseen occurrences prevent the complete trapping of a survey, these are [noted](https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_datanotes.csv) in the database. Due to intermittent funding, gaps in data collection exist beginning in 2010.
 
