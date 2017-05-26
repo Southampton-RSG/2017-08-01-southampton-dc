@@ -39,16 +39,22 @@ These lessons are designed to be taught in a day, and cover only a fraction of
 what is possible, but will help you take your first steps towards managing your
 own data projects.
 
-The lessons start with some basic information about R and the RStudio interface. 
-Using an ecology dataset from desert rodent surveys, we then move 
-through how to **import and tidy** CSV files, perform some basic **transformations**, and **visualise** the data with a brief introduction to plotting. By the end of this process we should be able to **understand and communicate** some general findings
-contained within the dataset.
+The lessons start with an overview of R and the RStudio interface and introduce
+visualising data as the first tool for generating insights.
 
-Concretely, using rodent survey data covering a period a period from 1977 to 
+Data is rarely provided in the form we need, so the next set of tools we'll 
+learn about are those for transforming data.
+
+Armed with these tools, we'll tackle an ecology dataset from desert rodent 
+surveys as a case study for **importing** CSV files, performing some 
+basic **transformations**, and then **visualising** the data. By the end of this process we should be able to **understand and communicate** some general findings
+obtained from the dataset.
+
+Concretely, using a rodent survey data covering a period a period from 1977 to 
 1991, we will aim to understand the effect on the populations of small 
 seed eating rodents as a result of the exclusion of larger competitor kangeroo
-rats. In doing so perform tasks common to many data projects irrespective of 
-subject area.
+rats. In doing so we will perform tasks common to many data projects 
+irrespective of subject area.
 
 **Note**:
 
@@ -70,8 +76,7 @@ concepts not covered here.
 
 Ideally all datasets should come with a codebook describing the contents, 
 structure, and layout of a data collection. This is a text document containing information intended to be complete and self-explanatory for each variable in a 
-data file. As this has not been generated for this data, we will use the description 
-found in [Chapter 1](06-ecology-data-overview.html). 
+data file. As this has not been generated for this data, we will use the description found in the [Ecology Data Overiew](06-ecology-data-overview.html). 
 
 Data files for the lesson are available here: <http://dx.doi.org/10.6084/m9.figshare.1314459>
 

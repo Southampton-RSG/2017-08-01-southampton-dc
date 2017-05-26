@@ -6,6 +6,7 @@ minutes: 60
 
 ```{r, echo=FALSE, purl=FALSE}
 knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
+library(tidyverse)
 ```
 
 ------------
@@ -15,18 +16,19 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 > By the end of this lesson the learner will:
 >
 > * Have been introduced to ggplot2 for visualisation
-> * Performed some coding basics, assigning objects and calling functions
-> * Have been introduced to working with scripts
-> * Have worked with some basic data types in R, including how to subset.
+> * Performed some more object assignments and functions calls.
 
 --------------
 
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![](./img/data_project_pipeline.png)
+</div>
 
 # Data visualisation
 
-We'll start with visualisation some data using the ggplot2 pacakage. We start
-here as we gather data to ask and answer questions, and visualising data 
-often provides the answers.
+Let's begin with visualisation of some data using the `ggplot2` pacakage. 
+
+We're starting here as we gather data to ask and answer questions, and visualising data often provides the answers.
 
 We're using ggplot2 as this implements the *grammer of graphics*, for describing
 and building graphs. This is far from the only way to create graphs, but in this
@@ -34,22 +36,10 @@ course we'll be working within the *tidyverse*, a set of packages that implement
 a coherent set of tools for data science in R. ggplot2 is a package that is part
 of the tidyverse package.
 
-First we need to load the tidyverse package into our environment. Packages only
-need to be installed once, but loaded at the start of every session.
+We should have the tidyverse installaed and loaded already, which means ggplot2
+is loaded and ready to go.
 
-```{r,purl=FALSE,eval=TRUE}
-library(tidyverse)
-```
-
-If it's not installed you'll need to install it and then run the `library()` 
-function again.
-
-```{r,purl=FALSE,eval=FALSE}
-install.packages("tidyverse")
-library(tidyverse)
-```
-
-## Using graphs to answer questions
+## Using graphs to explore data
 
 ### Do cars with big engines use more fuel than cars with small engines?
 
@@ -57,7 +47,7 @@ Included in ggplot2 is a data frame called `mpg` containing variables in columns
 and observations in rows collected by the US Environmental Protection Agency for
 38 models of cars.
 
-Type `mpg` in the console window to take a look:
+Type `mpg` in the console window to take a look at this R object:
 
 ```{r,purl=FALSE,results='show'}
 mpg
@@ -83,6 +73,34 @@ where the first arguement is the data (here `mpg`). The we used a `geom_point()`
 
 Mapping is always paired to aesthetics `aes()`. An asthetic is a visual property
 of the objects in your plot, such a point size, shape or point colour.
+
+> ### Challenge
+>
+> Is the trend the same for fuel efficiency in cities? 
+>
+> * Which variable represents city miles per gallon?
+> * Can you produce a plot of engine size (x-axis) against city fuel 
+efficiency (y-axis) ?
+> * Is the trend positive or negative between engine size and city fuel 
+efficiency ?
+
+```{r, echo=FALSE, purl=TRUE}
+
+# Is the trend the same for fuel efficiency in cities? 
+# * Which variable represents city miles per gallon?
+# * Can you produce a plot of engine size (x-axis) against city fuel 
+# efficiency (y-axis) ?
+# * Is the trend positive or negative between engine size and city fuel 
+# efficiency ?
+
+```
+
+<!---
+```{r, echo=FALSE, purl=FALSE}
+## Answers
+ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy))
+```
+--->
 
 Here we just used the values of x and y as points, but we could add a colour 
 or shape aesthetic too.
@@ -113,6 +131,10 @@ ggplot(data = <DATA>) +
   <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
 ```
 
+Concretely, in our first example `<DATA>` was `mpg`, the `<GEOM_FUNCTION>` 
+was `geom_point()` and the arguments we supplies to map our aesthetics 
+`<MAPPINGS>` were `x=displ, y=hwy`.
+
 ### What is the availability of different types of diamond?
 
 Plotting in R can do more than just display raw data, it can transform it at 
@@ -122,8 +144,7 @@ Also, we only looked at one type of geometric object, `geom_point`,
 last time. Geoms are the type of data display ggplot2 creates e.g. points, 
 boxplots, bar charts. Here we'll see some of the other geom types.
 
-
-Let's look at another built in data set `diamonds`.
+Let's look at another built in data frame called `diamonds`.
 
 ```{r,purl=FALSE,results='show'}
 diamonds
@@ -175,6 +196,16 @@ ggplot(data = diamonds) +
   facet_wrap(~ clarity)
 ```
 
+But we're now struggling to fit the labels on the x-axis, so let's flip them
+with `coord_flip()` to make things easier to read.
+
+```{r,purl=FALSE}
+ggplot(data = diamonds) + 
+  geom_boxplot(mapping = aes(x=cut,y=depth)) +
+  facet_wrap(~ clarity) + 
+  coord_flip()
+```
+
 To use `facet_wrap()` with a single variable we call the function with a formula
 such that the first arguement is `~` and then the variable `clarity`. This must
 be a discrete variable.
@@ -189,19 +220,11 @@ Hopefully you are beginning to see how a single line of code can do a lot.
 
 # Workflow basics
 
-Now that we've run a bit of R code, let's look at the basics of working in R
-to conclude this part of the lesson.
+Let's revisit the basics of working in R to conclude this part of the lesson.
 
-## Performing calculations and assigning objects
+## Assigning objects
 
-R can be used as a calculator:
-
-```{r, purl=FALSE,results='show'}
-3 + 5
-12 / 7
-```
-
-Or you can created objects using the assignment operator `<-`:
+We create objects using the assignment operator `<-`:
 
 ```{r, purl=FALSE,results='show'}
 weight_kg <- 55
@@ -241,8 +264,7 @@ Functions have the form:
 
 `function_name(arg1 = val, arg2 = val2, ...)`
 
-Let's use `seq()` to create a **seq**uence of numbers, and at the same time try
-tab completion.
+Let's use `seq()` to create a **seq**uence of numbers, and at the same time practice tab completion.
 
 Start typing `se` in the console and you should see a list of functions appear,
 add `q` to shorten the list, then use the up and down arrow to hilight the function
@@ -272,16 +294,22 @@ Can you remember how to inspect it?
 
 ## Using scripts
 
-Using the console is very useful, but as we build up a workflow, that is to say
-wrting code to load packages, load data, explore the data and output some results,
-it's much more useful to contain this in a script: a document of our code.
+Using the console is useful, but as we build up a workflow, that is to say,
+wrting code to:
+
++ load packages 
++ load data
++ explore the data 
++ and output some results
+
+Then it's much more useful to contain this in a script: a document of our code.
+
+Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but **most importantly a script is a record**.
 
 Cmd/Ctrl + Shift + N will open a new script file up and you should see something
 like below with the script editor pane open:
 
 ![](./img/rstudio_screenshot_four_panes.PNG)
-
-We can write and save our code in scripts for re-use, sharing or editing.
 
 ### Running code and diagnosing problems
 
@@ -302,9 +330,6 @@ Collections of objects are vectors, and vectors will only store one class of
 basic object. If you mix classes e.g. characters and integers, R will coerce
 them to be all the same class e.g. your integers may become characters.
 
-## Vectors
+### Inspecting and extracting elements from vectors and data.frames
 
-### Inspecting and extracting elements from vectors
-
-### Subsetting vectors
 

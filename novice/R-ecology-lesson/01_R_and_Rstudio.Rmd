@@ -26,8 +26,7 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 
 ## What is R? What is RStudio?
 
-*There are only two kinds of languages: the ones people complain about and the ones
-nobody uses* - Bjarne Stroustrup
+*There are only two kinds of languages: the ones people complain about and the ones nobody uses* - Bjarne Stroustrup
 
 R is a programming language that follows the philosophy laid down by it's
 predecessor S that users begin in an interactive environment where they don't 
@@ -48,7 +47,7 @@ R Studio is an integrated development environment, or IDE for R programming. It
 is regularly updated, and upgrading enables access to the latest features. The
 latest version can be downloaded here: http://www.rstudio.com/download.
 
-## Why learn R (or any language)?
+## Why learn R ? Or any language ?
 
 Working with scripts makes the steps you used in your analysis clear, and the
 code you write can be inspected by someone else who can give you feedback and
@@ -65,7 +64,7 @@ doing, and facilitates your learning and comprehension of the methods you use:
 
 ## Finding your way around RStudio
 
-Let's start by learning about [RStudio](https://www.rstudio.com/), the
+Let's begin by learning about [RStudio](https://www.rstudio.com/), the
 Integrated Development Environment (IDE).
 
 We will use R Studio IDE to write code, navigate the files found on our computer,
