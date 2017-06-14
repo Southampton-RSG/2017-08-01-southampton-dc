@@ -4,7 +4,7 @@ author: "A.Bailey"
 minutes: 60
 ---
 
-```{r, echo=FALSE, purl=FALSE}
+```{r, echo=FALSE, purl=FALSE, message=FALSE,warning=FALSE}
 knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 library(tidyverse)
 ```
