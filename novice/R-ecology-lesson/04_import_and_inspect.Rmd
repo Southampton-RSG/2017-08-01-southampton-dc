@@ -72,6 +72,36 @@ survey data, and the meaning of tidy data.
  every row forms an observation and every type of observational unit is stored
  in a separate table (we only have one table here, so the last point is moot.)
 
+## Using scripts
+
+Using the console is useful, but as we build up a workflow, that is to say,
+wrting code to:
+
++ load packages 
++ load data
++ explore the data 
++ and output some results
+
+Then it's much more useful to contain this in a script: a document of our code.
+
+Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but **most importantly a script is a record**.
+
+Cmd/Ctrl + Shift + N will open a new script file up and you should see something
+like below with the script editor pane open:
+
+![](./img/rstudio_screenshot_four_panes.PNG)
+
+### Running code
+
+We can run a highlighted portion of code in your script if you click the Run
+button at the top of the scripts pane. 
+
+![](./img/run_script.PNG)
+
+You can run the entire script by clicking the Source button.
+
+Or we can run chunks of code if we split our script into sections, see below.
+
 ## Creating a R script
 
 We first need to create a script that will form the basis of our analysis.
@@ -131,7 +161,7 @@ myName <- "Alistair"
 
 We can run each region separately, or the entrire thing.
 
-## Setting up our R environment
+### Setting up our R environment
 
 We only need the `tidyverse` library, which  contains all the packages we need 
 for our analysis, so we add this to our script as before:
@@ -142,9 +172,9 @@ library(tidyverse)
 
 ```
 
-## Downloading and importing the rodent survey data
+# Downloading and importing data
 
-### Downloading data from the web
+## Downloading the rodent survey data from the web
 
 Often you'll be working with data you've generated and stored locally, but you 
 may need to download data on occaison.
@@ -197,14 +227,21 @@ which has many functions for reading files, including `read_csv()`
 surveys <- read_csv('data/portal_data_joined.csv')
 ```
 
-## A note on importing excel files
+## A note on Excel files
 
-`readxl` is a `tidyverse` package that can be used for importing exel files to R.
+The best way to move data from Excel to R is to export the spreadsheet from
+Excel as either a `.csv` or `.txt` file. These formats can be used with most
+data analysis software.
+
+However, `readxl` is a `tidyverse` package that can be used for importing exel files to R.
+
 Usage instructions can be found here: http://readxl.tidyverse.org/ 
 
-### Inspecting the dataset
+# Inspecting the dataset
 
-Having imported the data...
+Having imported the data, we should look at the structure of the data. We'll
+use the `glimpse` function that trys to provide the most compact and informative
+view.
 
 ```{r,purl=FALSE,results='show'}
 # Inspect the data with 'glimpse' ----------------------------------------------
@@ -228,3 +265,20 @@ glimpse(surveys)
 # the species and taxa that were analysed, the time period of the experiment, and
 # remove any missing data.
 ```
+
+> ### Challenge
+> Is there missing data? (R uses `NA` to represent missing values.)
+>
+> How long a period does the dataset cover?
+>
+> HINT: columns in a data.frame can be accessed using `$` sign in the form `data_frame$column_name`
+> HINT: try the `range()` function on the `year` column.
+>
+> How many different taxa are there? (taxa are organism types e.g. plants or birds)
+>
+> HINT: try the `distinct()` function to find the unique values for taxa. This 
+function is takes arguements of the form `distinct(data_frame,column_name)`.
+>
+> How many species are there? (Use distinct again, but this time add `%>% count()` to the end of the command. This pipes the output of distint to the
+`count()` function)
+>

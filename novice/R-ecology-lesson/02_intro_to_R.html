@@ -320,9 +320,6 @@ div.tocify {
   <a href="02_intro_to_R.html">Getting started</a>
 </li>
 <li>
-  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
-</li>
-<li>
   <a href="04_import_and_inspect.html">Importing data</a>
 </li>
 <li>
@@ -333,6 +330,9 @@ div.tocify {
 </li>
 <li>
   <a href="07_summary_of_ecology_data.html">Summary</a>
+</li>
+<li>
+  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -485,7 +485,7 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth)) +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>clarity)</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-12-1.png" width="672" /></p>
-<p>But we’re now struggling to fit the labels on the x-axis, so let’s flip them with <code>coord_flip()</code>.</p>
+<p>But we’re now struggling to fit the labels on the x-axis, so let’s flip them with <code>coord_flip()</code> to make things easier to read.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth)) +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>clarity) +<span class="st"> </span>
@@ -503,12 +503,12 @@ div.tocify {
 <p>Let’s revisit the basics of working in R to conclude this part of the lesson.</p>
 <div id="assigning-objects" class="section level2">
 <h2>Assigning objects</h2>
-<p>We create objects using the assignment operator <code>&lt;-</code>:</p>
+<p>Objects are just a way to store data inside the R environment. We create objects using the assignment operator <code>&lt;-</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg &lt;-<span class="st"> </span><span class="dv">55</span></code></pre></div>
 <p>Read this as <em>“weight_kg gets value 55”</em> in your head.</p>
 <p>Using <code>&lt;-</code> can be annoying to type, so use RStudio’s keyboard shortcut: Alt + - (the minus sign) to make life easier.</p>
-<p>Object name style is a matter of choice, but must start with a letter and can only cointain letters, numbers, <code>_</code> and <code>.</code>. We reccomend using descriptive names and using <code>_</code> between words.</p>
-<p>So here we’ve used the name to indicate its value represents a weight in kilograms.</p>
+<p>Object name style is a matter of choice, but must start with a letter and can only cointain letters, numbers, <code>_</code> and <code>.</code>. We reccomend using descriptive names and using <code>_</code> between words. Some special symbols cannot be used in variable names, so watch out for those.</p>
+<p>So here we’ve used the name to indicate its value represents a weight in kilograms. Look in your environment pane and you’ll see the <code>weight_kg</code> object containing the (data) value 55.</p>
 <p>We can inspect an object by typing it’s name:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg</code></pre></div>
 <p>What’s wrong here?</p>
@@ -529,50 +529,127 @@ div.tocify {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)</code></pre></div>
 <p>This time nothing was returned to the console, but we now have an object called <code>my_sequence</code> in our environment.</p>
 <p>Can you remember how to inspect it?</p>
+<p>If we want to subset elements of <code>my_sequence</code> we use square brackets <code>[]</code>. For example element five would be subset by:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence[<span class="dv">5</span>]</code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>And returning multiple elements uses a colon <code>:</code>, like so</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence[<span class="dv">5</span>:<span class="dv">8</span>]</code></pre></div>
+<pre><code>## [1] 5 6 7 8</code></pre>
 </div>
 </div>
-<div id="using-scripts" class="section level2">
-<h2>Using scripts</h2>
-<p>Using the console is useful, but as we build up a workflow, that is to say, wrting code to:</p>
+</div>
+<div id="atomic-vectors" class="section level1">
+<h1>Atomic vectors</h1>
+<p>We actually made an atomic vector already when we made <code>my_sequence</code>. We made a a one dimensional group of numbers, in a sequence from one to ten.</p>
+<p>We’re not going to be working directly with atomic vectors in this workshop, but to make you aware of how R stores data, atomic vector types are:</p>
 <ul>
-<li>load packages</li>
-<li>load data</li>
-<li>explore the data</li>
-<li>and output some results</li>
+<li>Doubles: regular numbers, +ve or -ve and with or without decimal places. AKA numerics.</li>
+<li>Integers: whole numbers, specified with an uppercase L, e.g. <code>int &lt;- 2L</code></li>
+<li>Characters: Strings of text</li>
+<li>Logicals: these store <code>TRUE</code>s and <code>FALSE</code>s which are useful for comparisons.</li>
+<li>Complex: this would be a vector of numbers with imaginary terms.</li>
+<li>Raw: these vectors store raw bytes of data.</li>
 </ul>
-<p>Then it’s much more useful to contain this in a script: a document of our code.</p>
-<p>Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but <strong>most importantly a script is a record</strong>.</p>
-<p>Cmd/Ctrl + Shift + N will open a new script file up and you should see something like below with the script editor pane open:</p>
+<p>Let’s make a character vector and check the type:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cards &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ace&quot;</span>, <span class="st">&quot;king&quot;</span>, <span class="st">&quot;queen&quot;</span>, <span class="st">&quot;jack&quot;</span>, <span class="st">&quot;ten&quot;</span>)
+
+cards</code></pre></div>
+<pre><code>## [1] &quot;ace&quot;   &quot;king&quot;  &quot;queen&quot; &quot;jack&quot;  &quot;ten&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(cards)</code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<blockquote>
+<h3 id="challenge-1">Challenge</h3>
+<p>What type of vector is <code>my_sequence</code>?</p>
+</blockquote>
+</div>
+<div id="attributes" class="section level1">
+<h1>Attributes</h1>
+<p>An attribute is a piece of information you can attach to an object, such as names or dimensions. Attributes such as dimensions are added when we create an object, but others such as names can be added.</p>
+<p>Let’s look at the <code>mpg</code> data frame dimensions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># mpg has 234 rows (observations) and 11 columns (variables)</span>
+<span class="kw">dim</span>(mpg)</code></pre></div>
+<pre><code>## [1] 234  11</code></pre>
+</div>
+<div id="factors" class="section level1">
+<h1>Factors</h1>
+<p>Factors are Rs way of storing catergorical information such as eye colour or car type. A factor is something that can only have certain values.</p>
+<p>Factors are useful as they code variables such as “red” or “blue” to integer values e.g. 1 and 2, which can be used in statistical models and when plotting, but they are confusing as they look like strings.</p>
+<p><strong>Factors look like strings, but behave like integers.</strong></p>
+<p>Historically R converts strings to factors when we load and create data, but it’s often not what we want as a defualt. Fortunately, in the tidyverse strings are not treated as factors by defualt.</p>
+</div>
+<div id="lists" class="section level1">
+<h1>Lists</h1>
+<p>Lists also group data into one dimensional sets of data. The difference being that list group objects instead of individual values, such as several atomic vectors.</p>
+<p>For example, let’s make a list containing a vector of numbers and a character vector</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">list_1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span>:<span class="dv">110</span>,<span class="st">&quot;R&quot;</span>)
+
+list_1</code></pre></div>
+<pre><code>## [[1]]
+##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
+##  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51
+##  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68
+##  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85
+##  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 101 102
+## [103] 103 104 105 106 107 108 109 110
+## 
+## [[2]]
+## [1] &quot;R&quot;</code></pre>
+<p>Note the double brackets to indicate the list elements, i.e. element one is the vector of numbers and element two is a vector ofa single character.</p>
+<blockquote>
+<h3 id="challenge-2">Challenge</h3>
+<p>Make a list from our vectors <code>my_sequence</code> and <code>cards</code></p>
+</blockquote>
+<p>We won’t be working with lists in this workshop, but they are a flexible way to store data of different types in R.</p>
+</div>
+<div id="matrices-and-arrays" class="section level1">
+<h1>Matrices and arrays</h1>
+<p>Matrices store values in a two dimensional array, whilst arrays can have n dimensions. We won’t be using these either, but they are valid R objects.</p>
+</div>
+<div id="data-frames" class="section level1">
+<h1>Data frames</h1>
+<p>Data frames are two dimensional versions of lists, and this is form of storing data we are going to be using. In a data frame each atomic vector type becomes a column, and a data frame is formed by columns of vectors of the same length. Each column element must be of the same type, but the column types can vary.</p>
 <div class="figure">
-<img src="img/rstudio_screenshot_four_panes.PNG" />
+<img src="img/data_frame.png" />
 
 </div>
-<div id="running-code-and-diagnosing-problems" class="section level3">
-<h3>Running code and diagnosing problems</h3>
-<p>How to run lines or sections of code. How to diagnose errors.</p>
+<p>Let’s create a data frame like the one in the picture and call it <code>df</code>.</p>
+<p>To access a column in a data frame we use the data frame name followed by a <code>$</code> and the name of the column. For example <code>df$number</code> returns all the values in the <code>number</code> column of <code>df</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note here we have to use StringsAsFactors = FALSE to create a character column</span>
+df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">number =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">3</span>),
+                 <span class="dt">char =</span> <span class="kw">c</span>(<span class="st">&quot;S&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;U&quot;</span>), 
+                 <span class="dt">logi =</span> <span class="kw">c</span>(<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">TRUE</span>), 
+                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+
+df</code></pre></div>
+<pre><code>##   number char  logi
+## 1      1    S  TRUE
+## 2      7    A FALSE
+## 3      3    U  TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># str shows us the structure of the data frame</span>
+<span class="kw">str</span>(df)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    3 obs. of  3 variables:
+##  $ number: num  1 7 3
+##  $ char  : chr  &quot;S&quot; &quot;A&quot; &quot;U&quot;
+##  $ logi  : logi  TRUE FALSE TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Show the contents of the number column</span>
+df$number</code></pre></div>
+<pre><code>## [1] 1 7 3</code></pre>
+<p>We’ll be working with a modified form of data frame called a tibble. One advantage of tibbles is that they don’t default to treating strings as factors. We deal with modifying data frames when we work with our example data set.</p>
+<blockquote>
+<h3 id="challenge-3">Challenge</h3>
+<p>Make a data frame from our vectors <code>my_sequence</code> and <code>cards</code> and a logical vector.</p>
+<p>We’ll use the first five elements of <code>my_sequence</code>.</p>
+<p>Hint: Subset the first five elements using <code>my_sequence[1:5]</code></p>
+<p>Hint: Use the form <code>c(TRUE, FALSE)</code> to create the logical vector.</p>
+<p>Hint: Name the columns as in the example.</p>
+</blockquote>
 </div>
-</div>
-</div>
-<div id="r-objects" class="section level1">
-<h1>R objects</h1>
-<p>R has five basic (atomic) classes of objects:</p>
-<ul>
-<li>character</li>
-<li>numeric (real numbers)</li>
-<li>integers (whole numbers)</li>
-<li>complex numbers</li>
-<li>logical (True/False)</li>
-</ul>
-<p>Collections of objects are vectors, and vectors will only store one class of basic object. If you mix classes e.g. characters and integers, R will coerce them to be all the same class e.g. your integers may become characters.</p>
-<div id="vectors" class="section level2">
-<h2>Vectors</h2>
-<div id="inspecting-and-extracting-elements-from-vectors" class="section level3">
-<h3>Inspecting and extracting elements from vectors</h3>
-</div>
-<div id="subsetting-vectors" class="section level3">
-<h3>Subsetting vectors</h3>
-</div>
-</div>
+<div id="learning-more-r" class="section level1">
+<h1>Learning more R</h1>
+<p>We’rehere are many places to start, but swirl can teach you interactively, and at your own pace in RStudio.</p>
+<p>Just follow the instructions via this link: <a href="http://swirlstats.com/students.html" class="uri">http://swirlstats.com/students.html</a></p>
+<p>Hands-On Programming with R by Garrett Grolemund is another great resource for learning R.</p>
 </div>
 
 <hr/>

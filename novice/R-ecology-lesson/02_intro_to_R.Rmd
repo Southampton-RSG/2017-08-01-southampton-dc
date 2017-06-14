@@ -224,7 +224,7 @@ Let's revisit the basics of working in R to conclude this part of the lesson.
 
 ## Assigning objects
 
-We create objects using the assignment operator `<-`:
+Objects are just a way to store data inside the R environment. We create objects using the assignment operator `<-`:
 
 ```{r, purl=FALSE,results='show'}
 weight_kg <- 55
@@ -237,9 +237,10 @@ Alt + - (the minus sign) to make life easier.
 
 Object name style is a matter of choice, but must start with a letter and can 
 only cointain letters, numbers, `_` and `.`. We reccomend using descriptive names
-and using `_` between words.
+and using `_` between words. Some special symbols cannot be used in variable 
+names, so watch out for those.
 
-So here we've used the name to indicate its value represents a weight in kilograms.
+So here we've used the name to indicate its value represents a weight in kilograms. Look in your environment pane and you'll see the `weight_kg` object containing the (data) value 55.
 
 We can inspect an object by typing it's name:
 
@@ -292,44 +293,158 @@ This time nothing was returned to the console, but we now have an object called
 
 Can you remember how to inspect it?
 
-## Using scripts
+If we want to subset elements of `my_sequence` we use square brackets `[]`.
+For example element five would be subset by:
 
-Using the console is useful, but as we build up a workflow, that is to say,
-wrting code to:
+```{r, purl=FALSE,results='show'}
+my_sequence[5]
+```
 
-+ load packages 
-+ load data
-+ explore the data 
-+ and output some results
+And returning multiple elements uses a colon `:`, like so
 
-Then it's much more useful to contain this in a script: a document of our code.
+```{r, purl=FALSE,results='show'}
+my_sequence[5:8]
+```
 
-Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but **most importantly a script is a record**.
+# Atomic vectors
 
-Cmd/Ctrl + Shift + N will open a new script file up and you should see something
-like below with the script editor pane open:
+We actually made an atomic vector already when we made `my_sequence`. We made a
+a one dimensional group of numbers, in a sequence from one to ten.
 
-![](./img/rstudio_screenshot_four_panes.PNG)
+We're not going to be working directly with atomic vectors in this workshop, 
+but to make you aware of how R stores data, atomic vector types 
+are: 
 
-### Running code and diagnosing problems
++ Doubles: regular numbers, +ve or -ve and with or without decimal places. AKA numerics.
++ Integers: whole numbers, specified with an uppercase L, e.g. `int <- 2L`
++ Characters: Strings of text
++ Logicals: these store `TRUE`s and `FALSE`s which are useful for comparisons.
++ Complex: this would be a vector of numbers with imaginary terms. 
++ Raw: these vectors store raw bytes of data.
 
-How to run lines or sections of code.
-How to diagnose errors.
+Let's make a character vector and check the type:
 
-# R objects
+```{r, purl=FALSE,results='show'}
+cards <- c("ace", "king", "queen", "jack", "ten")
 
-R has five basic (atomic) classes of objects:
+cards
 
-+ character
-+ numeric (real numbers)
-+ integers (whole numbers)
-+ complex numbers
-+ logical (True/False)
+typeof(cards)
+```
 
-Collections of objects are vectors, and vectors will only store one class of 
-basic object. If you mix classes e.g. characters and integers, R will coerce
-them to be all the same class e.g. your integers may become characters.
+> ### Challenge
+> What type of vector is `my_sequence`?
+>
 
-### Inspecting and extracting elements from vectors and data.frames
+# Attributes 
 
+An attribute is a piece of information you can attach to an object, such as
+names or dimensions. Attributes such as dimensions are added when 
+we create an object, but others such as names can be added.
+
+Let's look at the `mpg` data frame dimensions:
+
+```{r, purl=FALSE,results='show'}
+# mpg has 234 rows (observations) and 11 columns (variables)
+dim(mpg)
+```
+
+# Factors
+
+Factors are Rs way of storing catergorical information such as eye colour or
+car type. A factor is something that can only have certain values.
+
+Factors are useful as they code variables such as "red" or "blue" to integer 
+values e.g. 1 and 2, which can be used in statistical models and when plotting, 
+but they are confusing as they look like strings. 
+
+**Factors look like strings, but behave like integers.**
+
+Historically R converts strings to factors when we load and create data, but 
+it's often not what we want as a defualt. Fortunately, in the tidyverse strings
+are not treated as factors by defualt.
+
+# Lists
+
+Lists also group data into one dimensional sets of data. The difference being 
+that list group objects instead of individual values, such as several atomic 
+vectors.
+
+For example, let's make a list containing a vector of numbers and a character
+vector
+
+```{r, purl=FALSE,results='show'}
+list_1 <- list(1:110,"R")
+
+list_1
+```
+
+Note the double brackets to indicate the list elements, i.e. element one is the
+vector of numbers and element two is a vector ofa single character.
+
+> ### Challenge
+> Make a list from our vectors `my_sequence` and `cards`
+>
+
+We won't be working with lists in this workshop, but they are a flexible way to 
+store data of different types in R.
+
+# Matrices and arrays
+
+Matrices store values in a two dimensional array, whilst arrays can have n 
+dimensions. We won't be using these either, but they are valid R objects.
+
+# Data frames
+
+Data frames are two dimensional versions of lists, and this is form of storing
+data we are going to be using. In a data frame each atomic vector type becomes
+a column, and a data frame is formed by columns of vectors of the same length.
+Each column element must be of the same type, but the column types can vary.
+
+![](./img/data_frame.png)
+
+Let's create a data frame like the one in the picture and call it `df`. 
+
+To access a column in a data frame we use the data frame name followed by a
+`$` and the name of the column. For example `df$number` returns all the values in the `number` column of `df`
+
+```{r, purl=FALSE,results='show'}
+# Note here we have to use StringsAsFactors = FALSE to create a character column
+df <- data.frame(number = c(1,7,3),
+                 char = c("S","A","U"), 
+                 logi = c(TRUE,FALSE,TRUE), 
+                 stringsAsFactors = FALSE)
+
+df
+
+# str shows us the structure of the data frame
+str(df)
+
+# Show the contents of the number column
+df$number
+```
+
+We'll be working with a modified form of data frame called a tibble. One 
+advantage of tibbles is that they don't default to treating strings as factors. 
+We deal with modifying data frames when we work with our example data set.
+
+> ### Challenge
+> Make a data frame from our vectors `my_sequence` and `cards` and a logical vector.
+>
+> We'll use the first five elements of `my_sequence`.
+>
+> Hint: Subset the first five elements using `my_sequence[1:5]`
+>
+> Hint: Use the form `c(TRUE, FALSE)` to create the logical vector.
+>
+> Hint: Name the columns as in the example.
+
+# Learning more R
+
+We'rehere are many places to start, but swirl can teach you interactively, and at your own pace in RStudio.
+
+Just follow the instructions via this link: http://swirlstats.com/students.html
+
+Hands-On Programming with R by Garrett Grolemund is another great resource for
+learning R.
 

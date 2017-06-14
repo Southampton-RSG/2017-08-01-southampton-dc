@@ -6,8 +6,6 @@ navbar:
       href: 01_R_and_Rstudio.html
     - text: "Getting started"
       href: 02_intro_to_R.html
-    - text: "Rodent Survey Overview"
-      href: 03_ecology_data_overview.html
     - text: "Importing data"
       href: 04_import_and_inspect.html
     - text: "Transforming data"
@@ -16,6 +14,8 @@ navbar:
       href: 06_visualising_data.html
     - text: "Summary"
       href: 07_summary_of_ecology_data.html
+    - text: "Rodent Survey Overview"
+      href: 03_ecology_data_overview.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/datacarpentry/R-ecology-lesson

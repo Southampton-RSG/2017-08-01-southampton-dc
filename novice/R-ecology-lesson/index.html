@@ -277,9 +277,6 @@ div.tocify {
   <a href="02_intro_to_R.html">Getting started</a>
 </li>
 <li>
-  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
-</li>
-<li>
   <a href="04_import_and_inspect.html">Importing data</a>
 </li>
 <li>
@@ -290,6 +287,9 @@ div.tocify {
 </li>
 <li>
   <a href="07_summary_of_ecology_data.html">Summary</a>
+</li>
+<li>
+  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -337,8 +337,10 @@ div.tocify {
 <p>The overall aim is to <em>understand and communicate</em> findings from our data, but this is preceded by the fundamental tasks of importing, tidying and often transforming the data. Transformation means for example, selecting a subset of the data to work with, or calculating the mean of a set of observations.</p>
 <p>This entire process can be encompased within a single programming language. Here we will be using R, but Python and other programming languages can acheive the same thing.</p>
 <p>These lessons are designed to be taught in a day, and cover only a fraction of what is possible, but will help you take your first steps towards managing your own data projects.</p>
-<p>The lessons start with some basic information about R and the RStudio interface. Using an ecology dataset from desert rodent surveys, we then move through how to <strong>import and tidy</strong> CSV files, perform some basic <strong>transformations</strong>, and <strong>visualise</strong> the data with a brief introduction to plotting. By the end of this process we should be able to <strong>understand and communicate</strong> some general findings contained within the dataset.</p>
-<p>Concretely, using rodent survey data covering a period a period from 1977 to 1991, we will aim to understand the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangeroo rats. In doing so perform tasks common to many data projects irrespective of subject area.</p>
+<p>The lessons start with an overview of R and the RStudio interface and introduce visualising data as the first tool for generating insights.</p>
+<p>Data is rarely provided in the form we need, so the next set of tools we’ll learn about are those for transforming data.</p>
+<p>Armed with these tools, we’ll tackle an ecology dataset from desert rodent surveys as a case study for <strong>importing</strong> CSV files, performing some basic <strong>transformations</strong>, and then <strong>visualising</strong> the data. By the end of this process we should be able to <strong>understand and communicate</strong> some general findings obtained from the dataset.</p>
+<p>Concretely, using a rodent survey data covering a period a period from 1977 to 1991, we will aim to understand the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangeroo rats. In doing so we will perform tasks common to many data projects irrespective of subject area.</p>
 <p><strong>Note</strong>:</p>
 <p>Much of the material in the first two lessons is derived from <a href="http://r4ds.had.co.nz/introduction.html">R for data science</a> by Garrett Grolemund and Hadley Wickham. This book contains many more detailed examples and advanced concepts not covered here.</p>
 <div id="chapters" class="section level3">
@@ -355,7 +357,7 @@ div.tocify {
 </div>
 <div id="data" class="section level3">
 <h3>Data</h3>
-<p>Ideally all datasets should come with a codebook describing the contents, structure, and layout of a data collection. This is a text document containing information intended to be complete and self-explanatory for each variable in a data file. As this has not been generated for this data, we will use the description found in <a href="06-ecology-data-overview.html">Chapter 1</a>.</p>
+<p>Ideally all datasets should come with a codebook describing the contents, structure, and layout of a data collection. This is a text document containing information intended to be complete and self-explanatory for each variable in a data file. As this has not been generated for this data, we will use the description found in the <a href="06-ecology-data-overview.html">Ecology Data Overiew</a>.</p>
 <p>Data files for the lesson are available here: <a href="http://dx.doi.org/10.6084/m9.figshare.1314459" class="uri">http://dx.doi.org/10.6084/m9.figshare.1314459</a></p>
 <p>We will download the <em>combined.csv</em> file during the lesson.</p>
 </div>

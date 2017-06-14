@@ -320,9 +320,6 @@ div.tocify {
   <a href="02_intro_to_R.html">Getting started</a>
 </li>
 <li>
-  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
-</li>
-<li>
   <a href="04_import_and_inspect.html">Importing data</a>
 </li>
 <li>
@@ -333,6 +330,9 @@ div.tocify {
 </li>
 <li>
   <a href="07_summary_of_ecology_data.html">Summary</a>
+</li>
+<li>
+  <a href="03_ecology_data_overview.html">Rodent Survey Overview</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -369,13 +369,21 @@ div.tocify {
 </ul>
 </blockquote>
 <hr />
-<p>In the remaining lessons we are going to recapitulate some of the analysis found in the paper by Heske et. al., “Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years of Competition”, <a href="DOI:10.2307/1939547" class="uri">DOI:10.2307/1939547</a>.</p>
+<p>In the remaining lessons we are going to recapitulate some of the analysis found in the paper by Heske et. al., <strong>Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years of Competition</strong>, <a href="DOI:10.2307/1939547" class="uri">DOI:10.2307/1939547</a>.</p>
 <p>Specifically we are going to look at the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangeroo rats over a period from 1977 to 1991.</p>
+<p>Below is an image of one of the species of Kangeroo rats excluded during the study.</p>
 <div class="figure">
-<img src="img/kratsep12.jpg" alt="Merriam’s kangaroo rat,Dipodomys merriami, (https://portalproject.wordpress.com/)" />
-<p class="caption">Merriam’s kangaroo rat,Dipodomys merriami, (<a href="https://portalproject.wordpress.com/" class="uri">https://portalproject.wordpress.com/</a>)</p>
+<img src="img/kratsep12.jpg" alt="Merriam’s kangaroo rat, Dipodomys merriami, (https://portalproject.wordpress.com/)" />
+<p class="caption">Merriam’s kangaroo rat, Dipodomys merriami, (<a href="https://portalproject.wordpress.com/" class="uri">https://portalproject.wordpress.com/</a>)</p>
 </div>
-<p>This will provide the opportunnity to practice importing data, transforming data, and plotting data, and finally turning this script into a report.</p>
+<p>The following image indicates how the exclusion works, where a for number of fenced plots the kangeroo rats were either able to enter by a hole or kept out.</p>
+<div class="figure">
+<img src="img/fence_hole.JPG" alt="Kangeroo Rat exclusion" />
+<p class="caption">Kangeroo Rat exclusion</p>
+</div>
+<p>The plots are 50 metres by 50 metres, and a survey of the species within each plot has been ongoing once a month for many years.</p>
+<p>Here will practice importing data, transforming data, and plotting data, and finally turning this script into a report.</p>
+<p>The conclusion of the paper is that there is evidence that kangeroo rats compete directly with four other rodent species, as evidenced by an increase in the populations of these four species</p>
 <div id="importing-inspecting-and-tidy-data" class="section level1">
 <h1>Importing, inspecting and tidy data</h1>
 <p>First we will learn how to download, import and inspect the rodent survey data, and the meaning of tidy data.</p>
@@ -386,6 +394,33 @@ div.tocify {
 </ul>
 <p>A note here is that we are focusing on rectangular data, the sort that comes in rows and columns such as in a spreadsheet. Lots of our data types exist, such as images, which are beyond the scope of this lesson, but can also be handled by R.</p>
 <p>A further note on tidy data. Tidy data can also come in various forms, but for rectangular data we will use the convention where every variable forms a column, every row forms an observation and every type of observational unit is stored in a separate table (we only have one table here, so the last point is moot.)</p>
+<div id="using-scripts" class="section level2">
+<h2>Using scripts</h2>
+<p>Using the console is useful, but as we build up a workflow, that is to say, wrting code to:</p>
+<ul>
+<li>load packages</li>
+<li>load data</li>
+<li>explore the data</li>
+<li>and output some results</li>
+</ul>
+<p>Then it’s much more useful to contain this in a script: a document of our code.</p>
+<p>Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but <strong>most importantly a script is a record</strong>.</p>
+<p>Cmd/Ctrl + Shift + N will open a new script file up and you should see something like below with the script editor pane open:</p>
+<div class="figure">
+<img src="img/rstudio_screenshot_four_panes.PNG" />
+
+</div>
+<div id="running-code" class="section level3">
+<h3>Running code</h3>
+<p>We can run a highlighted portion of code in your script if you click the Run button at the top of the scripts pane.</p>
+<div class="figure">
+<img src="img/run_script.PNG" />
+
+</div>
+<p>You can run the entire script by clicking the Source button.</p>
+<p>Or we can run chunks of code if we split our script into sections, see below.</p>
+</div>
+</div>
 <div id="creating-a-r-script" class="section level2">
 <h2>Creating a R script</h2>
 <p>We first need to create a script that will form the basis of our analysis.</p>
@@ -421,17 +456,18 @@ myName &lt;-<span class="st"> &quot;Alistair&quot;</span>
 <span class="co"># And hash/pound symbols also create code regions ####</span></code></pre></div>
 <p>We can run each region separately, or the entrire thing.</p>
 </div>
-</div>
-<div id="setting-up-our-r-environment" class="section level2">
-<h2>Setting up our R environment</h2>
+<div id="setting-up-our-r-environment" class="section level3">
+<h3>Setting up our R environment</h3>
 <p>We only need the <code>tidyverse</code> library, which contains all the packages we need for our analysis, so we add this to our script as before:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the tidyverse set of packages -------------------------------------------</span>
 <span class="kw">library</span>(tidyverse)</code></pre></div>
 </div>
-<div id="downloading-and-importing-the-rodent-survey-data" class="section level2">
-<h2>Downloading and importing the rodent survey data</h2>
-<div id="downloading-data-from-the-web" class="section level3">
-<h3>Downloading data from the web</h3>
+</div>
+</div>
+<div id="downloading-and-importing-data" class="section level1">
+<h1>Downloading and importing data</h1>
+<div id="downloading-the-rodent-survey-data-from-the-web" class="section level2">
+<h2>Downloading the rodent survey data from the web</h2>
 <p>Often you’ll be working with data you’ve generated and stored locally, but you may need to download data on occaison.</p>
 <p>This gives us the chance to practice creating objects and try out using function with a condition.</p>
 <ul>
@@ -456,7 +492,6 @@ path &lt;-<span class="st"> &quot;data/portal_data_joined.csv&quot;</span>
 
 <span class="co"># Check if the file exists, and if not download it to the data folder</span>
 if (!<span class="kw">file.exists</span>(path)) { <span class="kw">download.file</span>(url,path) }</code></pre></div>
-</div>
 </div>
 <div id="importing-data-using-readr" class="section level2">
 <h2>Importing data using <code>readr</code></h2>
@@ -483,12 +518,16 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 #&gt;   plot_type = col_character()
 #&gt; )</code></pre>
 </div>
-<div id="a-note-on-importing-excel-files" class="section level2">
-<h2>A note on importing excel files</h2>
-<p><code>readxl</code> is a <code>tidyverse</code> package that can be used for importing exel files to R. Usage instructions can be found here: <a href="http://readxl.tidyverse.org/" class="uri">http://readxl.tidyverse.org/</a></p>
-<div id="inspecting-the-dataset" class="section level3">
-<h3>Inspecting the dataset</h3>
-<p>Having imported the data…</p>
+<div id="a-note-on-excel-files" class="section level2">
+<h2>A note on Excel files</h2>
+<p>The best way to move data from Excel to R is to export the spreadsheet from Excel as either a <code>.csv</code> or <code>.txt</code> file. These formats can be used with most data analysis software.</p>
+<p>However, <code>readxl</code> is a <code>tidyverse</code> package that can be used for importing exel files to R.</p>
+<p>Usage instructions can be found here: <a href="http://readxl.tidyverse.org/" class="uri">http://readxl.tidyverse.org/</a></p>
+</div>
+</div>
+<div id="inspecting-the-dataset" class="section level1">
+<h1>Inspecting the dataset</h1>
+<p>Having imported the data, we should look at the structure of the data. We’ll use the <code>glimpse</code> function that trys to provide the most compact and informative view.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the data with &#39;glimpse&#39; ----------------------------------------------</span>
 
 <span class="kw">glimpse</span>(surveys)</code></pre></div>
@@ -523,8 +562,15 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <span class="co"># For this analysis we need to subset the plots that were used in the paper,</span>
 <span class="co"># the species and taxa that were analysed, the time period of the experiment, and</span>
 <span class="co"># remove any missing data.</span></code></pre></div>
-</div>
-</div>
+<blockquote>
+<h3 id="challenge">Challenge</h3>
+<p>Is there missing data? (R uses <code>NA</code> to represent missing values.)</p>
+<p>How long a period does the dataset cover?</p>
+<p>HINT: columns in a data.frame can be accessed using <code>$</code> sign in the form <code>data_frame$column_name</code> HINT: try the <code>range()</code> function on the <code>year</code> column.</p>
+<p>How many different taxa are there? (taxa are organism types e.g. plants or birds)</p>
+<p>HINT: try the <code>distinct()</code> function to find the unique values for taxa. This function is takes arguements of the form <code>distinct(data_frame,column_name)</code>.</p>
+<p>How many species are there? (Use distinct again).</p>
+</blockquote>
 </div>
 
 <hr/>
