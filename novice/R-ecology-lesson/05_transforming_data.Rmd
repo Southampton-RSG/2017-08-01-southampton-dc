@@ -1,6 +1,6 @@
 ---
-title: Manipulating and analyzing data with dplyr; Exporting data
-author: Data Carpentry contributors
+title: Transforming data
+author: A.Bailey
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
@@ -16,41 +16,177 @@ surveys <- read_csv('data/portal_data_joined.csv')
 
 > ### Learning Objectives
 >
-> By the end of this lesson the learner will:
+> By the end of this lesson the learner will have been introduced the key verbs 
+of the `dplyr` pacakage needed to transform data into new forms. They will be
+able to:
 >
-> * 
+> * Filter rows with `filter()`
+> * Select columns with `select()`
+> * Add new variables with `mutate()`
+> * Create grouped summaries with `summarise()`
 >
+> The learner will also be introduced to piping operations, working with dates 
+and catergorical variables along the way.
 
 ------------
 
-# Transforming data using dplyr
-
 ## Motivation
 
-In this lesson we'll transform the data using another tidyverse package `dplyr` to:
+Data rarely comes in the form we need it in, hence we need to transform it.
 
-+ change the focus. For example, filtering only a few species of rodent.
-+ create new variables that are functions of existing variables. 
-+ calculate summary statistics of the rodent data.
-+ create a tidy dataset of complete sets of observations.
+In this lesson we'll transform data using another tidyverse package `dplyr` to:
 
-## `dplyr` verbs
++ change the focus. For example, filtering data for (observations) rows or 
+selecting (variables) columns of interest. 
++ create new variables that are functions of existing variables. For example,
+transforming separate day, month and year variables into a single data variable.
++ calculate summary statistics such as how many observations every three months.
++ create a transformed data set for exporting.
 
-## Piping operations
+Often these operations can be combined, known as piping, which is very
+powerful and convenient.
 
-## Split-apply-combine
+Our goal is to reproduce the analysis of the Heske et. al. paper is that there is
+evidence that kangeroo rats compete directly with four other rodent species, generating a similar figure to the one below, to confirm their observations.
+
+![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
+
+## Filtering observations
+
+The first verb to consider is `filter` which enables us to subset observations
+based on their value.
+
+Consider the surveys data and subsetting observations that only occurred from
+1985 onwards. It's fairly natural to say *"filter the survey where the year
+variable is equal or greater than 1985"*. And indeed this is how we use `filter`
+as a verb. 
+
+In the code below, we give the filter function two arguements. The first is the
+data frame, the second is the variable and condition on which we wish to filter.
+
+(Note that we aren't assigning the output to an object here, so we can see it.)
+
 
 ```{r,purl=FALSE,results='show'}
-# Subsetting data --------------------------------------------------------------
+# Filter observations that only occurred from 1985 onwards
+ filter(surveys, year >= 1985)
 
-# Q: Which plots do we need for this analysis?
-exp_plots <- c("Control",
-               "Long-term Krat Exclosure",  
-               "Short-term Krat Exclosure")
+```
 
-# Q: Which species do we need for this analysis?
-# Use: https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv for codes.
+We could even do this for a specifc date and species (assuming we know there was 
+an observation), using values for day, month, year and species.
 
+
+```{r,purl=FALSE,results='show'}
+# Filter observations that only occurred on the 9th of March 1986
+ filter(surveys, month == 3, day == 9, year == 1986, species_id == "NL")
+```
+
+An alternative way to use `filter` is to "pipe" the function using `%>%` which you can think of as using the word *"then"*. We take our data set *then* filter it. 
+
+This makes more sense when combining several operations, but even with one
+operation it means we only have to provide the values arguement to the filter, 
+like so:
+
+
+```{r,purl=FALSE,results='show'}
+# Pipe the filter for observations that only occurred on the 9th of March 1986
+surveys %>% filter(month == 3, day == 9, year == 1986, species_id == "NL")
+```
+
+Armed with this information, let's filter the data for the period covered in the 
+paper figure, from the start of the surveys in 1977 until the end of 1990.
+
+> ### Challenge
+> Filter the surveys from 1977 until 1990 and assign the output to `surveys_filtered`
+> 
+> Using the pipe `%>%` is optional, but recommended.
+>
+> Ctl+Shift+M is a shortcut to create a pipe.
+>
+
+```{r,purl=FALSE,echo=FALSE}
+# Answer to challenge
+surveys_filtered <- surveys %>% filter(year <= 1990)
+```
+
+## Selecting variables
+
+Selecting columns can be done in various ways. For example, by the column number,
+the variable name or by range. Check the help function `?select` for more options.
+
+
+```{r,purl=FALSE,results='show'}
+# Select the year and plot type columns
+surveys %>% select(year,plot_type)
+```
+
+As we saw earlier, we have thirteen variables in the surveys data, but we don't 
+need all of them. Specifically we don't need the sex, the hindfoot length or the
+weight of the animals. We're just interested in the population changes over time.
+
+Rather than selecting the columns we want, an alternative is to drop the ones we
+don't using a minus sign in front of the variable name, like so:
+
+```{r,purl=FALSE,results='show'}
+# Select everything except sex, hindfoot and weight
+surveys_selected <- surveys_filtered %>% select(-sex,-hindfoot_length,-weight)
+
+# Check the output
+glimpse(surveys_selected)
+```
+
+## Creating new variables
+
+Often we need to create new variables that are functions of existing columns.
+For example, in the orginal survey data we might be interested in the relationship between weight and time of year. 
+
+We could do this using `mutate` to calculuate the weight-to-month ratio and add this as a new column, like so:
+
+```{r,purl=FALSE,results='show'}
+# Select the year and plot type columns
+monthly_weight <- surveys %>% 
+  mutate(weight_to_month = weight / month) 
+
+# Check the output
+glimpse(monthly_weight)
+```
+
+```{r,purl=FALSE,eval=FALSE,echo=FALSE}
+# Select the year and plot type columns
+monthly_weight <- surveys %>% 
+  mutate(weight_to_month = weight / month) %>% 
+  filter(species_id %in% c("DM","DO","DS"))
+
+ggplot(data = monthly_weight) + geom_boxplot(mapping = aes(species,weight_to_month))
+```
+
+Here it would be much more convenient to have a single Date variable, and 
+we can make one using another tidyverse package called `lubridate`. Don't worry
+to much about the details of the code, it's the concept that matter.
+
+```{r,purl=FALSE,results='show'}
+# Mutate surveys_selected to create a Date column from the day,month and year
+# variables
+surveys_mutated <- surveys_selected %>%
+  # Convert day, month and year using lubridate
+  mutate(Date = lubridate::dmy(sprintf('%02d%02d%04d', day, month, year)))
+
+# Check the output
+glimpse(surveys_mutated)
+```
+
+To reproduce the analysis in the paper we need to know which eight rodent species
+they investigated, and which four plots the different treatments were carried out on.
+
+The codes associated with the forty species in the survey data are found 
+[here](https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv) and the codes for the twenty four plots
+are found [here](https://github.com/weecology/PortalData/blob/master/SiteandMethods/Portal_plot_treatments.csv).
+
+To save time, here is a summary of the ones we need, which you can paste into 
+your script:
+
+```{r}
 # Kangeroo Rats:
 # DM 	Dipodomys merriami 	Rodent 	Merriam's kangaroo rat
 # DO 	Dipodomys ordii 	Rodent 	Ord's kangaroo rat
@@ -63,68 +199,6 @@ exp_plots <- c("Control",
 # PM 	Peromyscus maniculatus 	Rodent 	Deer Mouse
 # RM 	Reithrodontomys megalotis 	Rodent 	Western harvest mouse
 
-# Grasshopper mouse:
-# OX 	Onychomys sp. 	Rodent 	Grasshopper mouse
-
-# List of species_id
-rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM","OX")
-
-# Let's get filter the data we need:
-surveys_sub <- surveys %>% 
-  filter(species_id != "",            # remove missing species_id
-         !is.na(weight),              # remove missing weight
-         !is.na(hindfoot_length),     # remove missing hindfoot_length
-         sex != "",                   # remove missing sex
-         year <= 1991,                # Subset time period 1977 to 1991
-         plot_type %in% exp_plots,    # Subset the plots used in the paper
-         species_id %in% rodents)
-  
-
-glimpse(surveys_sub)
-```
-
-```{r,results='show'}
-# Q: How many of each type genus?
-surveys_sub %>% group_by(genus,species,plot_type) %>% count(species)
-
-```
-
-## Factors
-
-Factors are how R represents catergorical variables, such as types of fruit or 
-months of the year, these are variables that have a fixed set of known possible 
-values.
-
-The key thing to know about factors is they have attributes called `levels'. The
-main advantage of this additional levels attribute to each catergorical variable 
-is that it  allows one to change the order and/or value of the level of each catergory. 
-This is useful when visualising data or grouping catergories.
-
-For example:
-
-```{r,purl=FALSE,results='show'}
-# Factors ----------------------------------------------------------------------
-
-# Let's turn the genus,species and plot_types into factors.
-# Then we can group them accordingly.
-
-# Check levels
-levels(surveys_sub$species)
-
-# We have three groups we want: the Kangeroo Rats, the smaller granivores,
-# and the grasshopper mouse.
-surveys_sub <- surveys_sub %>% 
-  mutate(genus = fct_collapse(genus,
-                                "Kangeroo Rat" = "Dipodomys",
-                                "Granivore" = c("Perognathus",
-                                                "Peromyscus",
-                                                "Chaetodipus",
-                                                "Reithrodontomys"),
-                                "Grasshopper mouse"= "Onychomys")) %>% 
-  mutate(plot_type = as.factor(plot_type)) %>% 
-  mutate(species = as.factor(species))
-
-# Check the new levels
-surveys_sub %>% group_by(genus,species,plot_type) %>% count(species)
-surveys_sub %>% group_by(genus,plot_type) %>% count(genus)
+# Control Plots: 2,8,12,22
+# Treatment Plots: 3,15,19,21
 ```

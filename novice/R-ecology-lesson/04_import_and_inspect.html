@@ -383,7 +383,11 @@ div.tocify {
 </div>
 <p>The plots are 50 metres by 50 metres, and a survey of the species within each plot has been ongoing once a month for many years.</p>
 <p>Here will practice importing data, transforming data, and plotting data, and finally turning this script into a report.</p>
-<p>The conclusion of the paper is that there is evidence that kangeroo rats compete directly with four other rodent species, as evidenced by an increase in the populations of these four species</p>
+<p>A conclusion of the paper is that there is evidence that kangeroo rats compete directly with four other rodent species, as evidenced by an increase in the populations of these four species when Kangeroo Rats are excluded. This can be seen in Figure 1 in the paper, and we will try to reproduce the analysis to generate a similar figure and confirm these observations.</p>
+<div class="figure">
+<img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
+<p class="caption">Figure 1 from Heske et. al., 1994</p>
+</div>
 <div id="importing-inspecting-and-tidy-data" class="section level1">
 <h1>Importing, inspecting and tidy data</h1>
 <p>First we will learn how to download, import and inspect the rodent survey data, and the meaning of tidy data.</p>
@@ -569,7 +573,7 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <p>HINT: columns in a data.frame can be accessed using <code>$</code> sign in the form <code>data_frame$column_name</code> HINT: try the <code>range()</code> function on the <code>year</code> column.</p>
 <p>How many different taxa are there? (taxa are organism types e.g. plants or birds)</p>
 <p>HINT: try the <code>distinct()</code> function to find the unique values for taxa. This function is takes arguements of the form <code>distinct(data_frame,column_name)</code>.</p>
-<p>How many species are there? (Use distinct again).</p>
+<p>How many species are there? (Use distinct again, but this time add <code>%&gt;% count()</code> to the end of the command. This pipes the output of distint to the <code>count()</code> function)</p>
 </blockquote>
 </div>
 

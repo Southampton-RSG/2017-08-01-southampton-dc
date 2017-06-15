@@ -9,10 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Data Carpentry contributors" />
+<meta name="author" content="A.Bailey" />
 
 
-<title>Manipulating and analyzing data with dplyr; Exporting data</title>
+<title>Transforming data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -351,8 +351,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Manipulating and analyzing data with dplyr; Exporting data</h1>
-<h4 class="author"><em>Data Carpentry contributors</em></h4>
+<h1 class="title toc-ignore">Transforming data</h1>
+<h4 class="author"><em>A.Bailey</em></h4>
 
 </div>
 
@@ -360,43 +360,176 @@ div.tocify {
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
-<p>By the end of this lesson the learner will:</p>
+<p>By the end of this lesson the learner will have been introduced the key verbs of the <code>dplyr</code> pacakage needed to transform data into new forms. They will be able to:</p>
 <ul>
-<li></li>
+<li>Filter rows with <code>filter()</code></li>
+<li>Select columns with <code>select()</code></li>
+<li>Add new variables with <code>mutate()</code></li>
+<li>Create grouped summaries with <code>summarise()</code></li>
 </ul>
+<p>The learner will also be introduced to piping operations, working with dates and catergorical variables along the way.</p>
 </blockquote>
 <hr />
-<div id="transforming-data-using-dplyr" class="section level1">
-<h1>Transforming data using dplyr</h1>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>In this lesson we’ll transform the data using another tidyverse package <code>dplyr</code> to:</p>
+<p>Data rarely comes in the form we need it in, hence we need to transform it.</p>
+<p>In this lesson we’ll transform data using another tidyverse package <code>dplyr</code> to:</p>
 <ul>
-<li>change the focus. For example, filtering only a few species of rodent.</li>
-<li>create new variables that are functions of existing variables.</li>
-<li>calculate summary statistics of the rodent data.</li>
-<li>create a tidy dataset of complete sets of observations.</li>
+<li>change the focus. For example, filtering data for (observations) rows or selecting (variables) columns of interest.</li>
+<li>create new variables that are functions of existing variables. For example, transforming separate day, month and year variables into a single data variable.</li>
+<li>calculate summary statistics such as how many observations every three months.</li>
+<li>create a transformed data set for exporting.</li>
 </ul>
+<p>Often these operations can be combined, known as piping, which is very powerful and convenient.</p>
+<p>Our goal is to reproduce the analysis of the Heske et. al. paper is that there is evidence that kangeroo rats compete directly with four other rodent species, generating a similar figure to the one below, to confirm their observations.</p>
+<div class="figure">
+<img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
+<p class="caption">Figure 1 from Heske et. al., 1994</p>
 </div>
-<div id="dplyr-verbs" class="section level2">
-<h2><code>dplyr</code> verbs</h2>
 </div>
-<div id="piping-operations" class="section level2">
-<h2>Piping operations</h2>
+<div id="filtering-observations" class="section level2">
+<h2>Filtering observations</h2>
+<p>The first verb to consider is <code>filter</code> which enables us to subset observations based on their value.</p>
+<p>Consider the surveys data and subsetting observations that only occurred from 1985 onwards. It’s fairly natural to say <em>“filter the survey where the year variable is equal or greater than 1985”</em>. And indeed this is how we use <code>filter</code> as a verb.</p>
+<p>In the code below, we give the filter function two arguements. The first is the data frame, the second is the variable and condition on which we wish to filter.</p>
+<p>(Note that we aren’t assigning the output to an object here, so we can see it.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter observations that only occurred from 1985 onwards</span>
+ <span class="kw">filter</span>(surveys, year &gt;=<span class="st"> </span><span class="dv">1985</span>)</code></pre></div>
+<pre><code>#&gt; # A tibble: 25,290 × 13
+#&gt;    record_id month   day  year plot_id species_id   sex hindfoot_length
+#&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;      &lt;chr&gt; &lt;chr&gt;           &lt;int&gt;
+#&gt; 1      10606     7    24  1985       2         NL     F              30
+#&gt; 2      10617     7    24  1985       2         NL     M              32
+#&gt; 3      10627     7    24  1985       2         NL     F              32
+#&gt; 4      10720     8    20  1985       2         NL     F              31
+#&gt; 5      10923    10    13  1985       2         NL     F              31
+#&gt; 6      10949    10    13  1985       2         NL     F              33
+#&gt; 7      11215    12     8  1985       2         NL     F              32
+#&gt; 8      11329     3     9  1986       2         NL     M              34
+#&gt; 9      11496     5    11  1986       2         NL     F              31
+#&gt; 10     11498     5    11  1986       2         NL     F              31
+#&gt; # ... with 25,280 more rows, and 5 more variables: weight &lt;int&gt;,
+#&gt; #   genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+<p>We could even do this for a specifc date and species (assuming we know there was an observation), using values for day, month, year and species.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter observations that only occurred on the 9th of March 1986</span>
+ <span class="kw">filter</span>(surveys, month ==<span class="st"> </span><span class="dv">3</span>, day ==<span class="st"> </span><span class="dv">9</span>, year ==<span class="st"> </span><span class="dv">1986</span>, species_id ==<span class="st"> &quot;NL&quot;</span>)</code></pre></div>
+<pre><code>#&gt; # A tibble: 2 × 13
+#&gt;   record_id month   day  year plot_id species_id   sex hindfoot_length
+#&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;      &lt;chr&gt; &lt;chr&gt;           &lt;int&gt;
+#&gt; 1     11329     3     9  1986       2         NL     M              34
+#&gt; 2     11302     3     9  1986       3         NL     F              30
+#&gt; # ... with 5 more variables: weight &lt;int&gt;, genus &lt;chr&gt;, species &lt;chr&gt;,
+#&gt; #   taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+<p>An alternative way to use <code>filter</code> is to “pipe” the function using <code>%&gt;%</code> which you can think of as using the word <em>“then”</em>. We take our data set <em>then</em> filter it.</p>
+<p>This makes more sense when combining several operations, but even with one operation it means we only have to provide the values arguement to the filter, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pipe the filter for observations that only occurred on the 9th of March 1986</span>
+surveys %&gt;%<span class="st"> </span><span class="kw">filter</span>(month ==<span class="st"> </span><span class="dv">3</span>, day ==<span class="st"> </span><span class="dv">9</span>, year ==<span class="st"> </span><span class="dv">1986</span>, species_id ==<span class="st"> &quot;NL&quot;</span>)</code></pre></div>
+<pre><code>#&gt; # A tibble: 2 × 13
+#&gt;   record_id month   day  year plot_id species_id   sex hindfoot_length
+#&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;      &lt;chr&gt; &lt;chr&gt;           &lt;int&gt;
+#&gt; 1     11329     3     9  1986       2         NL     M              34
+#&gt; 2     11302     3     9  1986       3         NL     F              30
+#&gt; # ... with 5 more variables: weight &lt;int&gt;, genus &lt;chr&gt;, species &lt;chr&gt;,
+#&gt; #   taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+<p>Armed with this information, let’s filter the data for the period covered in the paper figure, from the start of the surveys in 1977 until the end of 1990.</p>
+<blockquote>
+<h3 id="challenge">Challenge</h3>
+<p>Filter the surveys from 1977 until 1990 and assign the output to <code>surveys_filtered</code></p>
+<p>Using the pipe <code>%&gt;%</code> is optional, but recommended.</p>
+<p>Ctl+Shift+M is a shortcut to create a pipe.</p>
+</blockquote>
 </div>
-<div id="split-apply-combine" class="section level2">
-<h2>Split-apply-combine</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Subsetting data --------------------------------------------------------------</span>
+<div id="selecting-variables" class="section level2">
+<h2>Selecting variables</h2>
+<p>Selecting columns can be done in various ways. For example, by the column number, the variable name or by range. Check the help function <code>?select</code> for more options.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select the year and plot type columns</span>
+surveys %&gt;%<span class="st"> </span><span class="kw">select</span>(year,plot_type)</code></pre></div>
+<pre><code>#&gt; # A tibble: 34,786 × 2
+#&gt;     year plot_type
+#&gt;    &lt;int&gt;     &lt;chr&gt;
+#&gt; 1   1977   Control
+#&gt; 2   1977   Control
+#&gt; 3   1977   Control
+#&gt; 4   1977   Control
+#&gt; 5   1977   Control
+#&gt; 6   1977   Control
+#&gt; 7   1977   Control
+#&gt; 8   1978   Control
+#&gt; 9   1978   Control
+#&gt; 10  1978   Control
+#&gt; # ... with 34,776 more rows</code></pre>
+<p>As we saw earlier, we have thirteen variables in the surveys data, but we don’t need all of them. Specifically we don’t need the sex, the hindfoot length or the weight of the animals. We’re just interested in the population changes over time.</p>
+<p>Rather than selecting the columns we want, an alternative is to drop the ones we don’t using a minus sign in front of the variable name, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select everything except sex, hindfoot and weight</span>
+surveys_selected &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span class="st"> </span><span class="kw">select</span>(-sex,-hindfoot_length,-weight)
 
-<span class="co"># Q: Which plots do we need for this analysis?</span>
-exp_plots &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>,
-               <span class="st">&quot;Long-term Krat Exclosure&quot;</span>,  
-               <span class="st">&quot;Short-term Krat Exclosure&quot;</span>)
+<span class="co"># Check the output</span>
+<span class="kw">glimpse</span>(surveys_selected)</code></pre></div>
+<pre><code>#&gt; Observations: 17,817
+#&gt; Variables: 10
+#&gt; $ record_id  &lt;int&gt; 1, 72, 224, 266, 349, 363, 435, 506, 588, 661, 748,...
+#&gt; $ month      &lt;int&gt; 7, 8, 9, 10, 11, 11, 12, 1, 2, 3, 4, 5, 6, 8, 9, 10...
+#&gt; $ day        &lt;int&gt; 16, 19, 13, 16, 12, 12, 10, 8, 18, 11, 8, 6, 9, 5, ...
+#&gt; $ year       &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1978, 197...
+#&gt; $ plot_id    &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ...
+#&gt; $ species_id &lt;chr&gt; &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL...
+#&gt; $ genus      &lt;chr&gt; &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotom...
+#&gt; $ species    &lt;chr&gt; &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;al...
+#&gt; $ taxa       &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;...
+#&gt; $ plot_type  &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Contro...</code></pre>
+</div>
+<div id="creating-new-variables" class="section level2">
+<h2>Creating new variables</h2>
+<p>Often we need to create new variables that are functions of existing columns. For example, in the orginal survey data we might be interested in the relationship between weight and time of year.</p>
+<p>We could do this using <code>mutate</code> to calculuate the weight-to-month ratio and add this as a new column, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select the year and plot type columns</span>
+monthly_weight &lt;-<span class="st"> </span>surveys %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">weight_to_month =</span> weight /<span class="st"> </span>month) 
 
-<span class="co"># Q: Which species do we need for this analysis?</span>
-<span class="co"># Use: https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv for codes.</span>
+<span class="co"># Check the output</span>
+<span class="kw">glimpse</span>(monthly_weight)</code></pre></div>
+<pre><code>#&gt; Observations: 34,786
+#&gt; Variables: 14
+#&gt; $ record_id       &lt;int&gt; 1, 72, 224, 266, 349, 363, 435, 506, 588, 661,...
+#&gt; $ month           &lt;int&gt; 7, 8, 9, 10, 11, 11, 12, 1, 2, 3, 4, 5, 6, 8, ...
+#&gt; $ day             &lt;int&gt; 16, 19, 13, 16, 12, 12, 10, 8, 18, 11, 8, 6, 9...
+#&gt; $ year            &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1978...
+#&gt; $ plot_id         &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2...
+#&gt; $ species_id      &lt;chr&gt; &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;...
+#&gt; $ sex             &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, NA, NA, NA, NA, NA, NA, &quot;M&quot;, NA, NA,...
+#&gt; $ hindfoot_length &lt;int&gt; 32, 31, NA, NA, NA, NA, NA, NA, NA, NA, NA, 32...
+#&gt; $ weight          &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, 218, NA, NA, 2...
+#&gt; $ genus           &lt;chr&gt; &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;N...
+#&gt; $ species         &lt;chr&gt; &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;...
+#&gt; $ taxa            &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Roden...
+#&gt; $ plot_type       &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;C...
+#&gt; $ weight_to_month &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, 109.00000, NA,...</code></pre>
+<p>Here it would be much more convenient to have a single Date variable, and we can make one using another tidyverse package called <code>lubridate</code>. Don’t worry to much about the details of the code, it’s the concept that matter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mutate surveys_selected to create a Date column from the day,month and year</span>
+<span class="co"># variables</span>
+surveys_mutated &lt;-<span class="st"> </span>surveys_selected %&gt;%
+<span class="st">  </span><span class="co"># Convert day, month and year using lubridate</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Date =</span> lubridate::<span class="kw">dmy</span>(<span class="kw">sprintf</span>(<span class="st">&#39;%02d%02d%04d&#39;</span>, day, month, year)))
 
-<span class="co"># Kangeroo Rats:</span>
+<span class="co"># Check the output</span>
+<span class="kw">glimpse</span>(surveys_mutated)</code></pre></div>
+<pre><code>#&gt; Observations: 17,817
+#&gt; Variables: 11
+#&gt; $ record_id  &lt;int&gt; 1, 72, 224, 266, 349, 363, 435, 506, 588, 661, 748,...
+#&gt; $ month      &lt;int&gt; 7, 8, 9, 10, 11, 11, 12, 1, 2, 3, 4, 5, 6, 8, 9, 10...
+#&gt; $ day        &lt;int&gt; 16, 19, 13, 16, 12, 12, 10, 8, 18, 11, 8, 6, 9, 5, ...
+#&gt; $ year       &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1978, 197...
+#&gt; $ plot_id    &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ...
+#&gt; $ species_id &lt;chr&gt; &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL...
+#&gt; $ genus      &lt;chr&gt; &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotom...
+#&gt; $ species    &lt;chr&gt; &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;al...
+#&gt; $ taxa       &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;...
+#&gt; $ plot_type  &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Contro...
+#&gt; $ Date       &lt;date&gt; 1977-07-16, 1977-08-19, 1977-09-13, 1977-10-16, 19...</code></pre>
+<p>To reproduce the analysis in the paper we need to know which eight rodent species they investigated, and which four plots the different treatments were carried out on.</p>
+<p>The codes associated with the forty species in the survey data are found <a href="https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv">here</a> and the codes for the twenty four plots are found <a href="https://github.com/weecology/PortalData/blob/master/SiteandMethods/Portal_plot_treatments.csv">here</a>.</p>
+<p>To save time, here is a summary of the ones we need, which you can paste into your script:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Kangeroo Rats:</span>
 <span class="co"># DM    Dipodomys merriami  Rodent  Merriam&#39;s kangaroo rat</span>
 <span class="co"># DO    Dipodomys ordii     Rodent  Ord&#39;s kangaroo rat</span>
 <span class="co"># DS    Dipodomys spectabilis   Rodent  Banner-tailed kangaroo rat</span>
@@ -408,117 +541,8 @@ exp_plots &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="s
 <span class="co"># PM    Peromyscus maniculatus  Rodent  Deer Mouse</span>
 <span class="co"># RM    Reithrodontomys megalotis   Rodent  Western harvest mouse</span>
 
-<span class="co"># Grasshopper mouse:</span>
-<span class="co"># OX    Onychomys sp.   Rodent  Grasshopper mouse</span>
-
-<span class="co"># List of species_id</span>
-rodents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span>,<span class="st">&quot;DO&quot;</span>,<span class="st">&quot;DS&quot;</span>,<span class="st">&quot;PP&quot;</span>,<span class="st">&quot;PF&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PM&quot;</span>,<span class="st">&quot;RM&quot;</span>,<span class="st">&quot;OX&quot;</span>)
-
-<span class="co"># Let&#39;s get filter the data we need:</span>
-surveys_sub &lt;-<span class="st"> </span>surveys %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(species_id !=<span class="st"> &quot;&quot;</span>,            <span class="co"># remove missing species_id</span>
-         !<span class="kw">is.na</span>(weight),              <span class="co"># remove missing weight</span>
-         !<span class="kw">is.na</span>(hindfoot_length),     <span class="co"># remove missing hindfoot_length</span>
-         sex !=<span class="st"> &quot;&quot;</span>,                   <span class="co"># remove missing sex</span>
-         year &lt;=<span class="st"> </span><span class="dv">1991</span>,                <span class="co"># Subset time period 1977 to 1991</span>
-         plot_type %in%<span class="st"> </span>exp_plots,    <span class="co"># Subset the plots used in the paper</span>
-         species_id %in%<span class="st"> </span>rodents)
-  
-
-<span class="kw">glimpse</span>(surveys_sub)</code></pre></div>
-<pre><code>#&gt; Observations: 9,603
-#&gt; Variables: 13
-#&gt; $ record_id       &lt;int&gt; 226, 233, 245, 251, 257, 259, 268, 346, 350, 3...
-#&gt; $ month           &lt;int&gt; 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 12, ...
-#&gt; $ day             &lt;int&gt; 13, 13, 16, 16, 16, 16, 16, 12, 12, 12, 12, 10...
-#&gt; $ year            &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1977...
-#&gt; $ plot_id         &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2...
-#&gt; $ species_id      &lt;chr&gt; &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;...
-#&gt; $ sex             &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;...
-#&gt; $ hindfoot_length &lt;int&gt; 37, 25, 37, 36, 37, 36, 36, 37, 37, 38, 36, 37...
-#&gt; $ weight          &lt;int&gt; 51, 44, 39, 49, 47, 41, 55, 36, 47, 44, 40, 42...
-#&gt; $ genus           &lt;chr&gt; &quot;Dipodomys&quot;, &quot;Dipodomys&quot;, &quot;Dipodomys&quot;, &quot;Dipodo...
-#&gt; $ species         &lt;chr&gt; &quot;merriami&quot;, &quot;merriami&quot;, &quot;merriami&quot;, &quot;merriami&quot;...
-#&gt; $ taxa            &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Roden...
-#&gt; $ plot_type       &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;C...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Q: How many of each type genus?</span>
-surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)</code></pre></div>
-<pre><code>#&gt; Source: local data frame [26 x 4]
-#&gt; Groups: genus, species [?]
-#&gt; 
-#&gt;          genus      species                 plot_type     n
-#&gt;          &lt;chr&gt;        &lt;chr&gt;                     &lt;chr&gt; &lt;int&gt;
-#&gt; 1  Chaetodipus penicillatus                   Control   118
-#&gt; 2  Chaetodipus penicillatus  Long-term Krat Exclosure   153
-#&gt; 3  Chaetodipus penicillatus Short-term Krat Exclosure   105
-#&gt; 4    Dipodomys     merriami                   Control  3248
-#&gt; 5    Dipodomys     merriami  Long-term Krat Exclosure   136
-#&gt; 6    Dipodomys     merriami Short-term Krat Exclosure   899
-#&gt; 7    Dipodomys        ordii                   Control   853
-#&gt; 8    Dipodomys        ordii  Long-term Krat Exclosure     3
-#&gt; 9    Dipodomys        ordii Short-term Krat Exclosure   249
-#&gt; 10   Dipodomys  spectabilis                   Control  1088
-#&gt; # ... with 16 more rows</code></pre>
-</div>
-<div id="factors" class="section level2">
-<h2>Factors</h2>
-<p>Factors are how R represents catergorical variables, such as types of fruit or months of the year, these are variables that have a fixed set of known possible values.</p>
-<p>The key thing to know about factors is they have attributes called `levels’. The main advantage of this additional levels attribute to each catergorical variable is that it allows one to change the order and/or value of the level of each catergory. This is useful when visualising data or grouping catergories.</p>
-<p>For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Factors ----------------------------------------------------------------------</span>
-
-<span class="co"># Let&#39;s turn the genus,species and plot_types into factors.</span>
-<span class="co"># Then we can group them accordingly.</span>
-
-<span class="co"># Check levels</span>
-<span class="kw">levels</span>(surveys_sub$species)</code></pre></div>
-<pre><code>#&gt; NULL</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We have three groups we want: the Kangeroo Rats, the smaller granivores,</span>
-<span class="co"># and the grasshopper mouse.</span>
-surveys_sub &lt;-<span class="st"> </span>surveys_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">genus =</span> <span class="kw">fct_collapse</span>(genus,
-                                <span class="st">&quot;Kangeroo Rat&quot;</span> =<span class="st"> &quot;Dipodomys&quot;</span>,
-                                <span class="st">&quot;Granivore&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Perognathus&quot;</span>,
-                                                <span class="st">&quot;Peromyscus&quot;</span>,
-                                                <span class="st">&quot;Chaetodipus&quot;</span>,
-                                                <span class="st">&quot;Reithrodontomys&quot;</span>),
-                                <span class="st">&quot;Grasshopper mouse&quot;</span>=<span class="st"> &quot;Onychomys&quot;</span>)) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">plot_type =</span> <span class="kw">as.factor</span>(plot_type)) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">species =</span> <span class="kw">as.factor</span>(species))
-
-<span class="co"># Check the new levels</span>
-surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,species,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(species)</code></pre></div>
-<pre><code>#&gt; Source: local data frame [26 x 4]
-#&gt; Groups: genus, species [?]
-#&gt; 
-#&gt;        genus     species                 plot_type     n
-#&gt;       &lt;fctr&gt;      &lt;fctr&gt;                    &lt;fctr&gt; &lt;int&gt;
-#&gt; 1  Granivore    eremicus                   Control   243
-#&gt; 2  Granivore    eremicus  Long-term Krat Exclosure   164
-#&gt; 3  Granivore    eremicus Short-term Krat Exclosure   180
-#&gt; 4  Granivore      flavus                   Control   144
-#&gt; 5  Granivore      flavus  Long-term Krat Exclosure   248
-#&gt; 6  Granivore      flavus Short-term Krat Exclosure   107
-#&gt; 7  Granivore maniculatus                   Control    46
-#&gt; 8  Granivore maniculatus  Long-term Krat Exclosure   144
-#&gt; 9  Granivore maniculatus Short-term Krat Exclosure    56
-#&gt; 10 Granivore   megalotis                   Control   283
-#&gt; # ... with 16 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surveys_sub %&gt;%<span class="st"> </span><span class="kw">group_by</span>(genus,plot_type) %&gt;%<span class="st"> </span><span class="kw">count</span>(genus)</code></pre></div>
-<pre><code>#&gt; Source: local data frame [8 x 3]
-#&gt; Groups: genus [?]
-#&gt; 
-#&gt;               genus                 plot_type     n
-#&gt;              &lt;fctr&gt;                    &lt;fctr&gt; &lt;int&gt;
-#&gt; 1         Granivore                   Control   834
-#&gt; 2         Granivore  Long-term Krat Exclosure  1235
-#&gt; 3         Granivore Short-term Krat Exclosure   675
-#&gt; 4      Kangeroo Rat                   Control  5189
-#&gt; 5      Kangeroo Rat  Long-term Krat Exclosure   155
-#&gt; 6      Kangeroo Rat Short-term Krat Exclosure  1510
-#&gt; 7 Grasshopper mouse                   Control     3
-#&gt; 8 Grasshopper mouse  Long-term Krat Exclosure     2</code></pre>
-</div>
+<span class="co"># Control Plots: 2,8,12,22</span>
+<span class="co"># Treatment Plots: 3,15,19,21</span></code></pre></div>
 </div>
 
 <hr/>

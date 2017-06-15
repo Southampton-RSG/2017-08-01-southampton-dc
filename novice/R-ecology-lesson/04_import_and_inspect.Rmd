@@ -47,9 +47,13 @@ plot has been ongoing once a month for many years.
 Here will practice importing data, transforming
 data, and plotting data, and finally turning this script into a report.
 
-The conclusion of the paper is that there is evidence that kangeroo rats 
+A conclusion of the paper is that there is evidence that kangeroo rats 
 compete directly with four other rodent species, as evidenced by an increase in
-the populations of these four species
+the populations of these four species when Kangeroo Rats are excluded.
+This can be seen in Figure 1 in the paper, and we will try to reproduce the 
+analysis to generate a similar figure and confirm these observations.
+
+![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
 # Importing, inspecting and tidy data
 
