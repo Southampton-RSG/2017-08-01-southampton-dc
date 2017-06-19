@@ -98,18 +98,6 @@ ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) +
 
 ```
 
-### Positions
-
-```{r,purl=FALSE,echo=T}
-# Without jitter
-ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
-                                              colour=class))
-# With jitter
-ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
-                                              colour=class),position = "jitter")
-
-```
-
 ## Other plot types
 
 ### Boxplots

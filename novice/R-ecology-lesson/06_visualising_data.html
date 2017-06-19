@@ -388,17 +388,6 @@ div.tocify {
 <h3>Facets</h3>
 <p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="672" /></p>
 </div>
-<div id="positions" class="section level3">
-<h3>Positions</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
-                                              <span class="dt">colour=</span>class))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
-                                              <span class="dt">colour=</span>class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-4-2.png" width="672" /></p>
-</div>
 </div>
 <div id="other-plot-types" class="section level2">
 <h2>Other plot types</h2>
@@ -409,41 +398,41 @@ div.tocify {
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="position-adjustments" class="section level3">
 <h3>Position adjustments</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
                                               <span class="dt">colour=</span>class))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
                                               <span class="dt">colour=</span>class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-5-2.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>) +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-7-2.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-6-2.png" width="672" /></p>
 </div>
 <div id="factors-and-statistical-transformations" class="section level3">
 <h3>Factors and statistical transformations</h3>
-<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="coordinate-adjustments" class="section level3">
 <h3>Coordinate adjustments</h3>
+<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
 <p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
-<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
 <div id="themes-and-customisations" class="section level2">
@@ -458,8 +447,8 @@ div.tocify {
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of captures&quot;</span>) +
 <span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Monthly captures of rodents between 1977 and 1990&quot;</span>) +
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
 <p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
-<p><img src="img/r-lesson-unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(
      <span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;),
