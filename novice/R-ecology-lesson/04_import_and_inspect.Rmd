@@ -1,7 +1,6 @@
-
 ---
-title: Importing and inspecting data
-author: Alistair Bailey
+title: "Importing and inspecting data"
+author: "Alistair Bailey"
 minutes: 30
 ---
 

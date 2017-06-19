@@ -1,6 +1,6 @@
 ---
 title: "Getting started"
-author: "A.Bailey"
+author: "Alistair Bailey"
 minutes: 60
 ---
 

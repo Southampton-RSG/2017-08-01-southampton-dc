@@ -357,6 +357,31 @@ div.tocify {
 </div>
 
 
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   record_id = col_integer(),
+##   month = col_integer(),
+##   day = col_integer(),
+##   year = col_integer(),
+##   plot_id = col_integer(),
+##   species_id = col_character(),
+##   sex = col_character(),
+##   hindfoot_length = col_integer(),
+##   weight = col_integer(),
+##   genus = col_character(),
+##   species = col_character(),
+##   taxa = col_character(),
+##   plot_type = col_character()
+## )</code></pre>
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
@@ -376,7 +401,7 @@ by_month &lt;-<span class="st"> </span><span class="kw">group_by</span>(surveys_
 surveys_sum &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_month,<span class="dt">count =</span> <span class="kw">n</span>())
 
 <span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_sum,<span class="kw">aes</span>(<span class="dt">x=</span>year,<span class="dt">y=</span>count,<span class="dt">colour=</span>plot_type)) +<span class="st"> </span><span class="kw">geom_line</span>() +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>genus)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_species &lt;-<span class="st"> </span><span class="kw">group_by</span>(surveys_sub,species,plot_type) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(genus ==<span class="st"> &quot;Granivore&quot;</span>)
 species_sum &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_species,<span class="dt">count =</span> <span class="kw">n</span>())
@@ -388,7 +413,7 @@ species_sum &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_s
     <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>
   ) +
 <span class="st">  </span><span class="kw">facet_wrap</span>( ~<span class="st"> </span>species)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
 <p>```</p>
 </div>
 

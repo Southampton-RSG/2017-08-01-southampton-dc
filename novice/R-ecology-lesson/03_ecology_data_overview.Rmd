@@ -1,6 +1,6 @@
 ---
 title: "Rodent Survey Data Overview"
-author: "Alistair Bailey"
+author: 
 minutes: 10
 ---
 

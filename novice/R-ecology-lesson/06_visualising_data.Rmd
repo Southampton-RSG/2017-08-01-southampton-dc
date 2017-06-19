@@ -1,6 +1,6 @@
 ---
-title: Data visualisation 
-author: Alistair Bailey
+title: "Data visualisation" 
+author: "Alistair Bailey"
 minutes: 60
 ---
 

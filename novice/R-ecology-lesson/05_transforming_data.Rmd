@@ -1,6 +1,6 @@
 ---
-title: Transforming data
-author: A.Bailey
+title: "Transforming data"
+author: "Alistair Bailey"
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
