@@ -49,6 +49,15 @@ powerful and convenient.
 Our goal is to reproduce the analysis of the Heske et. al. paper is that there is
 evidence that kangeroo rats compete directly with four other rodent species, generating a similar figure to the one below, to confirm their observations.
 
+Concretely, we are going to look at the effect of kangeroo rat exlusion on the 
+populations of smaller granivores in two 0.25 hectare plots versus two plots
+where kangeroo rats were allowed access.
+
+This figure shows the number of captures of threes species of kangeroo Rats
+and five species of smaller granivore rodents over a period from 1977 to 1990.
+Panel A shows the populations when the eight species were left to compete for 
+resources and Panel B shows the effect of excluding the kangeroo Rats.
+
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
 ## Filtering observations
@@ -110,6 +119,27 @@ paper figure, from the start of the surveys in 1977 until the end of 1990.
 surveys_filtered <- surveys %>% filter(year <= 1990)
 ```
 
+
+To reproduce the analysis in the paper we need to know which which four plots 
+the different treatments were carried out on.
+
+The codes for the twenty four plots
+are found [here](https://github.com/weecology/PortalData/blob/master/SiteandMethods/Portal_plot_treatments.csv).
+
+To save time, here is a summary of the ones we need, which you can paste into 
+your script:
+
+```{r}
+# Control Plots: 2,8,12,22
+# Treatment Plots: 3,15,19,21
+
+# Create a vector for the experimental plots
+exp_plots <- c(8,11,12,14,3,15,19,21)
+
+# Keep only the rows corresponding with the experimental plot_id's
+surveys_filtered <- surveys_filtered %>% filter(plot_id %in% exp_plots)
+```
+
 ## Selecting variables
 
 Selecting columns can be done in various ways. For example, by the column number,
@@ -139,66 +169,241 @@ glimpse(surveys_selected)
 ## Creating new variables
 
 Often we need to create new variables that are functions of existing columns.
-For example, in the orginal survey data we might be interested in the relationship between weight and time of year. 
+For example, in the survey data there are forty species, of which we are only
+interested in eight. Moreover, we are interested in comparing the three
+Kangeroo Rat species with the five smaller granivores, so it would be useful
+to have a variable the catergorised the rodents as either "Kangeroo Rat" or
+"Granivore".
 
-We could do this using `mutate` to calculuate the weight-to-month ratio and add this as a new column, like so:
+We could do this using `mutate` to create a `rodent_type` variable that is
+a function of the `species_id` column.
+
+This is a little tricky, but the steps are as follows:
+
+1. Create character vectors corresponding with the `species_id`'s we are 
+interestd in. Here they are called: `rodents` and `krats`.
+2. Filter for the eight rodents of interest, using our `rodents` vector.
+3. Then create a new `rodent_type` column using `species_id` such that if the 
+`species_id` matches a value in `krats` the value is `"Kangeroo Rat"` and if it
+doesn't match, then the value of `rodent_type` is `"Granivore"`.
+
+The codes associated with the forty species in the survey data are found 
+[here](https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv), but to save time the relevent codes are shown below.
+
 
 ```{r,purl=FALSE,results='show'}
-# Select the year and plot type columns
-monthly_weight <- surveys %>% 
-  mutate(weight_to_month = weight / month) 
+# Kangeroo Rats:
+# DM 	Dipodomys merriami 	        Rodent  Merriam's kangaroo rat
+# DO 	Dipodomys ordii             Rodent  Ord's kangaroo rat
+# DS 	Dipodomys spectabilis 	    Rodent 	Banner-tailed kangaroo rat
 
-# Check the output
-glimpse(monthly_weight)
+# Granivores:
+# PP 	Chaetodipus penicillatus  	Rodent 	Desert pocket mouse
+# PF 	Perognathus flavus 	        Rodent 	Silky pocket mouse
+# PE 	Peromyscus eremicus         Rodent  Cactus mouse
+# PM 	Peromyscus maniculatus 	    Rodent 	Deer Mouse
+# RM 	Reithrodontomys megalotis 	Rodent 	Western harvest mouse
+
+# Create a character vector for rodents
+rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM")
+
+# Create a character vector for Kangeroo Rats by subsetting the first
+# three elements of rodents
+krats <- rodents[1:3]
+
+# Mutate surveys_selected
+surveys_mutate <- surveys_selected %>%
+  # Filter for observations only for the eight rodents species.
+  filter(species_id %in% rodents) %>% 
+  # Create a new variable called rodent_type as a function of species_id
+  # we use the if_else() function to test whether the species_id corresponds
+  # with a Kangeroo rat or a Granivore
+  # The first arguement to if_else is the conditon: if species_id is in krats.
+  # The second arguement is the value of rodent_type if the condition is true,
+  # in this case "Kangeroo rat"
+  # The third arguement is the value if the condition is false,
+  # in this case "Granivore"
+  mutate(rodent_type = if_else(species_id %in% krats, "Kangeroo Rat",
+                               "Granivore"))
+
+# Check the output using a summary pipe, we should have 8 species of 2 types
+surveys_mutate %>% group_by(species_id,rodent_type) %>% summarise()
 ```
 
-```{r,purl=FALSE,eval=FALSE,echo=FALSE}
-# Select the year and plot type columns
-monthly_weight <- surveys %>% 
-  mutate(weight_to_month = weight / month) %>% 
-  filter(species_id %in% c("DM","DO","DS"))
+We'll come back to `group_by()` and `summarise()` very shortly.
 
-ggplot(data = monthly_weight) + geom_boxplot(mapping = aes(species,weight_to_month))
-```
+Secondly it would be much more convenient to have a single `date` variable, and 
+we can make one as a function of the `day`,`month` and `year` variables using 
+another tidyverse package called `lubridate`. 
 
-Here it would be much more convenient to have a single Date variable, and 
-we can make one using another tidyverse package called `lubridate`. Don't worry
-to much about the details of the code, it's the concept that matter.
+Don't worry to much about the details of the code, it's the concept that matters.
+
+We call the `lubridate` function `dmy()` explicitly by using the package name 
+followed by two colons. This in turn uses the `sprintf()` function to parse the
+column variables. 
 
 ```{r,purl=FALSE,results='show'}
 # Mutate surveys_selected to create a Date column from the day,month and year
 # variables
-surveys_mutated <- surveys_selected %>%
+surveys_mutated <- surveys_mutate %>%
   # Convert day, month and year using lubridate
-  mutate(Date = lubridate::dmy(sprintf('%02d%02d%04d', day, month, year)))
+  mutate(date = lubridate::dmy(sprintf('%02d%02d%04d', day, month, year)))
 
 # Check the output
 glimpse(surveys_mutated)
 ```
 
-To reproduce the analysis in the paper we need to know which eight rodent species
-they investigated, and which four plots the different treatments were carried out on.
+> ### Challenge
+> Create a data frame called `surveys_kg` with a new variable that converts the the original data frame `surveys` `weight` variable to kilograms, call the 
+new variable `weight_kg`.
+>
+> `weight` is in grams, so you need to divide by 1000 to convert to kg.
+> Missing values can be removed using the `filter()` and `is.na()` functions like
+so: `filter(!is.na(weight))`. We need `!` to make it "is not a NA".
 
-The codes associated with the forty species in the survey data are found 
-[here](https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv) and the codes for the twenty four plots
-are found [here](https://github.com/weecology/PortalData/blob/master/SiteandMethods/Portal_plot_treatments.csv).
+```{r,purl=FALSE,echo=FALSE,eval=FALSE}
+surveys %>% mutate(weight_kg = weight / 1000) %>% 
+  filter(!is.na(weight)) %>% 
+  glimpse()
+```
 
-To save time, here is a summary of the ones we need, which you can paste into 
-your script:
 
-```{r}
-# Kangeroo Rats:
-# DM 	Dipodomys merriami 	Rodent 	Merriam's kangaroo rat
-# DO 	Dipodomys ordii 	Rodent 	Ord's kangaroo rat
-# DS 	Dipodomys spectabilis 	Rodent 	Banner-tailed kangaroo rat
+## Putting it all together
 
-# Granivores:
-# PP 	Chaetodipus penicillatus 	Rodent 	Desert pocket mouse
-# PF 	Perognathus flavus 	Rodent 	Silky pocket mouse
-# PE 	Peromyscus eremicus 	Rodent 	Cactus mouse
-# PM 	Peromyscus maniculatus 	Rodent 	Deer Mouse
-# RM 	Reithrodontomys megalotis 	Rodent 	Western harvest mouse
+Rather than doing each of these steps individually, we could pipe these four operations together to create our `surveys_subset` data frame.
 
-# Control Plots: 2,8,12,22
-# Treatment Plots: 3,15,19,21
+Note here, we've added another variable called `quarter` which calculates the 
+three monthly date period. This is what they plotted in the paper, which is
+then helpful for comparing our plot to the published one.
+
+```{r,purl=FALSE,results='show'}
+surveys_subset <- surveys %>% 
+  # Filter observations from 1977 to 1990, for the 3 K-rats and 5 granivores, 
+  # and for the 4 experimental plots
+  filter(year <= 1990,                    
+         species_id %in% rodents,         
+         plot_id %in% exp_plots) %>%      
+  # Make variable to indicate whether species is K-rat or Granivore
+  mutate(rodent_type = if_else(species_id %in% krats, "Kangeroo Rat",
+                               "Granivore"),
+         # Make combined date variable
+         date = lubridate::dmy(sprintf('%02d%02d%04d', 
+                                       day, month, year)),
+  # Add the quartley period
+  quarter = lubridate::quarter(date,with_year = TRUE)) %>% 
+  # Drop unwanted variables
+  select(-sex,-hindfoot_length,-weight)
+```
+
+
+## Grouped summaries
+
+The last verb we'll consider is `summarise()`, which collapses a data frame
+into a single row. For example, we could use it to find the average weight
+of all the animals surveyed in the original data frame using `mean()`. (Here the
+`na.rm = TRUE` arguement is given to remove missing values from the data, 
+otherwise R would return `NA` when trying to average.)
+
+```{r,purl=FALSE,results='show'}
+surveys %>% summarise(average_weight = mean(weight,na.rm=TRUE))
+```
+
+`summarise()` is only really useful when paired with `group_by()`
+which defines the variables upon which we operate upon. 
+
+In the previous section we used this pairing to check when the speices were 
+correctly assigned their rodent type. We first grouped `species_id` and 
+`rodent_type` together and then used `summarise()` without any arguements to
+show a summary of these two variables only.
+
+```{r,purl=FALSE,results='show'}
+
+# Check the output using a summary pipe, we should have 8 species of 2 types
+surveys_mutate %>% group_by(species_id,rodent_type) %>% summarise()
+
+```
+
+Let's re-cap what we've done so far, and remind ourselves of the question we're
+trying to answer:
+
+*Q: Is there evidence that kangeroo rats compete directly with four other 
+granivore rodent species?*
+
+The evidence we are examining is the monthly populations of 8 species surveyed
+in four plots over a period of about 13 years. The initial dataset contains data
+about 40 species in 20 plots measuring 13 variables over 25 years.
+
+At this point we have:
+
++ Filtered the observations for the time period of interest, and for the species
+and plots of interest.
++ We've created new variables for the rodent type, the date, and the year quarter
++ We've selected only the variables we need to answer the question.
+
+This reduces the dataset from around 35,000 observations of 13 variables to 
+around 5,000 observations of 13 variables. We dropped three of the original
+variables and create three new variables.
+
+We could start plotting the data, but it would be useful to summarise this 
+a bit more. Concretely, we'd like to summarise the kangeroo rat and granivore
+populations on a monthly or quarterly basis. Or by genus.
+
+This is where grouped summaries are very useful. 
+
+Grouping simply means grouping the variables of interest that we want to operate on, here they are the `rodent_type` (kangeroo rat and granivore), 
+the `quarter` (the time period) and the `plot_type` (kangeroo rat exclusion or
+control). The summary we would like is the number of captures for each group e.g.
+number of captures of kangeroo rats for the first quarter of 1980 in the control 
+plots. As each row in the table corresponds with a capture, we just need to count
+the number of rows in each group. We can do this using the count function `n()`
+in conjunction with summarise. This creates a new variable, a column containing the number of rows counted per group, which we'll call captures.
+`captures`.
+
+Here we have the additional issue that the grouping by quarter groups three
+months worth of captures, so to get the quartely average number of captures we
+divide the number of rows counted by three.
+
+```{r,purl=FALSE,results='show'}
+# Summarise the data by rodent type, quarterly survey and plot type
+by_quarter <- surveys_subset %>% 
+  group_by(rodent_type,quarter,plot_type) %>% 
+  summarise(captures = n()/3) 
+
+glimpse(by_quarter)
+```
+
+We have now transformed the dataset from a 35,000 by 13 table to the 185 by 4 
+table that we need for re-creating the plot shown in the paper.
+
+But, this is not the only way to look at the data, so we'll keep the unsummarised
+subset too. We could export the subset for sharing, but generally it's better
+to share the raw data (if it's not too large) and a script containing the 
+code that will reproduce your transformations. Raw data is the form you received 
+it in, it doesn't necessarily mean that the data hasn't been manipulated 
+upstream.
+
+> ### Challenge
+> Create a summary of `surveys_subset` called `by_month_genus` grouped by 
+`genus` , `date` and `plot_type`, and summarised using `summarise(n())`.
+>
+> There are five genus, three kangeroo rats in the Dipodomys genus, 
+and the granivores make up the other four genus)
+
+```{r,purl=FALSE,echo=FALSE,eval=FALSE}
+# Challenge, summarise by month and by genus instead
+by_month_genus <- surveys_subset %>% 
+  group_by(genus,date,plot_type,rodent_type) %>% 
+  summarise(captures = n()) 
+
+by_month_mean <- by_month_genus %>% group_by(genus,plot_type,rodent_type) %>%
+  summarise(mean_captures = mean(captures))
+
+# Orders the rodents alphabetically
+ggplot(by_month_mean, aes(x = mean_captures,y=genus)) +
+  geom_point() + facet_grid(~ plot_type)
+
+# Orders the rodents according to number of captures
+ggplot(by_month_genus,
+       aes(x = mean_captures, y = fct_reorder(genus,mean_captures))) +
+  geom_point() + facet_grid(~ plot_type)
 ```

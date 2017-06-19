@@ -6,6 +6,58 @@ minutes: 60
 
 ```{r, echo=FALSE, purl=FALSE,message=FALSE}
 knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
+```
+
+```{r, echo=FALSE,eval=FALSE}
+```{r,purl=FALSE,echo=FALSE}
+
+# Create levels for rodent_type
+# rodent_type_levels <- c("Kangeroo Rat", "Granivore")
+# 
+# # Convert to factor
+# surveys_subset$rodent_type <- factor(surveys_sub$rodent_type, 
+#                                   levels = rodent_type_levels)
+# 
+# plot_type_levels <- c("Long-term Krat Exclosure","Control")
+# 
+# surveys_sub$plot_type <- factor(surveys_sub$plot_type, 
+#                                   levels = plot_type_levels)
+# 
+# glimpse(surveys_subset)
+
+
+# ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) + 
+#   geom_line() +
+#   geom_point() + 
+#   facet_grid(~ rodent_type) +
+#   scale_x_continuous(breaks = seq(1977,1991,1))
+
+# ggplot(data= by_quarter) +
+#   geom_boxplot(
+#     mapping = aes(x = rodent_type, y = captures, fill = plot_type)) +
+#   xlab("Plot type") +
+#   ylab("Number of captures") +
+#   ggtitle("Monthly captures of rodents between 1977 and 1990") +
+#   theme_bw()
+
+
+# by_month_genus <- surveys_subset %>% 
+#   group_by(genus,date,plot_type) %>% 
+#    summarise(captures = n()/3) 
+
+# by_month_mean <- by_month_genus %>% group_by(genus,plot_type) %>% 
+#   summarise(mean_captures = mean(captures))
+# 
+# # Orders the rodents alphabetically
+# ggplot(by_month_mean, aes(x = mean_captures,y=genus)) +
+#   geom_point() + facet_grid(~ plot_type)
+# 
+# # Orders the rodents according to number of captures
+# ggplot(by_month_mean, 
+#        aes(x = mean_captures, y = fct_reorder(genus,mean_captures))) + 
+#   geom_point() + facet_grid(~ plot_type)
+
+
 # Load the tidyverse set of packages -------------------------------------------
 library(tidyverse)
 library(forcats)
