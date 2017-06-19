@@ -23,12 +23,17 @@ able to:
 > * Filter rows with `filter()`
 > * Select columns with `select()`
 > * Add new variables with `mutate()`
-> * Create grouped summaries with `summarise()`
+> * Create grouped summaries with `group_by` and `summarise()`
 >
-> The learner will also be introduced to piping operations, working with dates 
-and catergorical variables along the way.
+> The learner will also be introduced to piping operations and working with dates 
+along the way.
 
 ------------
+
+
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![](./img/data_workflow_trans.png)
+</div>
 
 ## Motivation
 

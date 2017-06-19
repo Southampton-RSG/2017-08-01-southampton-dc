@@ -24,14 +24,16 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 ------------
 
 
-## What is R? What is RStudio?
+## What are R and RStudio?
 
-*There are only two kinds of languages: the ones people complain about and the ones nobody uses* - Bjarne Stroustrup
+***"There are only two kinds of languages: the ones people complain about and the ones nobody uses"***
 
-R is a programming language that follows the philosophy laid down by it's
-predecessor S that users begin in an interactive environment where they don't 
-consciously think of themselves as programming. It was created in 1993, and in 
-1996 it was documented in a paper entitled 
+*Bjarne Stroustrup*
+
+**R** is a programming language that follows the philosophy laid down by it's
+predecessor S. The philosophy being that users begin in an interactive
+environment where they don't consciously think of themselves as programming. 
+It was created in 1993, and in 1996 it was documented in a paper entitled:
 
 *Ross Ihaka and Robert Gentleman. R: A language for data analysis and graphics. 
 Journal of Computational and Graphical Statistics, 5(3):299–314, 1996*
@@ -43,11 +45,12 @@ powerful graphical visualisations and web apps.
 Like all languages though it has limitations, for example the syntax is initially
 confusing.
 
-R Studio is an integrated development environment, or IDE for R programming. It 
-is regularly updated, and upgrading enables access to the latest features. The
-latest version can be downloaded here: http://www.rstudio.com/download.
+**RStudio** is an integrated development environment, or IDE for R programming. 
+It is regularly updated, and upgrading enables access to the latest features. 
 
-## Why learn R ? Or any language ?
+The latest version can be downloaded here: http://www.rstudio.com/download
+
+## Why learn R, or any language ?
 
 Working with scripts makes the steps you used in your analysis clear, and the
 code you write can be inspected by someone else who can give you feedback and

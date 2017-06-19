@@ -357,64 +357,117 @@ div.tocify {
 </div>
 
 
-<pre><code>## Loading tidyverse: ggplot2
-## Loading tidyverse: tibble
-## Loading tidyverse: tidyr
-## Loading tidyverse: readr
-## Loading tidyverse: purrr
-## Loading tidyverse: dplyr</code></pre>
-<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
-<pre><code>## filter(): dplyr, stats
-## lag():    dplyr, stats</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   record_id = col_integer(),
-##   month = col_integer(),
-##   day = col_integer(),
-##   year = col_integer(),
-##   plot_id = col_integer(),
-##   species_id = col_character(),
-##   sex = col_character(),
-##   hindfoot_length = col_integer(),
-##   weight = col_integer(),
-##   genus = col_character(),
-##   species = col_character(),
-##   taxa = col_character(),
-##   plot_type = col_character()
-## )</code></pre>
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
 <p>By the end of this lesson the learner will:</p>
 <ul>
-<li>Modify the aesthetics of an existing ggplot plot (including axis labels and color).</li>
-<li>Build complex and customized plots from data in a dataframe.</li>
+<li>Use geometrical objects and aesthetic mappings to produce time series plots, boxplots and bar charts</li>
+<li>Understand how to use facets to create subplots of data</li>
+<li>Understand how factors and statistical mappings can transform plots</li>
+<li>Understand how to make positional and coordinate adjustments</li>
+<li>Understand how to use themes and to customize plots</li>
 </ul>
 </blockquote>
 <hr />
-<div id="visualisation-with-ggplot2" class="section level1">
-<h1>Visualisation with ggplot2</h1>
-<p>This lesson will take the tidy data and create plots</p>
-<p>THE CODE BELOW IS A PLACEHOLDER FOR THE LESSON.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot the effects of Kangeroo exclosure on the other species</span>
-by_month &lt;-<span class="st"> </span><span class="kw">group_by</span>(surveys_sub,year,month,genus,plot_type)
-surveys_sum &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_month,<span class="dt">count =</span> <span class="kw">n</span>())
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+<div class="figure">
+<img src="img/data_project_pipeline_vis.png" />
 
-<span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_sum,<span class="kw">aes</span>(<span class="dt">x=</span>year,<span class="dt">y=</span>count,<span class="dt">colour=</span>plot_type)) +<span class="st"> </span><span class="kw">geom_line</span>() +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>genus)</code></pre></div>
+</div>
+</div>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>We’ve transformed the surveys data ready for plotting, so let’s remind ourselves of the</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
+<span class="st">  </span><span class="er">&lt;</span><span class="kw">GEOM_FUNCTION</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;))&gt;</code></pre></div>
+</div>
+<div id="reproducing-the-time-series" class="section level2">
+<h2>Reproducing the time series</h2>
+<div id="facets" class="section level3">
+<h3>Facets</h3>
+<p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="positions" class="section level3">
+<h3>Positions</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
+                                              <span class="dt">colour=</span>class))</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_species &lt;-<span class="st"> </span><span class="kw">group_by</span>(surveys_sub,species,plot_type) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(genus ==<span class="st"> &quot;Granivore&quot;</span>)
-species_sum &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_species,<span class="dt">count =</span> <span class="kw">n</span>())
-
-<span class="kw">ggplot</span>(<span class="dt">data=</span> species_sum) +
-<span class="st">  </span><span class="kw">geom_bar</span>(
-    <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> count, <span class="dt">fill =</span> plot_type),
-    <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>,
-    <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>
-  ) +
-<span class="st">  </span><span class="kw">facet_wrap</span>( ~<span class="st"> </span>species)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
+                                              <span class="dt">colour=</span>class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-4-2.png" width="672" /></p>
+</div>
+</div>
+<div id="other-plot-types" class="section level2">
+<h2>Other plot types</h2>
+<div id="boxplots" class="section level3">
+<h3>Boxplots</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
+                     <span class="dt">colour =</span> rodent_type)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
-<p>```</p>
+</div>
+<div id="position-adjustments" class="section level3">
+<h3>Position adjustments</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
+                                              <span class="dt">colour=</span>class))</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
+                                              <span class="dt">colour=</span>class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-6-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
+                     <span class="dt">colour =</span> rodent_type)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
+                     <span class="dt">colour =</span> rodent_type)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>) +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-7-2.png" width="672" /></p>
+</div>
+<div id="factors-and-statistical-transformations" class="section level3">
+<h3>Factors and statistical transformations</h3>
+<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="coordinate-adjustments" class="section level3">
+<h3>Coordinate adjustments</h3>
+<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+<div id="themes-and-customisations" class="section level2">
+<h2>Themes and customisations</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
+                     <span class="dt">colour =</span> rodent_type)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>) +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Plot type&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of captures&quot;</span>) +
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Monthly captures of rodents between 1977 and 1990&quot;</span>) +
+<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
+<span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(
+     <span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;),
+     <span class="dt">stat =</span> &lt;STAT&gt;, 
+     <span class="dt">position =</span> &lt;POSITION&gt;
+<span class="st">  </span>) +
+<span class="st">  </span><span class="er">&lt;</span>COORDINATE_FUNCTION&gt;<span class="st"> </span>+
+<span class="st">  </span><span class="er">&lt;</span>FACET_FUNCTION&gt;</code></pre></div>
 </div>
 
 <hr/>

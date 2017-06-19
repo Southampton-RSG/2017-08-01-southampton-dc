@@ -6,113 +6,52 @@ minutes: 60
 
 ```{r, echo=FALSE, purl=FALSE,message=FALSE}
 knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
-```
-
-```{r, echo=FALSE,eval=FALSE}
-```{r,purl=FALSE,echo=FALSE}
-
-# Create levels for rodent_type
-# rodent_type_levels <- c("Kangeroo Rat", "Granivore")
-# 
-# # Convert to factor
-# surveys_subset$rodent_type <- factor(surveys_sub$rodent_type, 
-#                                   levels = rodent_type_levels)
-# 
-# plot_type_levels <- c("Long-term Krat Exclosure","Control")
-# 
-# surveys_sub$plot_type <- factor(surveys_sub$plot_type, 
-#                                   levels = plot_type_levels)
-# 
-# glimpse(surveys_subset)
-
-
-# ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) + 
-#   geom_line() +
-#   geom_point() + 
-#   facet_grid(~ rodent_type) +
-#   scale_x_continuous(breaks = seq(1977,1991,1))
-
-# ggplot(data= by_quarter) +
-#   geom_boxplot(
-#     mapping = aes(x = rodent_type, y = captures, fill = plot_type)) +
-#   xlab("Plot type") +
-#   ylab("Number of captures") +
-#   ggtitle("Monthly captures of rodents between 1977 and 1990") +
-#   theme_bw()
-
-
-# by_month_genus <- surveys_subset %>% 
-#   group_by(genus,date,plot_type) %>% 
-#    summarise(captures = n()/3) 
-
-# by_month_mean <- by_month_genus %>% group_by(genus,plot_type) %>% 
-#   summarise(mean_captures = mean(captures))
-# 
-# # Orders the rodents alphabetically
-# ggplot(by_month_mean, aes(x = mean_captures,y=genus)) +
-#   geom_point() + facet_grid(~ plot_type)
-# 
-# # Orders the rodents according to number of captures
-# ggplot(by_month_mean, 
-#        aes(x = mean_captures, y = fct_reorder(genus,mean_captures))) + 
-#   geom_point() + facet_grid(~ plot_type)
-
 
 # Load the tidyverse set of packages -------------------------------------------
 library(tidyverse)
 library(forcats)
+
 surveys <- read_csv('data/portal_data_joined.csv')
-# Q: Which plots do we need for this analysis?
-exp_plots <- c("Control",
-               "Long-term Krat Exclosure",  
-               "Short-term Krat Exclosure")
 
-# Q: Which species do we need for this analysis?
-# Use: https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv for codes.
+# Create a vector for the experimental plots
+exp_plots <- c(8,11,12,14,3,15,19,21)
+# Create a character vector for rodents
+rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM")
+# Create a character vector for Kangeroo Rats by subsetting the first
+# three elements of rodents
+krats <- rodents[1:3]
 
-# Kangeroo Rats:
-# DM 	Dipodomys merriami 	Rodent 	Merriam's kangaroo rat
-# DO 	Dipodomys ordii 	Rodent 	Ord's kangaroo rat
-# DS 	Dipodomys spectabilis 	Rodent 	Banner-tailed kangaroo rat
+# Subset data
+surveys_subset <- surveys %>% 
+  # Filter observations from 1977 to 1990, for the 3 K-rats and 5 granivores, 
+  # and for the 4 experimental plots
+  filter(year <= 1990,                    
+         species_id %in% rodents,         
+         plot_id %in% exp_plots) %>%      
+  # Make variable to indicate whether species is K-rat or Granivore
+  mutate(rodent_type = if_else(species_id %in% krats, "Kangeroo Rat",
+                               "Granivore"),
+         # Make combined date variable
+         date = lubridate::dmy(sprintf('%02d%02d%04d', 
+                                       day, month, year)),
+  # Add the quartley period
+  quarter = lubridate::quarter(date,with_year = TRUE)) %>% 
+  # Drop unwanted variables
+  select(-sex,-hindfoot_length,-weight)
 
-# Granivores:
-# PP 	Chaetodipus penicillatus 	Rodent 	Desert pocket mouse
-# PF 	Perognathus flavus 	Rodent 	Silky pocket mouse
-# PE 	Peromyscus eremicus 	Rodent 	Cactus mouse
-# PM 	Peromyscus maniculatus 	Rodent 	Deer Mouse
-# RM 	Reithrodontomys megalotis 	Rodent 	Western harvest mouse
+# Summarise data
+# Summarise the data by rodent type, quarterly survey and plot type
+by_quarter <- surveys_subset %>% 
+  group_by(rodent_type,quarter,plot_type) %>% 
+  summarise(captures = n()/3) 
 
-# Grasshopper mouse:
-# OX 	Onychomys sp. 	Rodent 	Grasshopper mouse
+# By month and by genus
+by_month_genus <- surveys_subset %>% 
+  group_by(genus,date,plot_type,rodent_type) %>% 
+  summarise(captures = n()) 
 
-# List of species_id
-rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM","OX")
-
-# Let's get filter the data we need:
-surveys_sub <- surveys %>% 
-  filter(species_id != "",            # remove missing species_id
-         !is.na(weight),              # remove missing weight
-         !is.na(hindfoot_length),     # remove missing hindfoot_length
-         sex != "",                   # remove missing sex
-         year <= 1991,                # Subset time period 1977 to 1991
-         plot_type %in% exp_plots,    # Subset the plots used in the paper
-         species_id %in% rodents)
-
-# Let's turn the genus,species and plot_types into factors.
-# Then we can group them accordingly.
-
-# We have three groups we want: the Kangeroo Rats, the smaller granivores,
-# and the grasshopper mouse.
-surveys_sub <- surveys_sub %>% 
-  mutate(genus = fct_collapse(genus,
-                                "Kangeroo Rat" = "Dipodomys",
-                                "Granivore" = c("Perognathus",
-                                                "Peromyscus",
-                                                "Chaetodipus",
-                                                "Reithrodontomys"),
-                                "Grasshopper mouse"= "Onychomys")) %>% 
-  mutate(plot_type = as.factor(plot_type)) %>% 
-  mutate(species = as.factor(species))
+by_month_mean <- by_month_genus %>% group_by(genus,plot_type,rodent_type) %>%
+  summarise(mean_captures = mean(captures))
 ```
 
 ------------
@@ -121,36 +60,177 @@ surveys_sub <- surveys_sub %>%
 >
 > By the end of this lesson the learner will:
 >
-> * Modify the aesthetics of an existing ggplot plot (including axis labels and color).
-> * Build complex and customized plots from data in a dataframe.
+> + Use geometrical objects and aesthetic mappings to produce time series plots, 
+boxplots and bar charts
+> + Understand how to use facets to create subplots of data
+> + Understand how factors and statistical mappings can transform plots
+> + Understand how to make positional and coordinate adjustments
+> + Understand how to use themes and to customize plots
 
---------------
+------------
 
-# Visualisation with ggplot2 
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![](./img/data_project_pipeline_vis.png)
+</div>
 
-This lesson will take the tidy data and create plots 
+## Motivation
 
-THE CODE BELOW IS A PLACEHOLDER FOR THE LESSON.
+We've transformed the surveys data ready for plotting, so let's remind ourselves
+of the 
 
-```{r, purl=FALSE}
-# Plot the effects of Kangeroo exclosure on the other species
-by_month <- group_by(surveys_sub,year,month,genus,plot_type)
-surveys_sum <- summarise(by_month,count = n())
-
-ggplot(data = surveys_sum,aes(x=year,y=count,colour=plot_type)) + geom_line() + facet_wrap(~ genus)
+```{r, purl=FALSE,eval=FALSE}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION(mapping = aes(<MAPPINGS>))>
 ```
-```{r,purl=FALSE}
-by_species <- group_by(surveys_sub,species,plot_type) %>% 
-  filter(genus == "Granivore")
-species_sum <- summarise(by_species,count = n())
 
-ggplot(data= species_sum) +
-  geom_bar(
-    mapping = aes(x = plot_type, y = count, fill = plot_type),
-    position = "dodge",
-    stat = "identity"
+
+## Reproducing the time series
+
+### Facets
+
+```{r,purl=FALSE,echo=FALSE}
+
+ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(~ rodent_type) +
+  scale_x_continuous(breaks = seq(1977,1991,1))
+
+```
+
+### Positions
+
+```{r,purl=FALSE,echo=T}
+# Without jitter
+ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
+                                              colour=class))
+# With jitter
+ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
+                                              colour=class),position = "jitter")
+
+```
+
+## Other plot types
+
+### Boxplots
+
+```{r,purl=FALSE,echo=TRUE}
+
+ggplot(data= by_quarter,
+       mapping = aes(x = rodent_type, y = captures, 
+                     colour = rodent_type)) +
+  geom_boxplot() +
+  facet_wrap(~ plot_type)
+
+```
+
+
+### Position adjustments
+
+```{r,purl=FALSE,echo=TRUE}
+# Without jitter
+ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
+                                              colour=class))
+# With jitter
+ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
+                                              colour=class),position = "jitter")
+
+```
+
+```{r,purl=FALSE,echo=TRUE}
+ggplot(data= by_quarter,
+       mapping = aes(x = rodent_type, y = captures, 
+                     colour = rodent_type)) +
+  geom_boxplot() +
+  geom_point() +
+  facet_wrap(~ plot_type)
+
+ggplot(data= by_quarter,
+       mapping = aes(x = rodent_type, y = captures, 
+                     colour = rodent_type)) +
+  geom_boxplot() +
+  geom_point(position = "jitter") +
+  facet_wrap(~ plot_type)
+
+```
+
+### Factors and statistical transformations
+
+```{r,purl=FALSE,echo=FALSE}
+# Orders the rodents alphabetically
+ggplot(by_month_mean, aes(x = genus, 
+                          y = mean_captures, 
+                          fill=rodent_type)) +
+  geom_bar(stat="identity") + 
+  facet_grid(~ plot_type)
+```
+
+### Coordinate adjustments
+
+```{r,purl=FALSE,echo=FALSE}
+# Orders the rodents alphabetically and flips the coordinate system
+ggplot(by_month_mean, aes(x = genus, 
+                          y = mean_captures, 
+                          fill=rodent_type)) +
+  geom_bar(stat="identity") + 
+  facet_grid(~ plot_type) +
+  coord_flip()
+
+```
+
+
+```{r,purl=FALSE,echo=FALSE}
+
+# Orders the rodents according to number of captures
+ggplot(by_month_mean,
+       aes(x = fct_reorder(genus,mean_captures),
+           y = mean_captures, 
+           fill=rodent_type)) +
+  geom_bar(stat="identity") +
+  facet_grid(~ plot_type) +
+  coord_flip()
+
+```
+
+## Themes and customisations
+
+
+```{r,purl=FALSE,echo=TRUE}
+
+ggplot(data= by_quarter,
+       mapping = aes(x = rodent_type, y = captures, 
+                     colour = rodent_type)) +
+  geom_boxplot() +
+  geom_point(position = "jitter") +
+  facet_wrap(~ plot_type) +
+  xlab("Plot type") +
+  ylab("Number of captures") +
+  ggtitle("Monthly captures of rodents between 1977 and 1990") +
+  theme_bw()
+
+```
+
+```{r,purl=FALSE,echo=FALSE}
+
+ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(~ rodent_type) +
+  scale_x_continuous(breaks = seq(1977,1991,1)) +
+  xlab("Year") +
+  ylab("Number of captures") +
+  ggtitle("Monthly captures of rodents between 1977 and 1990") +
+  theme_bw()
+
+```
+
+```{r, purl=FALSE,eval=FALSE}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
   ) +
-  facet_wrap( ~ species)
-```
-
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
 ```

@@ -21,7 +21,7 @@ library(tidyverse)
 --------------
 
 <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
-![](./img/data_project_pipeline.png)
+![](./img/data_project_pipeline_vis.png)
 </div>
 
 # Data visualisation
@@ -445,6 +445,6 @@ We'rehere are many places to start, but swirl can teach you interactively, and a
 
 Just follow the instructions via this link: http://swirlstats.com/students.html
 
-Hands-On Programming with R by Garrett Grolemund is another great resource for
-learning R.
+*Hands-On Programming with R* by Garrett Grolemund is another great resource 
+for learning R.
 

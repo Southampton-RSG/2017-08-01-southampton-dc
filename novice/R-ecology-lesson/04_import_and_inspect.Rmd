@@ -22,6 +22,10 @@ and the readr package
 
 ------------
 
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![](./img/data_workflow_import.png)
+</div>
+
 In the remaining lessons we are going to recapitulate some of the analysis found in
 the paper by Heske et. al., **Long-Term Experimental Study of a Chihuahuan
 Desert Rodent Community: 13 Years of Competition**, DOI:10.2307/1939547.
