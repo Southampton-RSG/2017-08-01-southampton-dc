@@ -75,30 +75,106 @@ boxplots and bar charts
 
 ## Motivation
 
-We've transformed the surveys data ready for plotting, so let's remind ourselves
-of the 
+We've transformed the surveys data ready for plotting, but what do we want to 
+plot?
+
+We want to plot the number of captures as a function of quarter in which they
+took place, whilst comparing both kangeroo rats and granivores, as well as 
+comparing kangroo rat exclosure with plots containing kangeroo rats and 
+granivores.
+
+Such a plot should inform us about the effect of kangeroo rat exclosure on the
+granivore population. All the work we did to transform the data should make
+this straight forward as we have a tidy data set i.e. each observation forms
+a row and each variable forms a column. We have four variables: `rodent_type`,
+`quarter`, `plot_type` and `captures`.
+
+Here's the figure from the paper again:
+
+![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
+
+## Reproducing the time series
+
+Let's remind ourselves of the basic form for creating plots with the `ggplot2` package: 
 
 ```{r, purl=FALSE,eval=FALSE}
 ggplot(data = <DATA>) + 
   <GEOM_FUNCTION(mapping = aes(<MAPPINGS>))>
 ```
 
+In this form we provide a data frame as an arguement to the `ggplot` function
+and then aesthetics (the variables we wish to plot) are mapped to a geometric 
+object such as a line. If we were to plot several `geoms()` on the same plot, 
+we'd need to map the aesthetics to each `geom()`, so often it's more convenient
+to provide the aesthetics arguement to `ggplot()` instead, and it will be mapped
+to all geoms we add to the plot. Only do this if this is what you want.
 
-## Reproducing the time series
+In our first attempt at plotting the data, our data is `by_quarter` and
+we'll map three aesthetics `x = quarter,y = captures,colour = plot_type` to
+two geoms `geom_line` and `geom_point`.
+
+```{r,purl=FALSE,echo=TRUE,fig.width = 10}
+
+ggplot(data = by_quarter,
+       mapping = aes(x = quarter,y = captures,colour = plot_type)) +
+  geom_line() +
+  geom_point()
+
+```
+
+This isn't much use as we can't tell the difference between the kangeroo rats
+and granivores. We need to use our fourth variable `rodent_type` to create two
+plots, one for the granivores and the other for the kangeroo rats.
 
 ### Facets
 
-```{r,purl=FALSE,echo=FALSE}
+Creating sub-plots based on the `rodent_type` variable uses facets. If we 
+are facetting plots by a single variable we use `facet_wrap()`. The first
+arguement is `~` followed by the variable name, here  `rodent_type`. This arguement is called a formula. There are many additional arguements that can
+be provided, see `?facet_wrap`.
 
-ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) +
+Using `facet_wrap(~ rodent_type)` gives us this plot:
+
+```{r,purl=FALSE,echo=TRUE,fig.width = 10}
+
+ggplot(data = by_quarter,
+       mapping = aes(x=quarter,y=captures,colour=plot_type)) +
   geom_line() +
   geom_point() +
-  facet_grid(~ rodent_type) +
-  scale_x_continuous(breaks = seq(1977,1991,1))
+  facet_wrap(~ rodent_type)
+
+```
+
+So this is starting to look more like the published figure, and we can confirm
+that the granivore populations do increase when the kangeroo rats are excluded.
+
+However we can improve things, and we'll come back making the figure more 
+polished at the end of this lesson.
+
+If we wanted to plot the combination of two variable we'd use `facet_grid()`
+in which the formula becomes `first_variable ~ second_variable`.
+
+> ### Challenge
+> Try plotting `by_quarter` using `facet_grid()` and arguements 
+`plot_type` and `rodent_type`
+>
+> We don't need to map the colour aesthetic.
+
+```{r,purl=FALSE,eval=FALSE}
+
+ggplot(data = by_quarter,
+       mapping = aes(x=quarter,y=captures)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(plot_type~ rodent_type)
 
 ```
 
 ## Other plot types
+
+There are many other types of plot we may wish to create when exploring data. 
+The previous plot showed us changes with time, but we might want to look at
+averages and spread or other statistical summaries of the data.
 
 ### Boxplots
 
@@ -126,6 +202,7 @@ ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy,
 ```
 
 ```{r,purl=FALSE,echo=TRUE}
+# Boxplot without jitter
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
                      colour = rodent_type)) +
@@ -133,6 +210,7 @@ ggplot(data= by_quarter,
   geom_point() +
   facet_wrap(~ plot_type)
 
+# Boxplot with jitter
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
                      colour = rodent_type)) +
@@ -142,42 +220,58 @@ ggplot(data= by_quarter,
 
 ```
 
-### Factors and statistical transformations
+### Bar charts
+
+```{r,purl=FALSE,echo=FALSE}
+# Use the position
+ggplot(by_month_mean) +
+  geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
+                         colour = genus),
+           fill = NA, stat = "identity")
+
+# Use the position
+ggplot(by_month_mean) +
+  geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
+                         colour = genus),
+           fill = NA, stat = "identity", position ="identity")
+
+# Use the position
+ggplot(by_month_mean) +
+  geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
+                         colour = genus),
+           fill = NA, stat = "identity", position ="dodge")
+```
+
+### Statistical transformations
 
 ```{r,purl=FALSE,echo=FALSE}
 # Orders the rodents alphabetically
-ggplot(by_month_mean, aes(x = genus, 
-                          y = mean_captures, 
+ggplot(by_month_genus, aes(x = genus,
                           fill=rodent_type)) +
-  geom_bar(stat="identity") + 
+  geom_bar() + 
   facet_grid(~ plot_type)
 ```
 
 ### Coordinate adjustments
 
 ```{r,purl=FALSE,echo=FALSE}
-# Orders the rodents alphabetically and flips the coordinate system
-ggplot(by_month_mean, aes(x = genus, 
-                          y = mean_captures, 
-                          fill=rodent_type)) +
-  geom_bar(stat="identity") + 
+# Flip the coordinates to see the 
+ggplot(by_month_genus) +
+  geom_bar(mapping = aes(x = genus, fill = rodent_type)) + 
   facet_grid(~ plot_type) +
   coord_flip()
-
 ```
 
+### Factors
 
 ```{r,purl=FALSE,echo=FALSE}
 
 # Orders the rodents according to number of captures
-ggplot(by_month_mean,
-       aes(x = fct_reorder(genus,mean_captures),
-           y = mean_captures, 
-           fill=rodent_type)) +
-  geom_bar(stat="identity") +
+ggplot(by_month_genus) +
+  geom_bar(mapping = aes(x = fct_infreq(genus, ordered = TRUE),
+                         fill = rodent_type)) + 
   facet_grid(~ plot_type) +
   coord_flip()
-
 ```
 
 ## Themes and customisations
@@ -189,32 +283,49 @@ ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
                      colour = rodent_type)) +
   geom_boxplot() +
+  scale_colour_brewer(palette = "Set1") +
   geom_point(position = "jitter") +
   facet_wrap(~ plot_type) +
   xlab("Rodent type") +
   ylab("Number of captures") +
-  ggtitle("Monthly captures of rodents between 1977 and 1990") +
+  ggtitle("Quarterly captures of rodents between 1977 and 1990") +
   theme_bw()
 
 ```
 
-```{r,purl=FALSE,echo=FALSE}
+```{r,purl=FALSE,echo=TRUE, fig.height=10}
+# Create rodent levels by getting the unique values for rodent type
+# and putting them in reverse order for plotting
+rodent_levels <-  rev(unique(by_quarter$rodent_type))
 
-ggplot(data = by_quarter,aes(x=quarter,y=captures,colour=plot_type)) +
+# Convert rodent_type to factors such that Kangeroo rat is first and Granivore
+# is second
+by_quarter$rodent_type <- factor(by_quarter$rodent_type, 
+                                 levels = rodent_levels)
+
+# Now recreate the published figure in black and white
+ggplot(data = by_quarter,aes(x=quarter,y=captures,
+                             linetype=plot_type,shape=plot_type)) +
   geom_line() +
   geom_point() +
   facet_wrap(~ rodent_type, nrow = 2) +
-  scale_x_continuous(breaks = seq(1977,1990,1)) +
-  scale_color_discrete(guide_legend(title = "Plot type")) +
-  xlab("Year") +
-  ylab("Number of captures") +
-  ggtitle("Monthly captures of rodents between 1977 and 1990") +
-  theme_minimal() +
-  theme(legend.position = "bottom")
-  # ,
-  #       axis.text.x = element_text(size = rel(0.9), angle = 45))
-
+  scale_x_continuous(breaks = seq(1978,1990,2)) +
+  scale_linetype_discrete(guide_legend(title = "")) +
+  scale_shape_discrete(guide_legend(title = "")) +
+  xlab("YEAR") +
+  ylab("CAPTURES / PERIOD") +
+  theme_linedraw() +
+  theme(axis.text = element_text(size = 12, face = "bold"),
+        axis.title = element_text(size = 12, face = "bold"),
+        strip.text = element_text(size=12),
+        panel.grid = element_blank(),
+        aspect.ratio = 0.6, 
+        legend.position = "top")
 ```
+
+![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
+
+## Summary
 
 ```{r, purl=FALSE,eval=FALSE}
 ggplot(data = <DATA>) + 

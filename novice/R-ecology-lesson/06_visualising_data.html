@@ -378,19 +378,56 @@ div.tocify {
 </div>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>We’ve transformed the surveys data ready for plotting, so let’s remind ourselves of the</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
-<span class="st">  </span><span class="er">&lt;</span><span class="kw">GEOM_FUNCTION</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;))&gt;</code></pre></div>
+<p>We’ve transformed the surveys data ready for plotting, but what do we want to plot?</p>
+<p>We want to plot the number of captures as a function of quarter in which they took place, whilst comparing both kangeroo rats and granivores, as well as comparing kangroo rat exclosure with plots containing kangeroo rats and granivores.</p>
+<p>Such a plot should inform us about the effect of kangeroo rat exclosure on the granivore population. All the work we did to transform the data should make this straight forward as we have a tidy data set i.e. each observation forms a row and each variable forms a column. We have four variables: <code>rodent_type</code>, <code>quarter</code>, <code>plot_type</code> and <code>captures</code>.</p>
+<p>Here’s the figure from the paper again:</p>
+<div class="figure">
+<img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
+<p class="caption">Figure 1 from Heske et. al., 1994</p>
+</div>
 </div>
 <div id="reproducing-the-time-series" class="section level2">
 <h2>Reproducing the time series</h2>
+<p>Let’s remind ourselves of the basic form for creating plots with the <code>ggplot2</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
+<span class="st">  </span><span class="er">&lt;</span><span class="kw">GEOM_FUNCTION</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;))&gt;</code></pre></div>
+<p>In this form we provide a data frame as an arguement to the <code>ggplot</code> function and then aesthetics (the variables we wish to plot) are mapped to a geometric object such as a line. If we were to plot several <code>geoms()</code> on the same plot, we’d need to map the aesthetics to each <code>geom()</code>, so often it’s more convenient to provide the aesthetics arguement to <code>ggplot()</code> instead, and it will be mapped to all geoms we add to the plot. Only do this if this is what you want.</p>
+<p>In our first attempt at plotting the data, our data is <code>by_quarter</code> and we’ll map three aesthetics <code>x = quarter,y = captures,colour = plot_type</code> to two geoms <code>geom_line</code> and <code>geom_point</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> quarter,<span class="dt">y =</span> captures,<span class="dt">colour =</span> plot_type)) +
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="960" /></p>
+<p>This isn’t much use as we can’t tell the difference between the kangeroo rats and granivores. We need to use our fourth variable <code>rodent_type</code> to create two plots, one for the granivores and the other for the kangeroo rats.</p>
 <div id="facets" class="section level3">
 <h3>Facets</h3>
-<p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="672" /></p>
+<p>Creating sub-plots based on the <code>rodent_type</code> variable uses facets. If we are facetting plots by a single variable we use <code>facet_wrap()</code>. The first arguement is <code>~</code> followed by the variable name, here <code>rodent_type</code>. This arguement is called a formula. There are many additional arguements that can be provided, see <code>?facet_wrap</code>.</p>
+<p>Using <code>facet_wrap(~ rodent_type)</code> gives us this plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>quarter,<span class="dt">y=</span>captures,<span class="dt">colour=</span>plot_type)) +
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="960" /></p>
+<p>So this is starting to look more like the published figure, and we can confirm that the granivore populations do increase when the kangeroo rats are excluded.</p>
+<p>However we can improve things, and we’ll come back making the figure more polished at the end of this lesson.</p>
+<p>If we wanted to plot the combination of two variable we’d use <code>facet_grid()</code> in which the formula becomes <code>first_variable ~ second_variable</code>.</p>
+<blockquote>
+<h3 id="challenge">Challenge</h3>
+<p>Try plotting <code>by_quarter</code> using <code>facet_grid()</code> and arguements <code>plot_type</code> and <code>rodent_type</code></p>
+<p>We don’t need to map the colour aesthetic.</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>quarter,<span class="dt">y=</span>captures)) +
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_grid</span>(plot_type~<span class="st"> </span>rodent_type)</code></pre></div>
 </div>
 </div>
 <div id="other-plot-types" class="section level2">
 <h2>Other plot types</h2>
+<p>There are many other types of plot we may wish to create when exploring data. The previous plot showed us changes with time, but we might want to look at averages and spread or other statistical summaries of the data.</p>
 <div id="boxplots" class="section level3">
 <h3>Boxplots</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
@@ -398,41 +435,50 @@ div.tocify {
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="position-adjustments" class="section level3">
 <h3>Position adjustments</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
                                               <span class="dt">colour=</span>class))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
                                               <span class="dt">colour=</span>class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-5-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
+<p><img src="img/r-lesson-unnamed-chunk-7-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot without jitter</span>
+<span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
+<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot with jitter</span>
+<span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>) +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-8-2.png" width="672" /></p>
 </div>
-<div id="factors-and-statistical-transformations" class="section level3">
-<h3>Factors and statistical transformations</h3>
-<p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
+<div id="bar-charts" class="section level3">
+<h3>Bar charts</h3>
+<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /><img src="img/r-lesson-unnamed-chunk-9-2.png" width="672" /><img src="img/r-lesson-unnamed-chunk-9-3.png" width="672" /></p>
+</div>
+<div id="statistical-transformations" class="section level3">
+<h3>Statistical transformations</h3>
+<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="coordinate-adjustments" class="section level3">
 <h3>Coordinate adjustments</h3>
-<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
-<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="factors" class="section level3">
+<h3>Factors</h3>
+<p><img src="img/r-lesson-unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
 <div id="themes-and-customisations" class="section level2">
@@ -441,14 +487,49 @@ div.tocify {
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
+<span class="st">  </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>) +
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>) +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type) +
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Rodent type&quot;</span>) +
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of captures&quot;</span>) +
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Monthly captures of rodents between 1977 and 1990&quot;</span>) +
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Quarterly captures of rodents between 1977 and 1990&quot;</span>) +
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
-<p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create rodent levels by getting the unique values for rodent type</span>
+<span class="co"># and putting them in reverse order for plotting</span>
+rodent_levels &lt;-<span class="st">  </span><span class="kw">rev</span>(<span class="kw">unique</span>(by_quarter$rodent_type))
+
+<span class="co"># Convert rodent_type to factors such that Kangeroo rat is first and Granivore</span>
+<span class="co"># is second</span>
+by_quarter$rodent_type &lt;-<span class="st"> </span><span class="kw">factor</span>(by_quarter$rodent_type, 
+                                 <span class="dt">levels =</span> rodent_levels)
+
+<span class="co"># Now recreate the published figure in black and white</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,<span class="kw">aes</span>(<span class="dt">x=</span>quarter,<span class="dt">y=</span>captures,
+                             <span class="dt">linetype=</span>plot_type,<span class="dt">shape=</span>plot_type)) +
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type, <span class="dt">nrow =</span> <span class="dv">2</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1978</span>,<span class="dv">1990</span>,<span class="dv">2</span>)) +
+<span class="st">  </span><span class="kw">scale_linetype_discrete</span>(<span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>)) +
+<span class="st">  </span><span class="kw">scale_shape_discrete</span>(<span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>)) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;YEAR&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;CAPTURES / PERIOD&quot;</span>) +
+<span class="st">  </span><span class="kw">theme_linedraw</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+        <span class="dt">strip.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">12</span>),
+        <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
+        <span class="dt">aspect.ratio =</span> <span class="fl">0.6</span>, 
+        <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-14-1.png" width="672" /></p>
+<div class="figure">
+<img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
+<p class="caption">Figure 1 from Heske et. al., 1994</p>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(
      <span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;),
