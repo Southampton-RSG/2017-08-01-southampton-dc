@@ -51,8 +51,9 @@ transforming separate day, month and year variables into a single data variable.
 Often these operations can be combined, known as piping, which is very
 powerful and convenient.
 
-Our goal is to reproduce the analysis of the Heske et. al. paper is that there is
-evidence that kangeroo rats compete directly with four other rodent species, generating a similar figure to the one below, to confirm their observations.
+Our goal is to reproduce the analysis of the 1994 Heske et. al. paper is that 
+there is evidence that kangeroo rats compete directly with four other rodent 
+species, generating a similar figure to the one below, to confirm their observations.
 
 Concretely, we are going to look at the effect of kangeroo rat exlusion on the 
 populations of smaller granivores in two 0.25 hectare plots versus two plots

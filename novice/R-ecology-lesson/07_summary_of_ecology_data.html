@@ -27,6 +27,49 @@
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -320,16 +363,139 @@ div.tocify {
 <p>By the end of this lesson the learner will:</p>
 <ul>
 <li>Learn how to turn a R script into a shareable report.</li>
-<li>How to export tidy data for sharing in CSV format.</li>
+<li>How to export data for sharing in CSV format.</li>
+<li>How to export figures in pdf or png format.</li>
 </ul>
 </blockquote>
 <hr />
-<div id="a-summary-of-the-rodent-survey-data" class="section level1">
-<h1>A summary of the rodent survey data</h1>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>Sum up what we’ve learnt about the rodent survey and how we got there</p>
+</div>
+<div id="exporting-data" class="section level2">
+<h2>Exporting data</h2>
 <p>Show the learner how to convert the script to a report - emphasising why good comments are important</p>
 <p>Show them how to export the tidy dataset to a csv file</p>
-<p>Sum up what we’ve learnt about the rodent survey and how we got there.</p>
-<p>TO-DO</p>
+</div>
+<div id="exporting-figures" class="section level2">
+<h2>Exporting figures</h2>
+</div>
+<div id="compiling-scripts-into-reports" class="section level2">
+<h2>Compiling scripts into reports</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&#39; ---</span>
+<span class="co">#&#39; title: &quot;Competition in Desert Rodents&quot;</span>
+<span class="co">#&#39; author: A. Bailey </span>
+<span class="co">#&#39; date: 21st June 2017</span>
+<span class="co">#&#39; ---</span>
+
+<span class="co">#&#39; This script recapitulates some of the analysis found in the 1994 paper by </span>
+<span class="co">#&#39; Heske et. al., Long-Term Experimental Study of a Chihuahuan Desert Rodent </span>
+<span class="co">#&#39; Community: 13 Years of Competition, DOI: 10.2307/1939547.</span>
+<span class="co">#&#39;</span>
+<span class="co">#&#39; This paper examined the effect on the populations of small seed eating rodents</span>
+<span class="co">#&#39; as a result of the exclusion of larger competitor kangeroo rats over a period </span>
+<span class="co">#&#39; from 1977 to 1991.</span>
+<span class="co">#&#39;</span>
+<span class="co">#&#39;### Load the tidyverse set of packages</span>
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(forcats)
+
+<span class="co">#&#39;### Read in the data</span>
+surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;../data/portal_data_joined.csv&#39;</span>)
+
+<span class="co">#&#39; This data has 34,786 observations of 13 variables.</span>
+<span class="co">#&#39; #&#39;</span>
+<span class="co">#&#39; We only need the observations for 8 species and 8 plots.</span>
+<span class="co">#&#39;</span>
+<span class="co"># Kangeroo Rats:</span>
+<span class="co"># DM    Dipodomys merriami          Rodent  Merriam&#39;s kangaroo rat</span>
+<span class="co"># DO    Dipodomys ordii             Rodent  Ord&#39;s kangaroo rat</span>
+<span class="co"># DS    Dipodomys spectabilis       Rodent  Banner-tailed kangaroo rat</span>
+
+<span class="co"># Granivores:</span>
+<span class="co"># PP    Chaetodipus penicillatus    Rodent  Desert pocket mouse</span>
+<span class="co"># PF    Perognathus flavus          Rodent  Silky pocket mouse</span>
+<span class="co"># PE    Peromyscus eremicus         Rodent  Cactus mouse</span>
+<span class="co"># PM    Peromyscus maniculatus      Rodent  Deer Mouse</span>
+<span class="co"># RM    Reithrodontomys megalotis   Rodent  Western harvest mouse</span>
+
+<span class="co"># Create a vector for the experimental plots, four controls, four kangeroo rat</span>
+<span class="co"># exclusion plots</span>
+exp_plots &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">3</span>,<span class="dv">15</span>,<span class="dv">19</span>,<span class="dv">21</span>)
+
+<span class="co"># Create a character vector for rodents of interest</span>
+rodents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span>,<span class="st">&quot;DO&quot;</span>,<span class="st">&quot;DS&quot;</span>,<span class="st">&quot;PP&quot;</span>,<span class="st">&quot;PF&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PM&quot;</span>,<span class="st">&quot;RM&quot;</span>)
+<span class="co"># Create a character vector for Kangeroo Rats by subsetting the first</span>
+<span class="co"># three elements of rodents</span>
+krats &lt;-<span class="st"> </span>rodents[<span class="dv">1</span>:<span class="dv">3</span>]
+
+<span class="co">#&#39;###Subset the data</span>
+surveys_subset &lt;-<span class="st"> </span>surveys %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="co"># Filter observations from 1977 to 1990, for the 3 K-rats and 5 granivores, </span>
+<span class="st">  </span><span class="co"># and for the 4 experimental plots</span>
+<span class="st">  </span><span class="kw">filter</span>(year &lt;=<span class="st"> </span><span class="dv">1990</span>,                    
+         species_id %in%<span class="st"> </span>rodents,         
+         plot_id %in%<span class="st"> </span>exp_plots) %&gt;%<span class="st">      </span>
+<span class="st">  </span><span class="co"># Make variable to indicate whether species is K-rat or Granivore</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> <span class="kw">if_else</span>(species_id %in%<span class="st"> </span>krats, <span class="st">&quot;Kangeroo Rat&quot;</span>,
+                               <span class="st">&quot;Granivore&quot;</span>),
+         <span class="co"># Make combined date variable</span>
+         <span class="dt">date =</span> lubridate::<span class="kw">dmy</span>(<span class="kw">sprintf</span>(<span class="st">&#39;%02d%02d%04d&#39;</span>, 
+                                       day, month, year)),
+         <span class="co"># Add the quartley period</span>
+         <span class="dt">quarter =</span> lubridate::<span class="kw">quarter</span>(date,<span class="dt">with_year =</span> <span class="ot">TRUE</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="co"># Drop unwanted variables</span>
+<span class="st">  </span><span class="kw">select</span>(-sex,-hindfoot_length,-weight)
+
+<span class="co">#&#39;### Summarise data </span>
+<span class="co"># Summarise the data by rodent type, quarterly survey and plot type</span>
+by_quarter &lt;-<span class="st"> </span>surveys_subset %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(rodent_type,quarter,plot_type) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">captures =</span> <span class="kw">n</span>()/<span class="dv">3</span>) 
+
+<span class="co">#&#39;### Plot the data </span>
+<span class="co"># Create rodent levels by getting the unique values for rodent type</span>
+<span class="co"># and putting them in reverse order for plotting</span>
+rodent_levels &lt;-<span class="st">  </span><span class="kw">rev</span>(<span class="kw">unique</span>(by_quarter$rodent_type))
+
+<span class="co"># Convert rodent_type to factors such that Kangeroo rat is first and Granivore</span>
+<span class="co"># is second</span>
+by_quarter$rodent_type &lt;-<span class="st"> </span><span class="kw">factor</span>(by_quarter$rodent_type, 
+                                 <span class="dt">levels =</span> rodent_levels)
+
+<span class="co"># Now recreate the published figure in black and white</span>
+pub_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
+                   <span class="kw">aes</span>(<span class="dt">x=</span>quarter, <span class="dt">y=</span>captures, <span class="dt">linetype =</span> plot_type,
+                             <span class="dt">shape =</span> plot_type)) +
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type, <span class="dt">nrow =</span> <span class="dv">2</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1978</span>,<span class="dv">1990</span>,<span class="dv">2</span>)) +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span><span class="st">&quot;YEAR&quot;</span>,
+       <span class="dt">y =</span><span class="st">&quot;CAPTURES / PERIOD&quot;</span>,
+       <span class="dt">linetype =</span> <span class="st">&quot;&quot;</span>,
+       <span class="dt">shape =</span> <span class="st">&quot;&quot;</span>) +
+<span class="st">  </span><span class="kw">theme_linedraw</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+        <span class="dt">strip.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">12</span>),
+        <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
+        <span class="dt">aspect.ratio =</span> <span class="fl">0.6</span>, 
+        <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)
+
+<span class="co">#+ fig.height=10</span>
+pub_plot
+
+<span class="co">#&#39;### Export the data and figure</span>
+<span class="co">#&#39; Export the subsetted data as a excel readable csv file</span>
+<span class="co">#&#39; and export the figure as pdf.</span>
+<span class="co">#&#39; </span>
+<span class="co"># Write out an excel formatted csv</span>
+<span class="kw">write_excel_csv</span>(surveys_subset,<span class="st">&quot;surveys_subset.csv&quot;</span>)
+<span class="co"># Write out a pdf of the figure</span>
+<span class="kw">pdf</span>(<span class="st">&quot;capture_of_rodents.pdf&quot;</span>)
+pub_plot
+<span class="kw">dev.off</span>()</code></pre></div>
 </div>
 
 <hr/>

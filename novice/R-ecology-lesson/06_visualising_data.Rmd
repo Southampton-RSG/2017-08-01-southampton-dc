@@ -220,10 +220,101 @@ ggplot(data= by_quarter,
 
 ```
 
-### Bar charts
+## Statistical transformations
+
+Next we'll plot bar charts. 
+
+These simple plots actually reveal subtleties in 
+plots. In the following code we take the `by_month_genus` subset and create
+a bar chart of `genus`, filling the bars with colour according to `rodent_type`.
+
+```{r,purl=FALSE,echo=TRUE}
+# Create a bar plot of genus from by_month_genus 
+ggplot(by_month_genus) +
+  geom_bar(mapping = aes(x = genus, fill=rodent_type)) + 
+  facet_grid(~ plot_type)
+```
+
+We see that the code has automatically created a count variable on the y-axis 
+for each genus plotted as a bar on the x-axis. (We'll come back to the issue of
+illegible labels shortly.)
+
+This is because the `geom_bar()` algorithm automatically performs a statistical
+transformation of the mapped variable. That is to say it performs a count and 
+bins the data according to the genus. This means we have a chart where the bar
+height corresponds to the number of rows for each genus.
+
+But this isn't a count of the captures, it's how many times each genus appears
+in a row of `by_month_genus`. Remember how we summarised this data by captures
+per month.
+
+Often when people talk about bar charts they are referring to when the height
+of the bar is present in the data, here that would be the `captures` column.
+In this kind of situation we need to map the y-axis too, and change the
+default `geom_bar()` statistical transformation to `stat = "identity"` so that
+it takes the values provided in the `captures` column to determine the height of
+the bar.
+
+```{r,purl=FALSE,echo=TRUE}
+# Create a bar plot of genus from by_month_genus 
+ggplot(by_month_genus) +
+  geom_bar(mapping = aes(x = genus, y = captures,
+                         fill=rodent_type), stat = "identity") + 
+  facet_grid(~ plot_type)
+```
+
+> ### Challenge
+> Let's compare the plot we just made with `by_month_genus` to one using 
+`surveys_subset`
+>
+> Use the code from the plot where we didn't use the `captures` column and
+use the default statistical transformation.
+>
+> As `surveys_subset` has one row for every capture, counting the rows should
+produce the same plot as when we used the calculated `captures` column in
+`by_month_genus`.
+>
+
+```{r,purl=FALSE,echo=FALSE, eval=FALSE}
+# Create a bar plot of genus from by_month_genus 
+ggplot(surveys_subset) +
+  geom_bar(mapping = aes(x = genus,
+                         fill=rodent_type)) + 
+  facet_grid(~ plot_type)
+```
+
+To learn more about statistical transformations have a look at the [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf).
+
+> ### Challenge
+> For the next part we need to calculaute the mean monthly captures.
+> 
+> Recall how to do grouped summaries and create an object `by_month_mean`
+using `by_month_genus`, grouping by `genus,plot_type,rodent_type` and then
+summarising `mean_captures = mean(captures)`.
+>
 
 ```{r,purl=FALSE,echo=FALSE}
-# Use the position
+by_month_mean <- by_month_genus %>% group_by(genus,plot_type,rodent_type) %>%
+  summarise(mean_captures = mean(captures))
+```
+
+Using our new summary data frame `by_month_mean` we'll look at using positions 
+with bar charts.
+
+The next few graphs illustrate a stacked bar chart situation. Here we plot the
+mean monthly number of captures at each plot type, colouring by genus. 
+
+In the first plot the bars are stacked such that we can see the relative mean monthly captures per genus, but not what the actual mean was for each genus. 
+
+To get round this problem we can alter the default position setting to identity. However, this means that filled bars would overlap, so we've set `fill = NA`. Now
+we can see the mean values as well as the proportions.
+
+Alternatively we could set `postion = dodge` and we get the third plot, where
+the bars for each genus are side by side, again allowing us to see both the
+proportions and the mean values.
+
+```{r,purl=FALSE,echo=TRUE}
+# Create a stacked bar chart of plot type coloured by 
 ggplot(by_month_mean) +
   geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
                          colour = genus),
@@ -242,40 +333,120 @@ ggplot(by_month_mean) +
            fill = NA, stat = "identity", position ="dodge")
 ```
 
-### Statistical transformations
-
-```{r,purl=FALSE,echo=FALSE}
-# Orders the rodents alphabetically
-ggplot(by_month_genus, aes(x = genus,
-                          fill=rodent_type)) +
-  geom_bar() + 
-  facet_grid(~ plot_type)
-```
-
 ### Coordinate adjustments
 
-```{r,purl=FALSE,echo=FALSE}
-# Flip the coordinates to see the 
+Previously, we plotted `by_month_genus` and the genus labels we overlapping.
+We could change the label size, but to illustrate another function, let's flip
+the plot round using `coord_flip()` to improve things:
+
+```{r,purl=FALSE,echo=TRUE}
+# Flip the coordinates to make the labels readable 
 ggplot(by_month_genus) +
-  geom_bar(mapping = aes(x = genus, fill = rodent_type)) + 
+  geom_bar(mapping = aes(x = genus, y = captures, fill = rodent_type), 
+           stat = "identity") + 
   facet_grid(~ plot_type) +
   coord_flip()
 ```
 
 ### Factors
 
-```{r,purl=FALSE,echo=FALSE}
+Finally for this plot, it would be nice to put the bars in order of size. We
+can do this by converting the genus to a factor.
 
-# Orders the rodents according to number of captures
+Recall that factors are how R represents catergorical variables, variables with
+a limited number of values, such as genus.
+
+Also recall *factors look like strings, but behave like integers*. That is to 
+say they are words that have values called levels, and an order.
+
+This is why factors are useful, especially when we want to place things in 
+non-alphabetical order. 
+
+Check out the [forcats](http://forcats.tidyverse.org/) tidyverse package to 
+explore the power of factors, but here we're going to use the `fct_reorder()` 
+function to convert `genus` to a factor and in doing so set the level according 
+to to the number of captures. 
+
+Note we still keep x and y mappings, but now x is now a function of both the 
+genus and the capture columns.
+
+This gives us a nice ordered bar chart.
+
+```{r,purl=FALSE,echo=TRUE}
+# Load the forcats tidyverse package
+library(forcats)
+
+# Order the rodents according to number of captures
 ggplot(by_month_genus) +
-  geom_bar(mapping = aes(x = fct_infreq(genus, ordered = TRUE),
-                         fill = rodent_type)) + 
+  geom_bar(mapping = aes(x = fct_reorder(genus, captures), y = captures, 
+                          fill = rodent_type), stat = "identity") + 
+  facet_grid(~ plot_type) +
+  coord_flip()
+```
+
+> ### Challenge
+> To illustrate using the size aesthetic, recreate the `by_month_mean` plot using
+geom_point() with the additional arguement of `size = rodent_type`.
+>
+> Also use `fct_reorder()` to change the x mapping to a factor that is a function
+of `genus` and `mean_captures` such that the plot is ordered by `mean_captures`.
+>
+> Don't forget to change `fill` to `colour` when changing from `geom_bar()` to
+`geom_point()`.
+>
+
+```{r,purl=FALSE,echo=FALSE, eval= FALSE}
+# Order the rodents according to frequency of the 
+ggplot(by_month_mean) +
+  geom_point(mapping = aes(x = fct_reorder(genus, mean_captures), 
+                           y = mean_captures, 
+                          colour = rodent_type, 
+                          size = rodent_type), stat = "identity") + 
   facet_grid(~ plot_type) +
   coord_flip()
 ```
 
 ## Themes and customisations
 
+When we're exploring our data we generally don't mind if the labels and colours
+etc. are a bit messy. But when we want to publish or communicate our findings
+to others we want everything to be just so.
+
+This is where the code can become quite complicated and it's hard to provide
+a general case. However, the underlying form remains the same.
+
+```{r, purl=FALSE,eval=FALSE}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+```
+
+To this we add all the additional functions and arguements that will change
+the plot to make it exactly how we want. It takes time, but remember code is 
+resusable. Solve it once and you've solved it forever.
+
+For all the possible customisations check out the 
+[ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html), and
+this chapter of R for data science: 
+[Graphics for communication](http://r4ds.had.co.nz/graphics-for-communication.html#themes)
+
+But here's a few common changes.
+
+### Changing colours, labels, themes and adding titles
+
+Recall our boxplot with points overlaid. Following the facet function, 
+we're going add a succession of functions to change the colours 
+`scale_colour_brewer()`, change the axis labels, 
+add a title using `labs()` and change the theme.
+
+Themes deal with non-data elements e.g. the grid, the axes etc. There are
+a range of built-in themes and packages of themes such as `ggthemes`. Here
+we'll use the built-in theme, `theme_bw()` that gives a simple layout.
 
 ```{r,purl=FALSE,echo=TRUE}
 
@@ -283,15 +454,22 @@ ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
                      colour = rodent_type)) +
   geom_boxplot() +
-  scale_colour_brewer(palette = "Set1") +
   geom_point(position = "jitter") +
   facet_wrap(~ plot_type) +
-  xlab("Rodent type") +
-  ylab("Number of captures") +
-  ggtitle("Quarterly captures of rodents between 1977 and 1990") +
+  scale_colour_brewer(palette = "Set1") +
+  labs(title = "Quarterly average captures of rodents between 1977 and 1990",
+       x = "Rodent type",
+       y = "Number of captures",
+       colour = "Rodent type") +
   theme_bw()
 
 ```
+
+
+## Re-creating the paper figure
+
+With a fair amount of extra code we can mostly re-create the figure from the
+paper (top two panels only).
 
 ```{r,purl=FALSE,echo=TRUE, fig.height=10}
 # Create rodent levels by getting the unique values for rodent type
@@ -304,16 +482,16 @@ by_quarter$rodent_type <- factor(by_quarter$rodent_type,
                                  levels = rodent_levels)
 
 # Now recreate the published figure in black and white
-ggplot(data = by_quarter,aes(x=quarter,y=captures,
-                             linetype=plot_type,shape=plot_type)) +
+ggplot(data = by_quarter,aes(x=quarter, y=captures, linetype = plot_type,
+                             shape = plot_type)) +
   geom_line() +
   geom_point() +
   facet_wrap(~ rodent_type, nrow = 2) +
   scale_x_continuous(breaks = seq(1978,1990,2)) +
-  scale_linetype_discrete(guide_legend(title = "")) +
-  scale_shape_discrete(guide_legend(title = "")) +
-  xlab("YEAR") +
-  ylab("CAPTURES / PERIOD") +
+  labs(x ="YEAR",
+       y ="CAPTURES / PERIOD",
+       linetype = "",
+       shape = "") +
   theme_linedraw() +
   theme(axis.text = element_text(size = 12, face = "bold"),
         axis.title = element_text(size = 12, face = "bold"),
@@ -325,6 +503,10 @@ ggplot(data = by_quarter,aes(x=quarter,y=captures,
 
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
+If you are preparing figures for a manuscript or publication, it's worth checking
+out the [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) pacakge that works with ggplot2. This enables easy combinations
+of different plots and things like panel labels.
+
 ## Summary
 
 ```{r, purl=FALSE,eval=FALSE}
@@ -335,5 +517,7 @@ ggplot(data = <DATA>) +
      position = <POSITION>
   ) +
   <COORDINATE_FUNCTION> +
-  <FACET_FUNCTION>
+  <FACET_FUNCTION> +
+  <LABEL FUNCTION> +
+  <THEME FUNCTION>
 ```
