@@ -45,8 +45,7 @@ In this lesson we'll transform data using another tidyverse package `dplyr` to:
 selecting (variables) columns of interest. 
 + create new variables that are functions of existing variables. For example,
 transforming separate day, month and year variables into a single data variable.
-+ calculate summary statistics such as how many observations every three months.
-+ create a transformed data set for exporting.
++ calculate summarised data such as observations per three months.
 
 Often these operations can be combined, known as piping, which is very
 powerful and convenient.
@@ -59,10 +58,13 @@ Concretely, we are going to look at the effect of kangaroo rat exclusion on the
 populations of smaller granivores in two 0.25 hectare plots versus two plots
 where kangaroo rats were allowed access.
 
-This figure shows the number of captures of threes species of kangaroo Rats
+Panels A and B shows the number of captures of threes species of kangaroo rats
 and five species of smaller granivore rodents over a period from 1977 to 1990.
 Panel A shows the populations when the eight species were left to compete for 
 resources and Panel B shows the effect of excluding the kangaroo Rats.
+
+For simplicity we're going to ignore Panel C, which examines grasshopper rats,
+and only 
 
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 

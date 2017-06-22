@@ -12,7 +12,7 @@
 <meta name="author" content="A.Bailey" />
 
 
-<title>A summary of the rodent survey data</title>
+<title>Exporting and communicating</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -351,7 +351,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">A summary of the rodent survey data</h1>
+<h1 class="title toc-ignore">Exporting and communicating</h1>
 <h4 class="author"><em>A.Bailey</em></h4>
 
 </div>
@@ -368,20 +368,105 @@ div.tocify {
 </ul>
 </blockquote>
 <hr />
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+<div class="figure">
+<img src="img/data_workflow_comm.png" />
+
+</div>
+</div>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>Sum up what we’ve learnt about the rodent survey and how we got there</p>
+<p>Recall that we began with a data set of around 35,000 observations covering 40 species spread over 24 plots.</p>
+<p>We have imported and transformed the data to both subset the observations and variables of interest, and to summarise the data. We then plotted the summarised data. We did this all in a R script.</p>
+<p>As mentioned at the start, it’s good to think of the script as the reality of the analysis. It contains all the code necessary to reproduce the analysis, and unless we change the code or the data we import, it should reproduce it exactly every time we run the code. So it’s a really important document.</p>
+<p>However, not everyone can use R, and we might wish to communicate the analysis outside of the R environment. Therefore we need to be able to export data too.</p>
+<p>Here we’ll briefly cover three aspects of exporting:</p>
+<ul>
+<li>exporting data in spreadsheet form</li>
+<li>exporting figures for use in documents or presentations</li>
+<li>turning our script into a report</li>
+</ul>
+<p>This last point is particularly useful in situations such as writing a dissertation or manuscript where you might need to include the code you used in an analysis.</p>
 </div>
 <div id="exporting-data" class="section level2">
 <h2>Exporting data</h2>
-<p>Show the learner how to convert the script to a report - emphasising why good comments are important</p>
-<p>Show them how to export the tidy dataset to a csv file</p>
+<p>The simplest way to export data for excel is to output our data frame as comma separated variable (.csv). We can either do this using <code>write_csv</code> for a general csv format, or in an excel specific csv format <code>write_excel_csv()</code>.</p>
+<p>In my project directory I’ve created a folder called <code>data_output</code> to export files to.</p>
+<p>The write functions can take a number of arguments, but in the simplest form we need to provide the name of the data frame we’re exporting, <code>surveys_subset</code> and a character string for the location and file name we want to save. Here that’s <code>&quot;data_output/surveys_subset.csv&quot;</code>. The forward slash indicates the file is going in the <code>data_output</code> folder.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Write surveys in csv format</span>
+<span class="kw">write_csv</span>(surveys_subset,<span class="st">&quot;data_output/surveys_subset.csv&quot;</span>)
+<span class="co"># Write out an excel formatted csv</span>
+<span class="kw">write_excel_csv</span>(surveys_subset,<span class="st">&quot;data_output/surveys_subset_excel.csv&quot;</span>)</code></pre></div>
+<p>Having run the code, can open the files up to have a look.</p>
+<p>There’s lots more information on data export here: <a href="https://cran.r-project.org/doc/manuals/r-release/R-data.html">R Data Import/Export</a>.</p>
 </div>
 <div id="exporting-figures" class="section level2">
 <h2>Exporting figures</h2>
+<p>Another common task is to export figures for presentations or to put in a document. Two common formats are portable network graphics (.png), good for PowerPoint, and portable document format (.pdf), good for high quality documents.</p>
+<p>The best way to export figures in R is using code that opens a file in the format you require, makes the plot, and then you close the file. <strong>It’s important to remember to close the file.</strong></p>
+<p>First we’re going to create our plot as an object instead of plotting directly as we did before:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the plot as an object called pub_plot</span>
+pub_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
+                   <span class="kw">aes</span>(<span class="dt">x=</span>quarter, <span class="dt">y=</span>captures, <span class="dt">linetype =</span> plot_type,
+                             <span class="dt">shape =</span> plot_type)) +
+<span class="st">  </span><span class="kw">geom_line</span>() +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type, <span class="dt">nrow =</span> <span class="dv">2</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1978</span>,<span class="dv">1990</span>,<span class="dv">2</span>)) +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span><span class="st">&quot;YEAR&quot;</span>,
+       <span class="dt">y =</span><span class="st">&quot;CAPTURES / PERIOD&quot;</span>,
+       <span class="dt">linetype =</span> <span class="st">&quot;&quot;</span>,
+       <span class="dt">shape =</span> <span class="st">&quot;&quot;</span>) +
+<span class="st">  </span><span class="kw">theme_linedraw</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>),
+        <span class="dt">strip.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">12</span>),
+        <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
+        <span class="dt">aspect.ratio =</span> <span class="fl">0.6</span>, 
+        <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre></div>
+<p>Now we have our figure as an object called <code>pub_plot</code> we can plot it to any format we wish, just by calling the object.</p>
+<p>Here are two bits of code for exporting the same figure as a png and as a pdf.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Write out a png of the figure
+<span class="co"># Open a png file and give it a name</span>
+<span class="kw">png</span>(<span class="st">&quot;data_output/capture_of_rodents.png&quot;</span>)
+<span class="co"># Create the plot</span>
+pub_plot
+<span class="co"># Close the file</span>
+<span class="kw">dev.off</span>()
+
+<span class="co"># Write out a pdf of the figure</span>
+<span class="co"># Open a pdf file</span>
+<span class="kw">pdf</span>(<span class="st">&quot;data_output/capture_of_rodents.pdf&quot;</span>)
+<span class="co"># Create the plot</span>
+pub_plot
+<span class="co"># Close the file</span>
+<span class="kw">dev.off</span>()</code></pre></div>
+<p>Both these functions can take lots of other arguments, so check out <code>?png</code> and <code>?pdf</code> for more details.</p>
 </div>
 <div id="compiling-scripts-into-reports" class="section level2">
 <h2>Compiling scripts into reports</h2>
+<p>Finally, we can turn our code into a report. This is one reason why good comments are important, as our comments become the text of the report. By writing the analysis code and the report at the same time can save us duplicating our efforts.</p>
+<p>For a more sophisticate approach, check out the <a href="http://r4ds.had.co.nz/r-markdown.html">R Markdown chapter</a> of R for Data Science. Here we’ll do a simplified approach.</p>
+<p>At the top of our script, insert some comments lines in the following form:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&#39; ---</span>
+<span class="co">#&#39; title: &quot;Name of report&quot;</span>
+<span class="co">#&#39; author: &quot;Your name&quot;</span>
+<span class="co">#&#39; date: &quot;Today&#39;s date&quot;</span>
+<span class="co">#&#39; ---</span></code></pre></div>
+<p>Note the <code>#'</code> form of the comment line, with an apostrophe, this tells R to interpret this code to create the report header when we compile the script.</p>
+<p>In the rest of the script we can use <code>#'</code> to create comments we want to be converted to regular text when we compile the script. Putting nothing after the <code>#'</code> creates a blank line.</p>
+<p>We can also create headings, for example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&#39; This would be a line of regular text</span>
+<span class="co">#&#39;</span>
+<span class="co">#&#39;# A big heading</span>
+<span class="co">#&#39;</span>
+<span class="co">#&#39;## A smaller heading</span>
+<span class="co">#&#39;</span>
+<span class="co">#&#39;### An even smaller heading</span></code></pre></div>
+<p>This form: <code>#+</code>, can be used for controlling figure sizes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#+ fig.height=10</span>
+pub_plot</code></pre></div>
+<p>Take a moment to insert some of these kinds of comments into your script, our example is below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&#39; ---</span>
 <span class="co">#&#39; title: &quot;Competition in Desert Rodents&quot;</span>
 <span class="co">#&#39; author: A. Bailey </span>
@@ -401,6 +486,7 @@ div.tocify {
 <span class="kw">library</span>(forcats)
 
 <span class="co">#&#39;### Read in the data</span>
+<span class="co">#&#39; Assuming the data has been downloaded to the data folder:</span>
 surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;../data/portal_data_joined.csv&#39;</span>)
 
 <span class="co">#&#39; This data has 34,786 observations of 13 variables.</span>
@@ -491,11 +577,20 @@ pub_plot
 <span class="co">#&#39; and export the figure as pdf.</span>
 <span class="co">#&#39; </span>
 <span class="co"># Write out an excel formatted csv</span>
-<span class="kw">write_excel_csv</span>(surveys_subset,<span class="st">&quot;surveys_subset.csv&quot;</span>)
+<span class="kw">write_excel_csv</span>(surveys_subset,<span class="st">&quot;surveys_subset_excel.csv&quot;</span>)
 <span class="co"># Write out a pdf of the figure</span>
 <span class="kw">pdf</span>(<span class="st">&quot;capture_of_rodents.pdf&quot;</span>)
 pub_plot
 <span class="kw">dev.off</span>()</code></pre></div>
+<p>When we’re ready we can now <em>knit</em> our scripts to a choice of several formats. Go to <code>File</code> &gt; <code>Knit Document</code> and we’ll be asked to choose an output. Stick with HTML and press <code>Compile</code>.</p>
+<p>Once it has compiled, you should see a html file in your file window. Click on it and choose <code>View in Web Browser</code>.</p>
+<p>Try compiling again, but choose a different format.</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>In this lesson we’ve followed the data workflow to import data from a spreadsheet, transformed it by learning how to filter observations, select variables and create new variables and then summarise the observations. We then visualised our summarised data in several ways and reproduced the general finding that smaller granivore populations are affected by kangaroo rat abundance.</p>
+<p>In this last section we’ve looked at how the analysis can be communicated by exporting the summary data, figures and reports.</p>
+<p>All of these steps are common to many data sets, so hopefully you can build upon the methods covered here to increase the speed of your analysis, the robustness of your analysis, and your ability to communicate you understanding to others.</p>
 </div>
 
 <hr/>

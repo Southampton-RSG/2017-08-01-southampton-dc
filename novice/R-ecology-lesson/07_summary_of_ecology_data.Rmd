@@ -1,7 +1,7 @@
 ---
-title: "A summary of the rodent survey data"
+title: "Exporting and communicating"
 author: "A.Bailey"
-minutes: 10
+minutes: 25
 ---
 
 ```{r, echo=FALSE, purl=TRUE}
@@ -20,20 +20,175 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 
 --------------
 
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![](./img/data_workflow_comm.png)
+</div>
+
+
 ## Motivation
 
-Sum up what we've learnt about the rodent survey and how we got there
+Recall that we began with a data set of around 35,000 observations covering
+40 species spread over 24 plots.
 
-## Exporting data
+We have imported and transformed the data to both subset the observations and
+variables of interest, and to summarise the data. We then plotted the summarised
+data. We did this all in a R script. 
 
-Show the learner how to convert the script to a report - emphasising why
-good comments are important
+As mentioned at the start, it's good to think of the script as the reality of 
+the analysis. It contains all the code necessary to reproduce the analysis, and
+unless we change the code or the data we import, it should reproduce it exactly
+every time we run the code. So it's a really important document.
 
-Show them how to export the tidy dataset to a csv file
+However, not everyone can use R, and we might wish to communicate the analysis
+outside of the R environment. Therefore we need to be able to export data too.
+
+Here we'll briefly cover three aspects of exporting:
+
++ exporting data in spreadsheet form
++ exporting figures for use in documents or presentations
++ turning our script into a report
+
+This last point is particularly useful in situations such as writing a 
+dissertation or manuscript where you might need to include the code you used in 
+an analysis.
+
+## Exporting data 
+
+The simplest way to export data for excel is to output our data frame as 
+comma separated variable (.csv). We can either do this using `write_csv` for
+a general csv format, or in an excel specific csv format `write_excel_csv()`.
+
+In my project directory I've created a folder called `data_output` to export
+files to.
+
+The write functions can take a number of arguments, but in the simplest form
+we need to provide the name of the data frame we're exporting, `surveys_subset`
+and a character string for the location and file name we want to save. Here
+that's `"data_output/surveys_subset.csv"`. The forward slash indicates the
+file is going in the `data_output` folder.
+
+```{r,purl=FALSE,echo=TRUE,eval=FALSE}
+# Write surveys in csv format
+write_csv(surveys_subset,"data_output/surveys_subset.csv")
+# Write out an excel formatted csv
+write_excel_csv(surveys_subset,"data_output/surveys_subset_excel.csv")
+```
+
+Having run the code, can open the files up to have a look.
+
+There's lots more information on data export here: [R Data Import/Export](https://cran.r-project.org/doc/manuals/r-release/R-data.html).
 
 ## Exporting figures
 
+Another common task is to export figures for presentations or to put in a 
+document. Two common formats are portable network graphics (.png), good
+for PowerPoint, and portable document format (.pdf), good for high quality documents.
+
+The best way to export figures in R is using code that opens a file in the format
+you require, makes the plot, and then you close the file. **It's important to 
+remember to close the file.**
+
+First we're going to create our plot as an object instead of plotting directly
+as we did before:
+
+```{r,purl=FALSE,echo=TRUE,eval=FALSE}
+# Create the plot as an object called pub_plot
+pub_plot <- ggplot(data = by_quarter,
+                   aes(x=quarter, y=captures, linetype = plot_type,
+                             shape = plot_type)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ rodent_type, nrow = 2) +
+  scale_x_continuous(breaks = seq(1978,1990,2)) +
+  labs(x ="YEAR",
+       y ="CAPTURES / PERIOD",
+       linetype = "",
+       shape = "") +
+  theme_linedraw() +
+  theme(axis.text = element_text(size = 12, face = "bold"),
+        axis.title = element_text(size = 12, face = "bold"),
+        strip.text = element_text(size=12),
+        panel.grid = element_blank(),
+        aspect.ratio = 0.6, 
+        legend.position = "top")
+```
+
+Now we have our figure as an object called `pub_plot` we can plot it to any 
+format we wish, just by calling the object. 
+
+Here are two bits of code for exporting the same figure as a png
+and as a pdf.
+
+```{r,purl=FALSE,echo=TRUE,eval=FALSE}
+## Write out a png of the figure
+# Open a png file and give it a name
+png("data_output/capture_of_rodents.png")
+# Create the plot
+pub_plot
+# Close the file
+dev.off()
+
+# Write out a pdf of the figure
+# Open a pdf file
+pdf("data_output/capture_of_rodents.pdf")
+# Create the plot
+pub_plot
+# Close the file
+dev.off()
+```
+
+Both these functions can take lots of other arguments, so check out `?png`
+and `?pdf` for more details.
+
 ## Compiling scripts into reports
+
+Finally, we can turn our code into a report. This is one reason why
+good comments are important, as our comments become the text of the report. 
+By writing the analysis code and the report at the same time can save us 
+duplicating our efforts.
+
+For a more sophisticate approach, check out the [R Markdown chapter](http://r4ds.had.co.nz/r-markdown.html) of R for Data Science. Here
+we'll do a simplified approach.
+
+At the top of our script, insert some comments lines in the following form:
+
+```{r, purl=FALSE,echo=TRUE,eval=FALSE}
+#' ---
+#' title: "Name of report"
+#' author: "Your name"
+#' date: "Today's date"
+#' ---
+```
+
+Note the `#'` form of the comment line, with an apostrophe, this tells R to 
+interpret this code to create the report header when we compile the script.
+
+In the rest of the script we can use `#'` to create comments we want to be converted to regular text when we compile the script. Putting nothing after the
+`#'` creates a blank line.
+
+We can also create headings, for example:
+
+```{r, purl=FALSE,echo=TRUE,eval=FALSE}
+#' This would be a line of regular text
+#'
+#'# A big heading
+#'
+#'## A smaller heading
+#'
+#'### An even smaller heading
+```
+
+
+This form: `#+`, can be used for controlling figure sizes:
+
+```{r,purl=FALSE,echo=TRUE,eval=FALSE}
+#+ fig.height=10
+pub_plot
+```
+
+
+Take a moment to insert some of these kinds of comments into your script, our
+example is below.
 
 ```{r,summary_script,purl=FALSE,echo=TRUE,eval=FALSE}
 #' ---
@@ -55,6 +210,7 @@ library(tidyverse)
 library(forcats)
 
 #'### Read in the data
+#' Assuming the data has been downloaded to the data folder:
 surveys <- read_csv('../data/portal_data_joined.csv')
 
 #' This data has 34,786 observations of 13 variables.
@@ -145,9 +301,35 @@ pub_plot
 #' and export the figure as pdf.
 #' 
 # Write out an excel formatted csv
-write_excel_csv(surveys_subset,"surveys_subset.csv")
+write_excel_csv(surveys_subset,"surveys_subset_excel.csv")
 # Write out a pdf of the figure
 pdf("capture_of_rodents.pdf")
 pub_plot
 dev.off()
 ```
+
+When we're ready we can now *knit* our scripts to a choice of several formats.
+Go to `File` > `Knit Document` and we'll be asked to choose an output. Stick 
+with HTML and press `Compile`.
+
+Once it has compiled, you should see a html file in your file window. Click on
+it and choose `View in Web Browser`.
+
+Try compiling again, but choose a different format.
+
+## Conclusion
+
+In this lesson we've followed the data workflow to import data from a 
+spreadsheet, transformed it by learning how to filter observations, select 
+variables and create new variables and then summarise the observations. We then
+visualised our summarised data in several ways and reproduced the general
+finding that smaller granivore populations are affected by kangaroo rat 
+abundance. 
+
+In this last section we've looked at how the analysis can be communicated by 
+exporting the summary data, figures and reports.
+
+All of these steps are common to many data sets, so hopefully you can build upon
+the methods covered here to increase the speed of your analysis, the 
+robustness of your analysis, and your ability to communicate you understanding
+to others.

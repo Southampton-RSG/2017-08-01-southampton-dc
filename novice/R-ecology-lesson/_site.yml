@@ -12,7 +12,7 @@ navbar:
       href: 05_transforming_data.html
     - text: "Visualising data"
       href: 06_visualising_data.html
-    - text: "Summary"
+    - text: "Exporting and communicating"
       href: 07_summary_of_ecology_data.html
     - text: "Rodent Survey Overview"
       href: 03_ecology_data_overview.html

@@ -70,7 +70,7 @@ concepts not covered here.
 4. [Importing and inspecting the data](04_import_and_inspect.html)
 5. [Transforming the data](05_transforming_data.html)
 6. [Data visualization](06_visualising_data.html)
-7. [Summary report](07_summary_of_ecology_data.html)
+7. [Exporting and communicating](07_summary_of_ecology_data.html)
 
 ### Data
 
