@@ -113,7 +113,7 @@ In our first attempt at plotting the data, our data is `by_quarter` and
 we'll map three aesthetics `x = quarter,y = captures,colour = plot_type` to
 two geoms `geom_line` and `geom_point`.
 
-```{r,purl=FALSE,echo=TRUE,fig.width = 10}
+```{r,by_quarter_1,purl=FALSE,echo=TRUE,fig.width = 10}
 
 ggplot(data = by_quarter,
        mapping = aes(x = quarter,y = captures,colour = plot_type)) +
@@ -135,7 +135,7 @@ be provided, see `?facet_wrap`.
 
 Using `facet_wrap(~ rodent_type)` gives us this plot:
 
-```{r,purl=FALSE,echo=TRUE,fig.width = 10}
+```{r,by_quarter_2,purl=FALSE,echo=TRUE,fig.width = 10}
 
 ggplot(data = by_quarter,
        mapping = aes(x=quarter,y=captures,colour=plot_type)) +
@@ -162,7 +162,7 @@ in which the formula becomes `first_variable ~ second_variable`.
 > The plot should look like the one below
 >
 
-```{r,purl=FALSE,eval=TRUE, echo=FALSE}
+```{r,by_quarter_3,purl=FALSE,eval=TRUE, echo=FALSE}
 # Plot a facet grid of plot_type ~ rodent_type
 ggplot(data = by_quarter,
        mapping = aes(x=quarter,y=captures)) +
@@ -186,7 +186,7 @@ but gain a compact summarised view of the variability of the number of captures.
 In the following code we use the `boxplot()` geom, and this time swap the mapping
 such that colour maps to the rodent type, and plots are faceted according to the plot type.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_quarter_box_1,purl=FALSE,echo=TRUE}
 
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
@@ -214,7 +214,7 @@ to the `geom_point()` function.
 It's a little counter intuitive to add noise to a plot, but when we're trying to
 explore data for patterns it can be very useful.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,mpg_jitter,purl=FALSE,echo=TRUE}
 # Without jitter
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x= displ, y= hwy, colour= class))
@@ -227,7 +227,7 @@ ggplot(data = mpg) +
 Let's add points to our box-plot and for the challenge try comparing the plot
 to one where the points are jittered.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_quarter_box_2,purl=FALSE,echo=TRUE}
 # Boxplot without jitter
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
@@ -243,7 +243,7 @@ ggplot(data= by_quarter,
 > The plot should look like the one below.
 >
 
-```{r,purl=FALSE,echo=FALSE}
+```{r,by_quarter_box_3,purl=FALSE,echo=FALSE}
 # Boxplot with jitter
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
@@ -262,7 +262,7 @@ These simple plots actually reveal subtleties in
 plots. In the following code we take the `by_month_genus` subset and create
 a bar chart of `genus`, filling the bars with colour according to `rodent_type`.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_month_bar_1,purl=FALSE,echo=TRUE}
 # Create a bar plot of genus from by_month_genus 
 ggplot(by_month_genus) +
   geom_bar(mapping = aes(x = genus, fill=rodent_type)) + 
@@ -292,7 +292,7 @@ the bar.
 To reiterate: **if you are trying to create a bar chart using x and y variables
 contained in your data set, you need to set `geom_bar(stat = "identity")`.** 
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_month_bar_2,purl=FALSE,echo=TRUE}
 # Create a bar plot of genus from by_month_genus using y = captures and 
 # stat = "identity"
 ggplot(by_month_genus) +
@@ -313,7 +313,7 @@ produce the same plot as when we used the calculated `captures` column in
 `by_month_genus`.
 >
 
-```{r,purl=FALSE,echo=FALSE, eval=FALSE}
+```{r,surveys_bar,purl=FALSE,echo=FALSE, eval=FALSE}
 # Create a bar plot of genus from surveys_subset
 ggplot(surveys_subset) +
   geom_bar(mapping = aes(x = genus,
@@ -348,7 +348,7 @@ In the first plot the bars are stacked such that we can see the relative mean mo
 To get round this problem we can alter the default position setting to identity. However, this means that filled bars would overlap, so we've set `fill = NA`. Now
 we can see the mean values as well as the proportions.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_month_bar_3,purl=FALSE,echo=TRUE}
 # Create a stacked bar chart of plot type coloured by genus
 ggplot(by_month_mean) +
   geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
@@ -366,7 +366,7 @@ Alternatively we could set `postion = dodge` and we get the next plot, where
 the bars for each genus are side by side, again allowing us to see both the
 proportions and the mean values.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_month_bar_4,purl=FALSE,echo=TRUE}
 # Use position = "dodge" to create side by side bars
 ggplot(by_month_mean) +
   geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
@@ -384,7 +384,7 @@ Previously, we plotted `by_month_genus` and the genus labels we overlapping.
 We could change the label size, but to illustrate another function, let's flip
 the plot round using `coord_flip()` to improve things:
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_month_bar_5,purl=FALSE,echo=TRUE}
 # Flip the coordinates to make the labels readable 
 ggplot(by_month_genus) +
   geom_bar(mapping = aes(x = genus, y = captures, fill = rodent_type), 
@@ -419,7 +419,7 @@ genus and the capture columns.
 
 This gives us a nice ordered bar chart.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_month_bar_6,purl=FALSE,echo=TRUE}
 # Load the forcats tidyverse package
 library(forcats)
 
@@ -443,7 +443,7 @@ of `genus` and `mean_captures` such that the plot is ordered by `mean_captures`.
 `geom_point()`.
 >
 
-```{r,purl=FALSE,echo=FALSE, eval= FALSE}
+```{r,by_month_bar_7,purl=FALSE,echo=FALSE, eval= FALSE}
 # Order the rodents according to frequency of the 
 ggplot(by_month_mean) +
   geom_point(mapping = aes(x = fct_reorder(genus, mean_captures), 
@@ -498,7 +498,7 @@ Themes deal with non-data elements e.g. the grid, the axes etc. There are
 a range of built-in themes and packages of themes such as `ggthemes`. Here
 we'll use the built-in theme, `theme_bw()` that gives a simple layout.
 
-```{r,purl=FALSE,echo=TRUE}
+```{r,by_quarter_box_4,purl=FALSE,echo=TRUE}
 
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
@@ -523,7 +523,7 @@ on colour schemes for discrete data. And `?scale_color_continuous` for creating 
 With a fair amount of extra code we can mostly re-create the figure from the
 paper (top two panels only).
 
-```{r,purl=FALSE,echo=TRUE, fig.height=10}
+```{r,paper_figure,purl=FALSE,echo=TRUE, fig.height=10}
 # Create rodent levels by getting the unique values for rodent type
 # and putting them in reverse order for plotting
 rodent_levels <-  rev(unique(by_quarter$rodent_type))

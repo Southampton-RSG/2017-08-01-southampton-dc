@@ -35,7 +35,7 @@ Show them how to export the tidy dataset to a csv file
 
 ## Compiling scripts into reports
 
-```{r,purl=FALSE,echo=TRUE,eval=FALSE}
+```{r,summary_script,purl=FALSE,echo=TRUE,eval=FALSE}
 #' ---
 #' title: "Competition in Desert Rodents"
 #' author: A. Bailey 

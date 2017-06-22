@@ -398,7 +398,7 @@ div.tocify {
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> quarter,<span class="dt">y =</span> captures,<span class="dt">colour =</span> plot_type)) +
 <span class="st">  </span><span class="kw">geom_line</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="960" /></p>
+<p><img src="img/r-lesson-by_quarter_1-1.png" width="960" /></p>
 <p>This isn’t much use as we can’t tell the difference between the kangaroo rats and granivores. We need to use our fourth variable <code>rodent_type</code> to create two plots, one for the granivores and the other for the kangaroo rats.</p>
 <div id="facets" class="section level3">
 <h3>Facets</h3>
@@ -409,7 +409,7 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_line</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="960" /></p>
+<p><img src="img/r-lesson-by_quarter_2-1.png" width="960" /></p>
 <p>So this is starting to look more like the published figure, and we can confirm that the granivore populations do increase when the kangaroo rats are excluded.</p>
 <p>However we can improve things, and we’ll come back making the figure more polished at the end of this lesson.</p>
 <p>If we wanted to plot the combination of two variable we’d use <code>facet_grid()</code> in which the formula becomes <code>first_variable ~ second_variable</code>.</p>
@@ -418,7 +418,7 @@ div.tocify {
 <p>Try plotting <code>by_quarter</code> using <code>facet_grid()</code> and arguments <code>plot_type</code> and <code>rodent_type</code></p>
 <p>We don’t need to map the colour aesthetic. The plot should look like the one below</p>
 </blockquote>
-<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_quarter_3-1.png" width="672" /></p>
 </div>
 </div>
 <div id="other-plot-types" class="section level2">
@@ -433,7 +433,7 @@ div.tocify {
                      <span class="dt">colour =</span> rodent_type)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_quarter_box_1-1.png" width="672" /></p>
 </div>
 <div id="position-adjustments" class="section level3">
 <h3>Position adjustments</h3>
@@ -444,11 +444,11 @@ div.tocify {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span> displ, <span class="dt">y=</span> hwy, <span class="dt">colour=</span> class))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="img/r-lesson-mpg_jitter-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span> displ, <span class="dt">y=</span> hwy, <span class="dt">colour=</span> class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-7-2.png" width="672" /></p>
+<p><img src="img/r-lesson-mpg_jitter-2.png" width="672" /></p>
 <p>Let’s add points to our box-plot and for the challenge try comparing the plot to one where the points are jittered.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot without jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
@@ -457,13 +457,13 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_boxplot</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_quarter_box_2-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-1">Challenge</h3>
 <p>Plot the previous boxplot with jittered points</p>
 <p>The plot should look like the one below.</p>
 </blockquote>
-<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_quarter_box_3-1.png" width="672" /></p>
 </div>
 <div id="statistical-transformations" class="section level3">
 <h3>Statistical transformations</h3>
@@ -473,7 +473,7 @@ div.tocify {
 <span class="kw">ggplot</span>(by_month_genus) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> genus, <span class="dt">fill=</span>rodent_type)) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_1-1.png" width="672" /></p>
 <p>We see that the code has automatically created a count variable on the y-axis for each genus plotted as a bar on the x-axis. (We’ll come back to the issue of illegible labels shortly.)</p>
 <p>This is because the <code>geom_bar()</code> algorithm automatically performs a statistical transformation of the mapped variable. That is to say it performs a count and bins the data according to the genus. This means we have a chart where the bar height corresponds to the number of rows for each genus.</p>
 <p>But this isn’t a count of the captures, it’s how many rows each genus appears in of <code>by_month_genus</code>. Remember how we summarised this data to calculate captures per month.</p>
@@ -485,7 +485,7 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> genus, <span class="dt">y =</span> captures,
                          <span class="dt">fill=</span>rodent_type), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_2-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-2">Challenge</h3>
 <p>Let’s compare the plot we just made with <code>by_month_genus</code> to one using <code>surveys_subset</code></p>
@@ -507,20 +507,20 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> mean_captures, 
                          <span class="dt">colour =</span> genus),
            <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_3-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use position = &quot;identitiy&quot; to create overlapping bars</span>
 <span class="kw">ggplot</span>(by_month_mean) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> mean_captures, 
                          <span class="dt">colour =</span> genus),
            <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">position =</span><span class="st">&quot;identity&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-14-2.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_3-2.png" width="672" /></p>
 <p>Alternatively we could set <code>postion = dodge</code> and we get the next plot, where the bars for each genus are side by side, again allowing us to see both the proportions and the mean values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use position = &quot;dodge&quot; to create side by side bars</span>
 <span class="kw">ggplot</span>(by_month_mean) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> mean_captures, 
                          <span class="dt">colour =</span> genus),
            <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">position =</span><span class="st">&quot;dodge&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_4-1.png" width="672" /></p>
 <p>For more positional adjustments, check out the help files <code>?postion_jitter</code>, <code>?position_dodge</code>, <code>?position_fill</code>, <code>?position_identity</code>, and <code>?position_stack</code>.</p>
 </div>
 <div id="coordinate-adjustments" class="section level3">
@@ -532,7 +532,7 @@ div.tocify {
            <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type) +
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_5-1.png" width="672" /></p>
 </div>
 <div id="factors" class="section level3">
 <h3>Factors</h3>
@@ -552,7 +552,7 @@ div.tocify {
                           <span class="dt">fill =</span> rodent_type), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type) +
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_month_bar_6-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-4">Challenge</h3>
 <p>To illustrate using the size aesthetic and factors, recreate the <code>by_month_mean</code> plot using geom_point() with the additional argument of <code>size = rodent_type</code>.</p>
@@ -593,7 +593,7 @@ div.tocify {
        <span class="dt">y =</span> <span class="st">&quot;Number of captures&quot;</span>,
        <span class="dt">colour =</span> <span class="st">&quot;Rodent type&quot;</span>) +
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="img/r-lesson-by_quarter_box_4-1.png" width="672" /></p>
 <p>Check out <code>?scale_colour_brewer</code> and <code>?scale_fill_brewer</code> for more information on colour schemes for discrete data. And <code>?scale_color_continuous</code> for creating colour gradients for continuous data.</p>
 </div>
 </div>
@@ -627,7 +627,7 @@ by_quarter$rodent_type &lt;-<span class="st"> </span><span class="kw">factor</sp
         <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
         <span class="dt">aspect.ratio =</span> <span class="fl">0.6</span>, 
         <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="img/r-lesson-paper_figure-1.png" width="672" /></p>
 <div class="figure">
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
 <p class="caption">Figure 1 from Heske et. al., 1994</p>

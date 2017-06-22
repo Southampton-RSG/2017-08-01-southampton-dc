@@ -407,7 +407,7 @@ div.tocify {
 </ol>
 <p>To plot engine size (x-axis) against fuel efficiency (y-axis) we do the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="img/r-lesson-mpg_point_plot-1.png" width="672" /></p>
 <p>This plot shows a negative relationship between engine size and fuel efficiency.</p>
 <p>What we did here was call the <code>ggplot()</code> function to create an empty graph, where the first argument is the data (here <code>mpg</code>). The we used a <code>geom_point()</code> function to add a layer of points mapping the aesthetics for the x and y axes.</p>
 <p>Mapping is always paired to aesthetics <code>aes()</code>. An aesthetic is a visual property of the objects in your plot, such a point size, shape or point colour.</p>
@@ -424,7 +424,7 @@ div.tocify {
 <p>But why?</p>
 <p>Suppose we also were trying to understand the relationship between the type of car, the engine size and fuel efficiency. To contain all this information in a single plot we need to have a third aesthetic, a third property to describe the car type, contained in the <code>class</code> column.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, <span class="dt">colour=</span>class))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="img/r-lesson-mpg_hwy_colour-1.png" width="672" /></p>
 <p>As we might expect, bigger cars such as SUVs tend to have bigger engines and are also less fuel efficient, but some smaller cars such as 2seaters also have big engines and greater fuel efficiency. Hence we have a more nuanced view with this additional aesthetic.</p>
 <p>Check out the ggplot2 documentation for all the aesthetic possibilities (and Google for examples): <a href="http://ggplot2.tidyverse.org/reference/" class="uri">http://ggplot2.tidyverse.org/reference/</a></p>
 <p>So now we have re-usable code snippet for generating plots in R:</p>
@@ -456,14 +456,14 @@ div.tocify {
 <p>Let’s create a bar-plot of diamond cut quality using our code snippet:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="img/r-lesson-diamond_barplot-1.png" width="672" /></p>
 <p>What’s happened here? Rather than plotting the raw data, ggplot has transformed the data by counting the the number of diamonds in the row of data frame corresponding with each quality.</p>
 <p>This statistical transformation of counting the rows is a default of <code>geom_bar()</code>, by reading the help we can find out more <code>?geom_bar</code>, and how to change it.</p>
 <p>We see that ideal cut quality diamonds are most abundant.</p>
 <p>The depth measurement describes the relationship of the height to its width as a percentage. Plotting this as a box-plot automatically calculates the the range of depths, and associated statistics for each quality type.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="img/r-lesson-diamond_boxplot-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-1">Challenge</h3>
 <p>As before, we could apply another aesthetic, colour to also look at the same relationship, but also across the clarity types.</p>

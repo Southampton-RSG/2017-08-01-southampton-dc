@@ -49,7 +49,7 @@ and observations in rows collected by the US Environmental Protection Agency for
 
 Type `mpg` in the console window to take a look at this R object:
 
-```{r,purl=FALSE,results='show'}
+```{r,mpg, purl=FALSE,results='show'}
 mpg
 ```
 
@@ -61,7 +61,7 @@ Try `?mpg` to learn more about the data.
 To plot engine size (x-axis) against fuel efficiency (y-axis) we do the 
 following:
 
-```{r,purl=FALSE}
+```{r,mpg_point_plot,purl=FALSE}
 ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy))
 ```
 
@@ -85,9 +85,9 @@ efficiency (y-axis) ?
 efficiency ?
 >
 
-```{r, echo=FALSE, purl=FALSE, eval = FALSE}
+```{r, mpg_city,echo=FALSE, purl=FALSE, eval = FALSE}
 ## Answers
-ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy))
+ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=cty))
 ```
 
 Here we just used the values of x and y as points, but we could add a colour 
@@ -100,7 +100,7 @@ car, the engine size and fuel efficiency. To contain all this information in
 a single plot we need to have a third aesthetic, a third property to describe 
 the car type, contained in the `class` column.
 
-```{r,purl=FALSE}
+```{r,mpg_hwy_colour,purl=FALSE}
 ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, colour=class))
 ```
 
@@ -143,7 +143,7 @@ quality of the cut (cut) and weight (carat).
 
 Let's create a bar-plot of diamond cut quality using our code snippet:
 
-```{r,purl=FALSE}
+```{r,diamond_barplot,purl=FALSE}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x=cut))
 ```
@@ -161,7 +161,7 @@ The depth measurement describes the relationship of the height to its width as
 a percentage. Plotting this as a box-plot automatically calculates the the range
 of depths, and associated statistics for each quality type.
 
-```{r,purl=FALSE}
+```{r,diamond_boxplot,purl=FALSE}
 ggplot(data = diamonds) + 
   geom_boxplot(mapping = aes(x=cut,y=depth))
 ```
