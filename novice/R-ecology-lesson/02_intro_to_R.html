@@ -375,10 +375,10 @@ div.tocify {
 </div>
 <div id="data-visualisation" class="section level1">
 <h1>Data visualisation</h1>
-<p>Let’s begin with visualisation of some data using the <code>ggplot2</code> pacakage.</p>
+<p>Let’s begin with visualisation of some data using the <code>ggplot2</code> package.</p>
 <p>We’re starting here as we gather data to ask and answer questions, and visualising data often provides the answers.</p>
 <p>We’re using ggplot2 as this implements the <em>grammer of graphics</em>, for describing and building graphs. This is far from the only way to create graphs, but in this course we’ll be working within the <em>tidyverse</em>, a set of packages that implement a coherent set of tools for data science in R. ggplot2 is a package that is part of the tidyverse package.</p>
-<p>We should have the tidyverse installaed and loaded already, which means ggplot2 is loaded and ready to go.</p>
+<p>We should have the tidyverse installed and loaded already, which means ggplot2 is loaded and ready to go.</p>
 <div id="using-graphs-to-explore-data" class="section level2">
 <h2>Using graphs to explore data</h2>
 <div id="do-cars-with-big-engines-use-more-fuel-than-cars-with-small-engines" class="section level3">
@@ -409,8 +409,8 @@ div.tocify {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy))</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="672" /></p>
 <p>This plot shows a negative relationship between engine size and fuel efficiency.</p>
-<p>What we did here was call the <code>ggplot()</code> function to create an empty graph, where the first arguement is the data (here <code>mpg</code>). The we used a <code>geom_point()</code> function to add a layer of points mapping the aesthetics for the x and y axes.</p>
-<p>Mapping is always paired to aesthetics <code>aes()</code>. An asthetic is a visual property of the objects in your plot, such a point size, shape or point colour.</p>
+<p>What we did here was call the <code>ggplot()</code> function to create an empty graph, where the first argument is the data (here <code>mpg</code>). The we used a <code>geom_point()</code> function to add a layer of points mapping the aesthetics for the x and y axes.</p>
+<p>Mapping is always paired to aesthetics <code>aes()</code>. An aesthetic is a visual property of the objects in your plot, such a point size, shape or point colour.</p>
 <blockquote>
 <h3 id="challenge">Challenge</h3>
 <p>Is the trend the same for fuel efficiency in cities?</p>
@@ -420,25 +420,22 @@ div.tocify {
 <li>Is the trend positive or negative between engine size and city fuel efficiency ?</li>
 </ul>
 </blockquote>
-<!---
-<img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" />
---->
 <p>Here we just used the values of x and y as points, but we could add a colour or shape aesthetic too.</p>
 <p>But why?</p>
-<p>Suppose we also were trying to understand the relationship between the type of car, the engine size and fuel efficency. To contain all this information in a single plot we need to have a third aesthetic, a third property to decribe the car type, contained in the <code>class</code> column.</p>
+<p>Suppose we also were trying to understand the relationship between the type of car, the engine size and fuel efficiency. To contain all this information in a single plot we need to have a third aesthetic, a third property to describe the car type, contained in the <code>class</code> column.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, <span class="dt">colour=</span>class))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-6-1.png" width="672" /></p>
-<p>As we might expect, bigger cars such as SUVs tend to have bigger engines and are also less fuel efficient, but some smaller cars such as 2seaters also have big engines and greater fuel efficency. Hence we have a more nuanced view with this additional aesthetic.</p>
-<p>Check out the ggplot2 documentation for all the aesthetic possibilities (and google for examples): <a href="http://ggplot2.tidyverse.org/reference/" class="uri">http://ggplot2.tidyverse.org/reference/</a></p>
-<p>So now we have re-useuable code snippet for generating plots in R:</p>
+<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
+<p>As we might expect, bigger cars such as SUVs tend to have bigger engines and are also less fuel efficient, but some smaller cars such as 2seaters also have big engines and greater fuel efficiency. Hence we have a more nuanced view with this additional aesthetic.</p>
+<p>Check out the ggplot2 documentation for all the aesthetic possibilities (and Google for examples): <a href="http://ggplot2.tidyverse.org/reference/" class="uri">http://ggplot2.tidyverse.org/reference/</a></p>
+<p>So now we have re-usable code snippet for generating plots in R:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(<span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;))</code></pre></div>
-<p>Concretely, in our first example <code>&lt;DATA&gt;</code> was <code>mpg</code>, the <code>&lt;GEOM_FUNCTION&gt;</code> was <code>geom_point()</code> and the arguments we supplies to map our aesthetics <code>&lt;MAPPINGS&gt;</code> were <code>x=displ, y=hwy</code>.</p>
+<p>Concretely, in our first example <code>&lt;DATA&gt;</code> was <code>mpg</code>, the <code>&lt;GEOM_FUNCTION&gt;</code> was <code>geom_point()</code> and the arguments we supplies to map our aesthetics <code>&lt;MAPPINGS&gt;</code> were <code>x = displ, y = hwy</code>.</p>
 </div>
 <div id="what-is-the-availability-of-different-types-of-diamond" class="section level3">
 <h3>What is the availability of different types of diamond?</h3>
 <p>Plotting in R can do more than just display raw data, it can transform it at the same time.</p>
-<p>Also, we only looked at one type of geometric object, <code>geom_point</code>, last time. Geoms are the type of data display ggplot2 creates e.g. points, boxplots, bar charts. Here we’ll see some of the other geom types.</p>
+<p>Also, we only looked at one type of geometric object, <code>geom_point</code>, last time. Geoms are the type of data display ggplot2 creates e.g. points, box-plots, bar charts. Here we’ll see some of the other geom types.</p>
 <p>Let’s look at another built in data frame called <code>diamonds</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds</code></pre></div>
 <pre><code>## # A tibble: 53,940 × 10
@@ -456,34 +453,42 @@ div.tocify {
 ## 10  0.23 Very Good     H     VS1  59.4    61   338  4.00  4.05  2.39
 ## # ... with 53,930 more rows</code></pre>
 <p>This data set has records of about 54,000 diamonds, including price (dollars), quality of the cut (cut) and weight (carat).</p>
-<p>Let’s create a barplot of diamond cut quality using our code snippet:</p>
+<p>Let’s create a bar-plot of diamond cut quality using our code snippet:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
 <p>What’s happened here? Rather than plotting the raw data, ggplot has transformed the data by counting the the number of diamonds in the row of data frame corresponding with each quality.</p>
 <p>This statistical transformation of counting the rows is a default of <code>geom_bar()</code>, by reading the help we can find out more <code>?geom_bar</code>, and how to change it.</p>
 <p>We see that ideal cut quality diamonds are most abundant.</p>
-<p>The depth measurement describes the relationship of the height to its width as a precentage. Plotting this as a boxplot automatically calculates the the range of depths, and associated statistics for each quality type.</p>
+<p>The depth measurement describes the relationship of the height to its width as a percentage. Plotting this as a box-plot automatically calculates the the range of depths, and associated statistics for each quality type.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<blockquote>
+<h3 id="challenge-1">Challenge</h3>
 <p>As before, we could apply another aesthetic, colour to also look at the same relationship, but also across the clarity types.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth, <span class="dt">colour=</span>clarity))</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
-<p>This is getting a bit harder to read, so finally we introduce the idea of facets. Rather than mapping an additional aesthetic, we can used facets to split this into subplots using the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth)) +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>clarity)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-12-1.png" width="672" /></p>
-<p>But we’re now struggling to fit the labels on the x-axis, so let’s flip them with <code>coord_flip()</code> to make things easier to read.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>cut,<span class="dt">y=</span>depth)) +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>clarity) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-13-1.png" width="672" /></p>
-<p>To use <code>facet_wrap()</code> with a single variable we call the function with a formula such that the first arguement is <code>~</code> and then the variable <code>clarity</code>. This must be a discrete variable.</p>
-<p>So generally we can see that diamonds of the greateat abundance are also the most uniform in terms of depth and clarity.</p>
+<p>Create a box-plot as before, but add <code>colour = clarity</code> to the aesthetics mapping</p>
+</blockquote>
+<!-- This is getting a bit harder to read, so finally we introduce the idea of facets. -->
+<!-- Rather than mapping an additional aesthetic, we can used facets to split this  -->
+<!-- into subplots using the following code: -->
+<!-- ```{r,purl=FALSE} -->
+<!-- ggplot(data = diamonds) +  -->
+<!--   geom_boxplot(mapping = aes(x=cut,y=depth)) + -->
+<!--   facet_wrap(~ clarity) -->
+<!-- ``` -->
+<!-- But we're now struggling to fit the labels on the x-axis, so let's flip them -->
+<!-- with `coord_flip()` to make things easier to read. -->
+<!-- ```{r,purl=FALSE} -->
+<!-- ggplot(data = diamonds) +  -->
+<!--   geom_boxplot(mapping = aes(x=cut,y=depth)) + -->
+<!--   facet_wrap(~ clarity) +  -->
+<!--   coord_flip() -->
+<!-- ``` -->
+<!-- To use `facet_wrap()` with a single variable we call the function with a formula -->
+<!-- such that the first arguement is `~` and then the variable `clarity`. This must -->
+<!-- be a discrete variable. -->
+<p>Comparing our bar chart and box plot we can see that diamonds of the greatest abundance are also generally the most uniform in terms of depth and clarity.</p>
 <p>We’ll return to plotting later and look at how to make them suitable for publication by performing tasks such as relabelling axes or adding titles.</p>
 <p>Hopefully you are beginning to see how a single line of code can do a lot.</p>
 </div>
@@ -497,8 +502,8 @@ div.tocify {
 <p>Objects are just a way to store data inside the R environment. We create objects using the assignment operator <code>&lt;-</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg &lt;-<span class="st"> </span><span class="dv">55</span></code></pre></div>
 <p>Read this as <em>“weight_kg gets value 55”</em> in your head.</p>
-<p>Using <code>&lt;-</code> can be annoying to type, so use RStudio’s keyboard shortcut: Alt + - (the minus sign) to make life easier.</p>
-<p>Object name style is a matter of choice, but must start with a letter and can only cointain letters, numbers, <code>_</code> and <code>.</code>. We reccomend using descriptive names and using <code>_</code> between words. Some special symbols cannot be used in variable names, so watch out for those.</p>
+<p>Using <code>&lt;-</code> can be annoying to type, so use RStudio’s keyboard short cut: Alt + - (the minus sign) to make life easier.</p>
+<p>Object name style is a matter of choice, but must start with a letter and can only contain letters, numbers, <code>_</code> and <code>.</code>. We recommend using descriptive names and using <code>_</code> between words. Some special symbols cannot be used in variable names, so watch out for those.</p>
 <p>So here we’ve used the name to indicate its value represents a weight in kilograms. Look in your environment pane and you’ll see the <code>weight_kg</code> object containing the (data) value 55.</p>
 <p>We can inspect an object by typing it’s name:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg</code></pre></div>
@@ -508,34 +513,37 @@ div.tocify {
 <p>This error illustrates that typos matter, everything must be precise and <code>weight_KG</code> is not the same as <code>weight_kg</code>. <code>weight_KG</code> doesn’t exist, hence the error.</p>
 <div id="calling-functions" class="section level3">
 <h3>Calling functions</h3>
-<p>Functions in R are objects followed by parathenses, such as <code>library()</code>. Functions have the form:</p>
+<p>Functions in R are objects followed by parentheses, such as <code>library()</code>. Functions have the form:</p>
 <p><code>function_name(arg1 = val, arg2 = val2, ...)</code></p>
 <p>Let’s use <code>seq()</code> to create a <strong>seq</strong>uence of numbers, and at the same time practice tab completion.</p>
-<p>Start typing <code>se</code> in the console and you should see a list of functions appear, add <code>q</code> to shorten the list, then use the up and down arrow to hilight the function of interest <code>seq()</code> and hit Tab to select.</p>
-<p>RStudio puts the cursor between the parathenses to prompt us to enter some arguements. Here we’ll use 1 as the start and 10 as the end:</p>
+<p>Start typing <code>se</code> in the console and you should see a list of functions appear, add <code>q</code> to shorten the list, then use the up and down arrow to highlight the function of interest <code>seq()</code> and hit Tab to select.</p>
+<p>RStudio puts the cursor between the parentheses to prompt us to enter some arguments. Here we’ll use 1 as the start and 10 as the end:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)</code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<p>If we left off a parantheses to close the function, then when we hit enter we’ll see a <code>+</code> indicating RStudio is expecting further code. We either add the missing part or press Escape to cancel the code.</p>
-<p>Let’s call a function and make an assignment at the same time:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>)</code></pre></div>
+<p>If we left off a parentheses to close the function, then when we hit enter we’ll see a <code>+</code> indicating RStudio is expecting further code. We either add the missing part or press Escape to cancel the code.</p>
+<p>Let’s call a function and make an assignment at the same time. Here we’ll use the base R function <code>seq()</code> which takes three arguments: <code>from</code>, <code>to</code> and <code>by</code>.</p>
+<p>Read the following code as *“make an object called my_sequence that stores a sequence of numbers from 2 to 20 by intervals of 2*.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">2</span>,<span class="dv">20</span>,<span class="dv">2</span>)</code></pre></div>
 <p>This time nothing was returned to the console, but we now have an object called <code>my_sequence</code> in our environment.</p>
 <p>Can you remember how to inspect it?</p>
-<p>If we want to subset elements of <code>my_sequence</code> we use square brackets <code>[]</code>. For example element five would be subset by:</p>
+<p>If we want to subset elements of <code>my_sequence</code> we use square brackets <code>[]</code>.</p>
+<p>For example element five would be subset by:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence[<span class="dv">5</span>]</code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 10</code></pre>
+<p>Here the number five is the index of the vector, not the value of the fifth element. The value of the fifth element is 10.</p>
 <p>And returning multiple elements uses a colon <code>:</code>, like so</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence[<span class="dv">5</span>:<span class="dv">8</span>]</code></pre></div>
-<pre><code>## [1] 5 6 7 8</code></pre>
+<pre><code>## [1] 10 12 14 16</code></pre>
 </div>
 </div>
 </div>
 <div id="atomic-vectors" class="section level1">
 <h1>Atomic vectors</h1>
-<p>We actually made an atomic vector already when we made <code>my_sequence</code>. We made a a one dimensional group of numbers, in a sequence from one to ten.</p>
-<p>We’re not going to be working directly with atomic vectors in this workshop, but to make you aware of how R stores data, atomic vector types are:</p>
+<p>We actually made an atomic vector already when we made <code>my_sequence</code>. We made a a one dimensional group of numbers, in a sequence from two to twenty.</p>
+<p>We’re not going to be working much with atomic vectors in this workshop, but to make you aware of how R stores data, atomic vector types are:</p>
 <ul>
 <li>Doubles: regular numbers, +ve or -ve and with or without decimal places. AKA numerics.</li>
-<li>Integers: whole numbers, specified with an uppercase L, e.g. <code>int &lt;- 2L</code></li>
+<li>Integers: whole numbers, specified with an upper-case L, e.g. <code>int &lt;- 2L</code></li>
 <li>Characters: Strings of text</li>
 <li>Logicals: these store <code>TRUE</code>s and <code>FALSE</code>s which are useful for comparisons.</li>
 <li>Complex: this would be a vector of numbers with imaginary terms.</li>
@@ -549,7 +557,7 @@ cards</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(cards)</code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <blockquote>
-<h3 id="challenge-1">Challenge</h3>
+<h3 id="challenge-2">Challenge</h3>
 <p>What type of vector is <code>my_sequence</code>?</p>
 </blockquote>
 </div>
@@ -563,10 +571,10 @@ cards</code></pre></div>
 </div>
 <div id="factors" class="section level1">
 <h1>Factors</h1>
-<p>Factors are Rs way of storing catergorical information such as eye colour or car type. A factor is something that can only have certain values.</p>
-<p>Factors are useful as they code variables such as “red” or “blue” to integer values e.g. 1 and 2, which can be used in statistical models and when plotting, but they are confusing as they look like strings.</p>
+<p>Factors are Rs way of storing categorical information such as eye colour or car type. A factor is something that can only have certain values.</p>
+<p>Factors are useful as they code string variables such as “red” or “blue” to integer values e.g. 1 and 2, which can be used in statistical models and when plotting, but they are confusing as they look like strings.</p>
 <p><strong>Factors look like strings, but behave like integers.</strong></p>
-<p>Historically R converts strings to factors when we load and create data, but it’s often not what we want as a defualt. Fortunately, in the tidyverse strings are not treated as factors by defualt.</p>
+<p>Historically R converts strings to factors when we load and create data, but it’s often not what we want as a default. Fortunately, in the tidyverse strings are not treated as factors by default.</p>
 </div>
 <div id="lists" class="section level1">
 <h1>Lists</h1>
@@ -586,16 +594,19 @@ list_1</code></pre></div>
 ## 
 ## [[2]]
 ## [1] &quot;R&quot;</code></pre>
-<p>Note the double brackets to indicate the list elements, i.e. element one is the vector of numbers and element two is a vector ofa single character.</p>
+<p>Note the double brackets to indicate the list elements, i.e. element one is the vector of numbers and element two is a vector of a single character.</p>
 <blockquote>
-<h3 id="challenge-2">Challenge</h3>
+<h3 id="challenge-3">Challenge</h3>
 <p>Make a list from our vectors <code>my_sequence</code> and <code>cards</code></p>
 </blockquote>
 <p>We won’t be working with lists in this workshop, but they are a flexible way to store data of different types in R.</p>
+<p>Accessing list elements uses double square brackets syntax, for example <code>list_1[[1]]</code> would return the first vector in our list.</p>
+<p>And to access the first element in the first vector would combine double and single square brackets like so: <code>list_1[[1]][1]</code>.</p>
+<p>Don’t worry if you find this confusing, everyone does when they first start with R.</p>
 </div>
 <div id="matrices-and-arrays" class="section level1">
 <h1>Matrices and arrays</h1>
-<p>Matrices store values in a two dimensional array, whilst arrays can have n dimensions. We won’t be using these either, but they are valid R objects.</p>
+<p>Matrices store values in a two dimensional array, whilst arrays can have n dimensions. We won’t be using these either, but they are also valid R objects.</p>
 </div>
 <div id="data-frames" class="section level1">
 <h1>Data frames</h1>
@@ -627,8 +638,18 @@ df</code></pre></div>
 df$number</code></pre></div>
 <pre><code>## [1] 1 7 3</code></pre>
 <p>We’ll be working with a modified form of data frame called a tibble. One advantage of tibbles is that they don’t default to treating strings as factors. We deal with modifying data frames when we work with our example data set.</p>
+<p>Sub-setting data frames can also be done with square bracket syntax, but as we have both rows and columns, we need to provide index values for both row and column.</p>
+<p>For example <code>df[1,2]</code> means <em>return the value of <code>df</code> row 1, column 2</em>. This corresponds with the value <code>A</code>.</p>
+<p>We can also use the colon operator to choose several rows or columns, and by leaving the row or column blank we return all rows or all columns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Subset rows 1 and 2 of column 1</span>
+df[<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] 1 7</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Subset all rows of column 3</span>
+df[,<span class="dv">3</span>]</code></pre></div>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+<p>Again don’t worry too much about this for now, we won’t be doing to much of this in this lesson, but it’s important to be aware of the basic syntax.</p>
 <blockquote>
-<h3 id="challenge-3">Challenge</h3>
+<h3 id="challenge-4">Challenge</h3>
 <p>Make a data frame from our vectors <code>my_sequence</code> and <code>cards</code> and a logical vector.</p>
 <p>We’ll use the first five elements of <code>my_sequence</code>.</p>
 <p>Hint: Subset the first five elements using <code>my_sequence[1:5]</code></p>
@@ -638,7 +659,7 @@ df$number</code></pre></div>
 </div>
 <div id="learning-more-r" class="section level1">
 <h1>Learning more R</h1>
-<p>We’rehere are many places to start, but swirl can teach you interactively, and at your own pace in RStudio.</p>
+<p>There are many places to start, but swirl can teach you interactively, and at your own pace in RStudio.</p>
 <p>Just follow the instructions via this link: <a href="http://swirlstats.com/students.html" class="uri">http://swirlstats.com/students.html</a></p>
 <p><em>Hands-On Programming with R</em> by Garrett Grolemund is another great resource for learning R.</p>
 </div>

@@ -360,7 +360,7 @@ div.tocify {
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
-<p>By the end of this lesson the learner will have been introduced the key verbs of the <code>dplyr</code> pacakage needed to transform data into new forms. They will be able to:</p>
+<p>By the end of this lesson the learner will have been introduced the key verbs of the <code>dplyr</code> package needed to transform data into new forms. They will be able to:</p>
 <ul>
 <li>Filter rows with <code>filter()</code></li>
 <li>Select columns with <code>select()</code></li>
@@ -387,9 +387,9 @@ div.tocify {
 <li>create a transformed data set for exporting.</li>
 </ul>
 <p>Often these operations can be combined, known as piping, which is very powerful and convenient.</p>
-<p>Our goal is to reproduce the analysis of the 1994 Heske et. al. paper is that there is evidence that kangeroo rats compete directly with four other rodent species, generating a similar figure to the one below, to confirm their observations.</p>
-<p>Concretely, we are going to look at the effect of kangeroo rat exlusion on the populations of smaller granivores in two 0.25 hectare plots versus two plots where kangeroo rats were allowed access.</p>
-<p>This figure shows the number of captures of threes species of kangeroo Rats and five species of smaller granivore rodents over a period from 1977 to 1990. Panel A shows the populations when the eight species were left to compete for resources and Panel B shows the effect of excluding the kangeroo Rats.</p>
+<p>Our goal is to reproduce the analysis of the 1994 Heske et. al. paper is that there is evidence that kangaroo rats compete directly with four other rodent species, generating a similar figure to the one below, to confirm their observations.</p>
+<p>Concretely, we are going to look at the effect of kangaroo rat exclusion on the populations of smaller granivores in two 0.25 hectare plots versus two plots where kangaroo rats were allowed access.</p>
+<p>This figure shows the number of captures of threes species of kangaroo Rats and five species of smaller granivore rodents over a period from 1977 to 1990. Panel A shows the populations when the eight species were left to compete for resources and Panel B shows the effect of excluding the kangaroo Rats.</p>
 <div class="figure">
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
 <p class="caption">Figure 1 from Heske et. al., 1994</p>
@@ -398,8 +398,8 @@ div.tocify {
 <div id="filtering-observations" class="section level2">
 <h2>Filtering observations</h2>
 <p>The first verb to consider is <code>filter</code> which enables us to subset observations based on their value.</p>
-<p>Consider the surveys data and subsetting observations that only occurred from 1985 onwards. It’s fairly natural to say <em>“filter the survey where the year variable is equal or greater than 1985”</em>. And indeed this is how we use <code>filter</code> as a verb.</p>
-<p>In the code below, we give the filter function two arguements. The first is the data frame, the second is the variable and condition on which we wish to filter.</p>
+<p>Consider the surveys data and sub-setting observations that only occurred from 1985 onwards. It’s fairly natural to say <em>“filter the survey where the year variable is equal or greater than 1985”</em>. And indeed this is how we use <code>filter</code> as a verb.</p>
+<p>In the code below, we give the filter function two arguments. The first is the data frame, the second is the variable and condition on which we wish to filter.</p>
 <p>(Note that we aren’t assigning the output to an object here, so we can see it.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter observations that only occurred from 1985 onwards</span>
  <span class="kw">filter</span>(surveys, year &gt;=<span class="st"> </span><span class="dv">1985</span>)</code></pre></div>
@@ -418,7 +418,7 @@ div.tocify {
 #&gt; 10     11498     5    11  1986       2         NL     F              31
 #&gt; # ... with 25,280 more rows, and 5 more variables: weight &lt;int&gt;,
 #&gt; #   genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
-<p>We could even do this for a specifc date and species (assuming we know there was an observation), using values for day, month, year and species.</p>
+<p>We could even do this for a specific date and species (assuming we know there was an observation), using values for day, month, year and species.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter observations that only occurred on the 9th of March 1986</span>
  <span class="kw">filter</span>(surveys, month ==<span class="st"> </span><span class="dv">3</span>, day ==<span class="st"> </span><span class="dv">9</span>, year ==<span class="st"> </span><span class="dv">1986</span>, species_id ==<span class="st"> &quot;NL&quot;</span>)</code></pre></div>
 <pre><code>#&gt; # A tibble: 2 × 13
@@ -429,7 +429,7 @@ div.tocify {
 #&gt; # ... with 5 more variables: weight &lt;int&gt;, genus &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
 <p>An alternative way to use <code>filter</code> is to “pipe” the function using <code>%&gt;%</code> which you can think of as using the word <em>“then”</em>. We take our data set <em>then</em> filter it.</p>
-<p>This makes more sense when combining several operations, but even with one operation it means we only have to provide the values arguement to the filter, like so:</p>
+<p>This makes more sense when combining several operations, but even with one operation it means we only have to provide the values argument to the filter, like so:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pipe the filter for observations that only occurred on the 9th of March 1986</span>
 surveys %&gt;%<span class="st"> </span><span class="kw">filter</span>(month ==<span class="st"> </span><span class="dv">3</span>, day ==<span class="st"> </span><span class="dv">9</span>, year ==<span class="st"> </span><span class="dv">1986</span>, species_id ==<span class="st"> &quot;NL&quot;</span>)</code></pre></div>
 <pre><code>#&gt; # A tibble: 2 × 13
@@ -477,7 +477,7 @@ surveys %&gt;%<span class="st"> </span><span class="kw">select</span>(year,plot_
 #&gt; 9   1978   Control
 #&gt; 10  1978   Control
 #&gt; # ... with 34,776 more rows</code></pre>
-<p>As we saw earlier, we have thirteen variables in the surveys data, but we don’t need all of them. Specifically we don’t need the sex, the hindfoot length or the weight of the animals. We’re just interested in the population changes over time.</p>
+<p>As we saw earlier, we have thirteen variables in the surveys data, but we don’t need all of them. Specifically we don’t need the sex, the hind-foot length or the weight of the animals. We’re just interested in the population changes over time.</p>
 <p>Rather than selecting the columns we want, an alternative is to drop the ones we don’t using a minus sign in front of the variable name, like so:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select everything except sex, hindfoot and weight</span>
 surveys_selected &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span class="st"> </span><span class="kw">select</span>(-sex,-hindfoot_length,-weight)
@@ -499,15 +499,15 @@ surveys_selected &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span clas
 </div>
 <div id="creating-new-variables" class="section level2">
 <h2>Creating new variables</h2>
-<p>Often we need to create new variables that are functions of existing columns. For example, in the survey data there are forty species, of which we are only interested in eight. Moreover, we are interested in comparing the three Kangeroo Rat species with the five smaller granivores, so it would be useful to have a variable the catergorised the rodents as either “Kangeroo Rat” or “Granivore”.</p>
+<p>Often we need to create new variables that are functions of existing columns. For example, in the survey data there are forty species, of which we are only interested in eight. Moreover, we are interested in comparing the three Kangaroo Rat species with the five smaller granivores, so it would be useful to have a variable the categorised the rodents as either “Kangaroo Rat” or “Carnivore”.</p>
 <p>We could do this using <code>mutate</code> to create a <code>rodent_type</code> variable that is a function of the <code>species_id</code> column.</p>
 <p>This is a little tricky, but the steps are as follows:</p>
 <ol style="list-style-type: decimal">
-<li>Create character vectors corresponding with the <code>species_id</code>’s we are interestd in. Here they are called: <code>rodents</code> and <code>krats</code>.</li>
+<li>Create character vectors corresponding with the <code>species_id</code>’s we are interested in. Here they are called: <code>rodents</code> and <code>krats</code>.</li>
 <li>Filter for the eight rodents of interest, using our <code>rodents</code> vector.</li>
 <li>Then create a new <code>rodent_type</code> column using <code>species_id</code> such that if the <code>species_id</code> matches a value in <code>krats</code> the value is <code>&quot;Kangeroo Rat&quot;</code> and if it doesn’t match, then the value of <code>rodent_type</code> is <code>&quot;Granivore&quot;</code>.</li>
 </ol>
-<p>The codes associated with the forty species in the survey data are found <a href="https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv">here</a>, but to save time the relevent codes are shown below.</p>
+<p>The codes associated with the forty species in the survey data are found <a href="https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv">here</a>, but to save time the relevant codes are shown below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Kangeroo Rats:</span>
 <span class="co"># DM    Dipodomys merriami          Rodent  Merriam&#39;s kangaroo rat</span>
 <span class="co"># DO    Dipodomys ordii             Rodent  Ord&#39;s kangaroo rat</span>
@@ -612,14 +612,14 @@ surveys_mutated &lt;-<span class="st"> </span>surveys_mutate %&gt;%
 </div>
 <div id="grouped-summaries" class="section level2">
 <h2>Grouped summaries</h2>
-<p>The last verb we’ll consider is <code>summarise()</code>, which collapses a data frame into a single row. For example, we could use it to find the average weight of all the animals surveyed in the original data frame using <code>mean()</code>. (Here the <code>na.rm = TRUE</code> arguement is given to remove missing values from the data, otherwise R would return <code>NA</code> when trying to average.)</p>
+<p>The last verb we’ll consider is <code>summarise()</code>, which collapses a data frame into a single row. For example, we could use it to find the average weight of all the animals surveyed in the original data frame using <code>mean()</code>. (Here the <code>na.rm = TRUE</code> argument is given to remove missing values from the data, otherwise R would return <code>NA</code> when trying to average.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surveys %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">average_weight =</span> <span class="kw">mean</span>(weight,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>#&gt; # A tibble: 1 × 1
 #&gt;   average_weight
 #&gt;            &lt;dbl&gt;
 #&gt; 1       42.67243</code></pre>
 <p><code>summarise()</code> is only really useful when paired with <code>group_by()</code> which defines the variables upon which we operate upon.</p>
-<p>In the previous section we used this pairing to check when the speices were correctly assigned their rodent type. We first grouped <code>species_id</code> and <code>rodent_type</code> together and then used <code>summarise()</code> without any arguements to show a summary of these two variables only.</p>
+<p>In the previous section we used this pairing to check when the species were correctly assigned their rodent type. We first grouped <code>species_id</code> and <code>rodent_type</code> together and then used <code>summarise()</code> without any arguments to show a summary of these two variables only.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check the output using a summary pipe, we should have 8 species of 2 types</span>
 surveys_mutate %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span><span class="kw">summarise</span>()</code></pre></div>
 <pre><code>#&gt; Source: local data frame [8 x 2]
@@ -636,7 +636,7 @@ surveys_mutate %&gt;%<span class="st"> </span><span class="kw">group_by</span>(s
 #&gt; 7         PP    Granivore
 #&gt; 8         RM    Granivore</code></pre>
 <p>Let’s re-cap what we’ve done so far, and remind ourselves of the question we’re trying to answer:</p>
-<p><em>Q: Is there evidence that kangeroo rats compete directly with four other granivore rodent species?</em></p>
+<p><em>Q: Is there evidence that kangaroo rats compete directly with four other granivore rodent species?</em></p>
 <p>The evidence we are examining is the monthly populations of 8 species surveyed in four plots over a period of about 13 years. The initial dataset contains data about 40 species in 20 plots measuring 13 variables over 25 years.</p>
 <p>At this point we have:</p>
 <ul>
@@ -645,10 +645,10 @@ surveys_mutate %&gt;%<span class="st"> </span><span class="kw">group_by</span>(s
 <li>We’ve selected only the variables we need to answer the question.</li>
 </ul>
 <p>This reduces the dataset from around 35,000 observations of 13 variables to around 5,000 observations of 13 variables. We dropped three of the original variables and create three new variables.</p>
-<p>We could start plotting the data, but it would be useful to summarise this a bit more. Concretely, we’d like to summarise the kangeroo rat and granivore populations on a monthly or quarterly basis. Or by genus.</p>
+<p>We could start plotting the data, but it would be useful to summarise this a bit more. Concretely, we’d like to summarise the kangaroo rat and granivore populations on a monthly or quarterly basis. Or by genus.</p>
 <p>This is where grouped summaries are very useful.</p>
-<p>Grouping simply means grouping the variables of interest that we want to operate on, here they are the <code>rodent_type</code> (kangeroo rat and granivore), the <code>quarter</code> (the time period) and the <code>plot_type</code> (kangeroo rat exclusion or control). The summary we would like is the number of captures for each group e.g. number of captures of kangeroo rats for the first quarter of 1980 in the control plots. As each row in the table corresponds with a capture, we just need to count the number of rows in each group. We can do this using the count function <code>n()</code> in conjunction with summarise. This creates a new variable, a column containing the number of rows counted per group, which we’ll call captures. <code>captures</code>.</p>
-<p>Here we have the additional issue that the grouping by quarter groups three months worth of captures, so to get the quartely average number of captures we divide the number of rows counted by three.</p>
+<p>Grouping simply means grouping the variables of interest that we want to operate on, here they are the <code>rodent_type</code> (kangaroo rat and granivore), the <code>quarter</code> (the time period) and the <code>plot_type</code> (kangaroo rat exclusion or control). The summary we would like is the number of captures for each group e.g. number of captures of kangaroo rats for the first quarter of 1980 in the control plots. As each row in the table corresponds with a capture, we just need to count the number of rows in each group. We can do this using the count function <code>n()</code> in conjunction with summarise. This creates a new variable, a column containing the number of rows counted per group, which we’ll call captures. <code>captures</code>.</p>
+<p>Here we have the additional issue that the grouping by quarter groups three months worth of captures, so to get the quarterly average number of captures we divide the number of rows counted by three.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Summarise the data by rodent type, quarterly survey and plot type</span>
 by_quarter &lt;-<span class="st"> </span>surveys_subset %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(rodent_type,quarter,plot_type) %&gt;%<span class="st"> </span>

@@ -29,7 +29,7 @@ surveys_subset <- surveys %>%
          species_id %in% rodents,         
          plot_id %in% exp_plots) %>%      
   # Make variable to indicate whether species is K-rat or Granivore
-  mutate(rodent_type = if_else(species_id %in% krats, "Kangeroo Rat",
+  mutate(rodent_type = if_else(species_id %in% krats, "Kangaroo Rat",
                                "Granivore"),
          # Make combined date variable
          date = lubridate::dmy(sprintf('%02d%02d%04d', 
@@ -79,11 +79,11 @@ We've transformed the surveys data ready for plotting, but what do we want to
 plot?
 
 We want to plot the number of captures as a function of quarter in which they
-took place, whilst comparing both kangeroo rats and granivores, as well as 
-comparing kangroo rat exclosure with plots containing kangeroo rats and 
+took place, whilst comparing both kangaroo rats and granivores, as well as 
+comparing kangaroo rat exclosure with plots containing kangaroo rats and 
 granivores.
 
-Such a plot should inform us about the effect of kangeroo rat exclosure on the
+Such a plot should inform us about the effect of kangaroo rat exclosure on the
 granivore population. All the work we did to transform the data should make
 this straight forward as we have a tidy data set i.e. each observation forms
 a row and each variable forms a column. We have four variables: `rodent_type`,
@@ -102,11 +102,11 @@ ggplot(data = <DATA>) +
   <GEOM_FUNCTION(mapping = aes(<MAPPINGS>))>
 ```
 
-In this form we provide a data frame as an arguement to the `ggplot` function
+In this form we provide a data frame as an argument to the `ggplot` function
 and then aesthetics (the variables we wish to plot) are mapped to a geometric 
 object such as a line. If we were to plot several `geoms()` on the same plot, 
 we'd need to map the aesthetics to each `geom()`, so often it's more convenient
-to provide the aesthetics arguement to `ggplot()` instead, and it will be mapped
+to provide the aesthetics argument to `ggplot()` instead, and it will be mapped
 to all geoms we add to the plot. Only do this if this is what you want.
 
 In our first attempt at plotting the data, our data is `by_quarter` and
@@ -122,15 +122,15 @@ ggplot(data = by_quarter,
 
 ```
 
-This isn't much use as we can't tell the difference between the kangeroo rats
+This isn't much use as we can't tell the difference between the kangaroo rats
 and granivores. We need to use our fourth variable `rodent_type` to create two
-plots, one for the granivores and the other for the kangeroo rats.
+plots, one for the granivores and the other for the kangaroo rats.
 
 ### Facets
 
 Creating sub-plots based on the `rodent_type` variable uses facets. If we 
-are facetting plots by a single variable we use `facet_wrap()`. The first
-arguement is `~` followed by the variable name, here  `rodent_type`. This arguement is called a formula. There are many additional arguements that can
+are faceting plots by a single variable we use `facet_wrap()`. The first
+argument is `~` followed by the variable name, here  `rodent_type`. This argument is called a formula. There are many additional arguments that can
 be provided, see `?facet_wrap`.
 
 Using `facet_wrap(~ rodent_type)` gives us this plot:
@@ -146,7 +146,7 @@ ggplot(data = by_quarter,
 ```
 
 So this is starting to look more like the published figure, and we can confirm
-that the granivore populations do increase when the kangeroo rats are excluded.
+that the granivore populations do increase when the kangaroo rats are excluded.
 
 However we can improve things, and we'll come back making the figure more 
 polished at the end of this lesson.
@@ -155,19 +155,20 @@ If we wanted to plot the combination of two variable we'd use `facet_grid()`
 in which the formula becomes `first_variable ~ second_variable`.
 
 > ### Challenge
-> Try plotting `by_quarter` using `facet_grid()` and arguements 
+> Try plotting `by_quarter` using `facet_grid()` and arguments 
 `plot_type` and `rodent_type`
 >
 > We don't need to map the colour aesthetic.
+> The plot should look like the one below
+>
 
-```{r,purl=FALSE,eval=FALSE}
-
+```{r,purl=FALSE,eval=TRUE, echo=FALSE}
+# Plot a facet grid of plot_type ~ rodent_type
 ggplot(data = by_quarter,
        mapping = aes(x=quarter,y=captures)) +
   geom_line() +
   geom_point() +
-  facet_grid(plot_type~ rodent_type)
-
+  facet_grid(plot_type ~ rodent_type)
 ```
 
 ## Other plot types
@@ -177,6 +178,13 @@ The previous plot showed us changes with time, but we might want to look at
 averages and spread or other statistical summaries of the data.
 
 ### Boxplots
+
+Box-plots are a standard way to plot the distribution of a data set. Plotting 
+the data this way means that we drop the dynamic information, the time dimension,
+but gain a compact summarised view of the variability of the number of captures.
+
+In the following code we use the `boxplot()` geom, and this time swap the mapping
+such that colour maps to the rodent type, and plots are faceted according to the plot type.
 
 ```{r,purl=FALSE,echo=TRUE}
 
@@ -191,15 +199,33 @@ ggplot(data= by_quarter,
 
 ### Position adjustments
 
+Another common adjustment we might make to our plots is to adjust the position 
+of the data.
+
+Recall the `mpg` data set for cars and our plot showing the fuel efficiency
+versus the size of the engine. Many of the points are actually over plotted 
+such that we can't see them.
+
+By adding a bit of random noise to the position each data point, called `jitter`
+we can spread the points out and see them more clearly. This is seen in the 
+second plot below, where the `postion = "jitter"` argument has been provided
+to the `geom_point()` function.
+
+It's a little counter intuitive to add noise to a plot, but when we're trying to
+explore data for patterns it can be very useful.
+
 ```{r,purl=FALSE,echo=TRUE}
 # Without jitter
-ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
-                                              colour=class))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x= displ, y= hwy, colour= class))
 # With jitter
-ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, 
-                                              colour=class),position = "jitter")
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x= displ, y= hwy, colour= class),position = "jitter")
 
 ```
+
+Let's add points to our box-plot and for the challenge try comparing the plot
+to one where the points are jittered.
 
 ```{r,purl=FALSE,echo=TRUE}
 # Boxplot without jitter
@@ -209,7 +235,15 @@ ggplot(data= by_quarter,
   geom_boxplot() +
   geom_point() +
   facet_wrap(~ plot_type)
+```
 
+> ### Challenge
+> Plot the previous boxplot with jittered points 
+>
+> The plot should look like the one below.
+>
+
+```{r,purl=FALSE,echo=FALSE}
 # Boxplot with jitter
 ggplot(data= by_quarter,
        mapping = aes(x = rodent_type, y = captures, 
@@ -220,7 +254,7 @@ ggplot(data= by_quarter,
 
 ```
 
-## Statistical transformations
+### Statistical transformations
 
 Next we'll plot bar charts. 
 
@@ -244,19 +278,23 @@ transformation of the mapped variable. That is to say it performs a count and
 bins the data according to the genus. This means we have a chart where the bar
 height corresponds to the number of rows for each genus.
 
-But this isn't a count of the captures, it's how many times each genus appears
-in a row of `by_month_genus`. Remember how we summarised this data by captures
-per month.
+But this isn't a count of the captures, it's how many rows each genus appears
+in of `by_month_genus`. Remember how we summarised this data to calculate captures per month.
 
 Often when people talk about bar charts they are referring to when the height
-of the bar is present in the data, here that would be the `captures` column.
+of the bar is a variable present in the data, here that would be the `captures` 
+column.
 In this kind of situation we need to map the y-axis too, and change the
 default `geom_bar()` statistical transformation to `stat = "identity"` so that
 it takes the values provided in the `captures` column to determine the height of
 the bar.
 
+To reiterate: **if you are trying to create a bar chart using x and y variables
+contained in your data set, you need to set `geom_bar(stat = "identity")`.** 
+
 ```{r,purl=FALSE,echo=TRUE}
-# Create a bar plot of genus from by_month_genus 
+# Create a bar plot of genus from by_month_genus using y = captures and 
+# stat = "identity"
 ggplot(by_month_genus) +
   geom_bar(mapping = aes(x = genus, y = captures,
                          fill=rodent_type), stat = "identity") + 
@@ -276,14 +314,15 @@ produce the same plot as when we used the calculated `captures` column in
 >
 
 ```{r,purl=FALSE,echo=FALSE, eval=FALSE}
-# Create a bar plot of genus from by_month_genus 
+# Create a bar plot of genus from surveys_subset
 ggplot(surveys_subset) +
   geom_bar(mapping = aes(x = genus,
                          fill=rodent_type)) + 
   facet_grid(~ plot_type)
 ```
 
-To learn more about statistical transformations have a look at the [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf).
+To learn more about the 20 statistical transformations built into ggplot2 have a 
+look at the [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf).
 
 > ### Challenge
 > For the next part we need to calculaute the mean monthly captures.
@@ -309,29 +348,35 @@ In the first plot the bars are stacked such that we can see the relative mean mo
 To get round this problem we can alter the default position setting to identity. However, this means that filled bars would overlap, so we've set `fill = NA`. Now
 we can see the mean values as well as the proportions.
 
-Alternatively we could set `postion = dodge` and we get the third plot, where
-the bars for each genus are side by side, again allowing us to see both the
-proportions and the mean values.
-
 ```{r,purl=FALSE,echo=TRUE}
-# Create a stacked bar chart of plot type coloured by 
+# Create a stacked bar chart of plot type coloured by genus
 ggplot(by_month_mean) +
   geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
                          colour = genus),
            fill = NA, stat = "identity")
 
-# Use the position
+# Use position = "identitiy" to create overlapping bars
 ggplot(by_month_mean) +
   geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
                          colour = genus),
            fill = NA, stat = "identity", position ="identity")
+```
 
-# Use the position
+Alternatively we could set `postion = dodge` and we get the next plot, where
+the bars for each genus are side by side, again allowing us to see both the
+proportions and the mean values.
+
+```{r,purl=FALSE,echo=TRUE}
+# Use position = "dodge" to create side by side bars
 ggplot(by_month_mean) +
   geom_bar(mapping = aes(x = plot_type, y = mean_captures, 
                          colour = genus),
            fill = NA, stat = "identity", position ="dodge")
 ```
+
+For more positional adjustments, check out the help files `?postion_jitter`,
+`?position_dodge`, `?position_fill`, `?position_identity`,  and 
+`?position_stack`.
 
 ### Coordinate adjustments
 
@@ -353,14 +398,16 @@ ggplot(by_month_genus) +
 Finally for this plot, it would be nice to put the bars in order of size. We
 can do this by converting the genus to a factor.
 
-Recall that factors are how R represents catergorical variables, variables with
+Recall that factors are how R represents categorical variables, variables with
 a limited number of values, such as genus.
 
-Also recall *factors look like strings, but behave like integers*. That is to 
-say they are words that have values called levels, and an order.
+Also recall **factors look like strings, but behave like integers**. That is to 
+say they are strings of characters with associated values called levels that 
+indicate an order.
 
 This is why factors are useful, especially when we want to place things in 
-non-alphabetical order. 
+non-alphabetical order. We can take advantage of factor levels to order things
+as we wish.
 
 Check out the [forcats](http://forcats.tidyverse.org/) tidyverse package to 
 explore the power of factors, but here we're going to use the `fct_reorder()` 
@@ -385,10 +432,11 @@ ggplot(by_month_genus) +
 ```
 
 > ### Challenge
-> To illustrate using the size aesthetic, recreate the `by_month_mean` plot using
-geom_point() with the additional arguement of `size = rodent_type`.
+> To illustrate using the size aesthetic and factors, recreate the 
+`by_month_mean` plot using geom_point() with the additional argument of 
+`size = rodent_type`.
 >
-> Also use `fct_reorder()` to change the x mapping to a factor that is a function
+> Use `fct_reorder()` to change the x mapping to a factor that is a function
 of `genus` and `mean_captures` such that the plot is ordered by `mean_captures`.
 >
 > Don't forget to change `fill` to `colour` when changing from `geom_bar()` to
@@ -409,11 +457,15 @@ ggplot(by_month_mean) +
 ## Themes and customisations
 
 When we're exploring our data we generally don't mind if the labels and colours
-etc. are a bit messy. But when we want to publish or communicate our findings
+etc... are a bit messy. But when we want to publish or communicate our findings
 to others we want everything to be just so.
 
 This is where the code can become quite complicated and it's hard to provide
-a general case. However, the underlying form remains the same.
+a general case. However, the underlying template remains the same.
+
+It's unlikely that you'll need to statistical transformations, positional adjustments, coordinate adjustments, and facets all in the same plot, but this 
+provides an idea of what is possible. Remember the aim is clarity, not to
+make something complicated just because you can.
 
 ```{r, purl=FALSE,eval=FALSE}
 ggplot(data = <DATA>) + 
@@ -426,9 +478,7 @@ ggplot(data = <DATA>) +
   <FACET_FUNCTION>
 ```
 
-To this we add all the additional functions and arguements that will change
-the plot to make it exactly how we want. It takes time, but remember code is 
-resusable. Solve it once and you've solved it forever.
+This template we can use to add all the additional functions and arguments that will change the plot to make it exactly how we want. It takes time, but remember code is reusable. Solve it once and you've solved it forever.
 
 For all the possible customisations check out the 
 [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html), and
@@ -439,7 +489,7 @@ But here's a few common changes.
 
 ### Changing colours, labels, themes and adding titles
 
-Recall our boxplot with points overlaid. Following the facet function, 
+Recall our box-plot with points overlaid. Following the facet function, 
 we're going add a succession of functions to change the colours 
 `scale_colour_brewer()`, change the axis labels, 
 add a title using `labs()` and change the theme.
@@ -465,8 +515,10 @@ ggplot(data= by_quarter,
 
 ```
 
+Check out `?scale_colour_brewer` and `?scale_fill_brewer` for more information 
+on colour schemes for discrete data. And `?scale_color_continuous` for creating colour gradients for continuous data. 
 
-## Re-creating the paper figure
+## Recreating the paper figure
 
 With a fair amount of extra code we can mostly re-create the figure from the
 paper (top two panels only).
@@ -504,10 +556,15 @@ ggplot(data = by_quarter,aes(x=quarter, y=captures, linetype = plot_type,
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
 If you are preparing figures for a manuscript or publication, it's worth checking
-out the [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) pacakge that works with ggplot2. This enables easy combinations
+out the [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) package that works with ggplot2. This enables easy combinations
 of different plots and things like panel labels.
 
 ## Summary
+
+Below is our final template for creating plots with ggplot2. 
+
+To reiterate, often the default functions with no extra arguments are sufficient
+to create the plot we need. But there is a great deal we can change if we need to.
 
 ```{r, purl=FALSE,eval=FALSE}
 ggplot(data = <DATA>) + 
@@ -521,3 +578,11 @@ ggplot(data = <DATA>) +
   <LABEL FUNCTION> +
   <THEME FUNCTION>
 ```
+
+Moreover, we have written code for our plot. It's now both reusable and reproducible. This is good for spotting errors, or if we are making the same plots on a regular basis we could even start thinking about how to automate this
+process. Thirdly, when making plots for publication we can easily amend the code
+to change the appearance of a plot with minimal effort.
+
+In the final part of this lesson we'll cover exporting figures, and how to turn
+everything we've done into a report.
+minimal effort if our collaborators or an editor

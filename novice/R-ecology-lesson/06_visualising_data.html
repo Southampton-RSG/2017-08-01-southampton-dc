@@ -379,8 +379,8 @@ div.tocify {
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
 <p>We’ve transformed the surveys data ready for plotting, but what do we want to plot?</p>
-<p>We want to plot the number of captures as a function of quarter in which they took place, whilst comparing both kangeroo rats and granivores, as well as comparing kangroo rat exclosure with plots containing kangeroo rats and granivores.</p>
-<p>Such a plot should inform us about the effect of kangeroo rat exclosure on the granivore population. All the work we did to transform the data should make this straight forward as we have a tidy data set i.e. each observation forms a row and each variable forms a column. We have four variables: <code>rodent_type</code>, <code>quarter</code>, <code>plot_type</code> and <code>captures</code>.</p>
+<p>We want to plot the number of captures as a function of quarter in which they took place, whilst comparing both kangaroo rats and granivores, as well as comparing kangaroo rat exclosure with plots containing kangaroo rats and granivores.</p>
+<p>Such a plot should inform us about the effect of kangaroo rat exclosure on the granivore population. All the work we did to transform the data should make this straight forward as we have a tidy data set i.e. each observation forms a row and each variable forms a column. We have four variables: <code>rodent_type</code>, <code>quarter</code>, <code>plot_type</code> and <code>captures</code>.</p>
 <p>Here’s the figure from the paper again:</p>
 <div class="figure">
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
@@ -392,17 +392,17 @@ div.tocify {
 <p>Let’s remind ourselves of the basic form for creating plots with the <code>ggplot2</code> package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span><span class="kw">GEOM_FUNCTION</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;))&gt;</code></pre></div>
-<p>In this form we provide a data frame as an arguement to the <code>ggplot</code> function and then aesthetics (the variables we wish to plot) are mapped to a geometric object such as a line. If we were to plot several <code>geoms()</code> on the same plot, we’d need to map the aesthetics to each <code>geom()</code>, so often it’s more convenient to provide the aesthetics arguement to <code>ggplot()</code> instead, and it will be mapped to all geoms we add to the plot. Only do this if this is what you want.</p>
+<p>In this form we provide a data frame as an argument to the <code>ggplot</code> function and then aesthetics (the variables we wish to plot) are mapped to a geometric object such as a line. If we were to plot several <code>geoms()</code> on the same plot, we’d need to map the aesthetics to each <code>geom()</code>, so often it’s more convenient to provide the aesthetics argument to <code>ggplot()</code> instead, and it will be mapped to all geoms we add to the plot. Only do this if this is what you want.</p>
 <p>In our first attempt at plotting the data, our data is <code>by_quarter</code> and we’ll map three aesthetics <code>x = quarter,y = captures,colour = plot_type</code> to two geoms <code>geom_line</code> and <code>geom_point</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> quarter,<span class="dt">y =</span> captures,<span class="dt">colour =</span> plot_type)) +
 <span class="st">  </span><span class="kw">geom_line</span>() +
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-3-1.png" width="960" /></p>
-<p>This isn’t much use as we can’t tell the difference between the kangeroo rats and granivores. We need to use our fourth variable <code>rodent_type</code> to create two plots, one for the granivores and the other for the kangeroo rats.</p>
+<p>This isn’t much use as we can’t tell the difference between the kangaroo rats and granivores. We need to use our fourth variable <code>rodent_type</code> to create two plots, one for the granivores and the other for the kangaroo rats.</p>
 <div id="facets" class="section level3">
 <h3>Facets</h3>
-<p>Creating sub-plots based on the <code>rodent_type</code> variable uses facets. If we are facetting plots by a single variable we use <code>facet_wrap()</code>. The first arguement is <code>~</code> followed by the variable name, here <code>rodent_type</code>. This arguement is called a formula. There are many additional arguements that can be provided, see <code>?facet_wrap</code>.</p>
+<p>Creating sub-plots based on the <code>rodent_type</code> variable uses facets. If we are faceting plots by a single variable we use <code>facet_wrap()</code>. The first argument is <code>~</code> followed by the variable name, here <code>rodent_type</code>. This argument is called a formula. There are many additional arguments that can be provided, see <code>?facet_wrap</code>.</p>
 <p>Using <code>facet_wrap(~ rodent_type)</code> gives us this plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>quarter,<span class="dt">y=</span>captures,<span class="dt">colour=</span>plot_type)) +
@@ -410,19 +410,15 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type)</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-4-1.png" width="960" /></p>
-<p>So this is starting to look more like the published figure, and we can confirm that the granivore populations do increase when the kangeroo rats are excluded.</p>
+<p>So this is starting to look more like the published figure, and we can confirm that the granivore populations do increase when the kangaroo rats are excluded.</p>
 <p>However we can improve things, and we’ll come back making the figure more polished at the end of this lesson.</p>
 <p>If we wanted to plot the combination of two variable we’d use <code>facet_grid()</code> in which the formula becomes <code>first_variable ~ second_variable</code>.</p>
 <blockquote>
 <h3 id="challenge">Challenge</h3>
-<p>Try plotting <code>by_quarter</code> using <code>facet_grid()</code> and arguements <code>plot_type</code> and <code>rodent_type</code></p>
-<p>We don’t need to map the colour aesthetic.</p>
+<p>Try plotting <code>by_quarter</code> using <code>facet_grid()</code> and arguments <code>plot_type</code> and <code>rodent_type</code></p>
+<p>We don’t need to map the colour aesthetic. The plot should look like the one below</p>
 </blockquote>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> by_quarter,
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>quarter,<span class="dt">y=</span>captures)) +
-<span class="st">  </span><span class="kw">geom_line</span>() +
-<span class="st">  </span><span class="kw">geom_point</span>() +
-<span class="st">  </span><span class="kw">facet_grid</span>(plot_type~<span class="st"> </span>rodent_type)</code></pre></div>
+<p><img src="img/r-lesson-unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 </div>
 <div id="other-plot-types" class="section level2">
@@ -430,6 +426,8 @@ div.tocify {
 <p>There are many other types of plot we may wish to create when exploring data. The previous plot showed us changes with time, but we might want to look at averages and spread or other statistical summaries of the data.</p>
 <div id="boxplots" class="section level3">
 <h3>Boxplots</h3>
+<p>Box-plots are a standard way to plot the distribution of a data set. Plotting the data this way means that we drop the dynamic information, the time dimension, but gain a compact summarised view of the variability of the number of captures.</p>
+<p>In the following code we use the <code>boxplot()</code> geom, and this time swap the mapping such that colour maps to the rodent type, and plots are faceted according to the plot type.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
                      <span class="dt">colour =</span> rodent_type)) +
@@ -439,14 +437,19 @@ div.tocify {
 </div>
 <div id="position-adjustments" class="section level3">
 <h3>Position adjustments</h3>
+<p>Another common adjustment we might make to our plots is to adjust the position of the data.</p>
+<p>Recall the <code>mpg</code> data set for cars and our plot showing the fuel efficiency versus the size of the engine. Many of the points are actually over plotted such that we can’t see them.</p>
+<p>By adding a bit of random noise to the position each data point, called <code>jitter</code> we can spread the points out and see them more clearly. This is seen in the second plot below, where the <code>postion = &quot;jitter&quot;</code> argument has been provided to the <code>geom_point()</code> function.</p>
+<p>It’s a little counter intuitive to add noise to a plot, but when we’re trying to explore data for patterns it can be very useful.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
-                                              <span class="dt">colour=</span>class))</code></pre></div>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span> displ, <span class="dt">y=</span> hwy, <span class="dt">colour=</span> class))</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-7-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy, 
-                                              <span class="dt">colour=</span>class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span> displ, <span class="dt">y=</span> hwy, <span class="dt">colour=</span> class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-7-2.png" width="672" /></p>
+<p>Let’s add points to our box-plot and for the challenge try comparing the plot to one where the points are jittered.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot without jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
@@ -455,44 +458,43 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
 <p><img src="img/r-lesson-unnamed-chunk-8-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot with jitter</span>
-<span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
-                     <span class="dt">colour =</span> rodent_type)) +
-<span class="st">  </span><span class="kw">geom_boxplot</span>() +
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>) +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-8-2.png" width="672" /></p>
+<blockquote>
+<h3 id="challenge-1">Challenge</h3>
+<p>Plot the previous boxplot with jittered points</p>
+<p>The plot should look like the one below.</p>
+</blockquote>
+<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-</div>
-<div id="statistical-transformations" class="section level2">
-<h2>Statistical transformations</h2>
+<div id="statistical-transformations" class="section level3">
+<h3>Statistical transformations</h3>
 <p>Next we’ll plot bar charts.</p>
 <p>These simple plots actually reveal subtleties in plots. In the following code we take the <code>by_month_genus</code> subset and create a bar chart of <code>genus</code>, filling the bars with colour according to <code>rodent_type</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a bar plot of genus from by_month_genus </span>
 <span class="kw">ggplot</span>(by_month_genus) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> genus, <span class="dt">fill=</span>rodent_type)) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
 <p>We see that the code has automatically created a count variable on the y-axis for each genus plotted as a bar on the x-axis. (We’ll come back to the issue of illegible labels shortly.)</p>
 <p>This is because the <code>geom_bar()</code> algorithm automatically performs a statistical transformation of the mapped variable. That is to say it performs a count and bins the data according to the genus. This means we have a chart where the bar height corresponds to the number of rows for each genus.</p>
-<p>But this isn’t a count of the captures, it’s how many times each genus appears in a row of <code>by_month_genus</code>. Remember how we summarised this data by captures per month.</p>
-<p>Often when people talk about bar charts they are referring to when the height of the bar is present in the data, here that would be the <code>captures</code> column. In this kind of situation we need to map the y-axis too, and change the default <code>geom_bar()</code> statistical transformation to <code>stat = &quot;identity&quot;</code> so that it takes the values provided in the <code>captures</code> column to determine the height of the bar.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a bar plot of genus from by_month_genus </span>
+<p>But this isn’t a count of the captures, it’s how many rows each genus appears in of <code>by_month_genus</code>. Remember how we summarised this data to calculate captures per month.</p>
+<p>Often when people talk about bar charts they are referring to when the height of the bar is a variable present in the data, here that would be the <code>captures</code> column. In this kind of situation we need to map the y-axis too, and change the default <code>geom_bar()</code> statistical transformation to <code>stat = &quot;identity&quot;</code> so that it takes the values provided in the <code>captures</code> column to determine the height of the bar.</p>
+<p>To reiterate: <strong>if you are trying to create a bar chart using x and y variables contained in your data set, you need to set <code>geom_bar(stat = &quot;identity&quot;)</code>.</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a bar plot of genus from by_month_genus using y = captures and </span>
+<span class="co"># stat = &quot;identity&quot;</span>
 <span class="kw">ggplot</span>(by_month_genus) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> genus, <span class="dt">y =</span> captures,
                          <span class="dt">fill=</span>rodent_type), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-11-1.png" width="672" /></p>
 <blockquote>
-<h3 id="challenge-1">Challenge</h3>
+<h3 id="challenge-2">Challenge</h3>
 <p>Let’s compare the plot we just made with <code>by_month_genus</code> to one using <code>surveys_subset</code></p>
 <p>Use the code from the plot where we didn’t use the <code>captures</code> column and use the default statistical transformation.</p>
 <p>As <code>surveys_subset</code> has one row for every capture, counting the rows should produce the same plot as when we used the calculated <code>captures</code> column in <code>by_month_genus</code>.</p>
 </blockquote>
-<p>To learn more about statistical transformations have a look at the <a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf">ggplot2 cheatsheet</a>.</p>
+<p>To learn more about the 20 statistical transformations built into ggplot2 have a look at the <a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf">ggplot2 cheatsheet</a>.</p>
 <blockquote>
-<h3 id="challenge-2">Challenge</h3>
+<h3 id="challenge-3">Challenge</h3>
 <p>For the next part we need to calculaute the mean monthly captures.</p>
 <p>Recall how to do grouped summaries and create an object <code>by_month_mean</code> using <code>by_month_genus</code>, grouping by <code>genus,plot_type,rodent_type</code> and then summarising <code>mean_captures = mean(captures)</code>.</p>
 </blockquote>
@@ -500,25 +502,27 @@ div.tocify {
 <p>The next few graphs illustrate a stacked bar chart situation. Here we plot the mean monthly number of captures at each plot type, colouring by genus.</p>
 <p>In the first plot the bars are stacked such that we can see the relative mean monthly captures per genus, but not what the actual mean was for each genus.</p>
 <p>To get round this problem we can alter the default position setting to identity. However, this means that filled bars would overlap, so we’ve set <code>fill = NA</code>. Now we can see the mean values as well as the proportions.</p>
-<p>Alternatively we could set <code>postion = dodge</code> and we get the third plot, where the bars for each genus are side by side, again allowing us to see both the proportions and the mean values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a stacked bar chart of plot type coloured by </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a stacked bar chart of plot type coloured by genus</span>
 <span class="kw">ggplot</span>(by_month_mean) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> mean_captures, 
                          <span class="dt">colour =</span> genus),
            <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-13-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use the position</span>
+<p><img src="img/r-lesson-unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use position = &quot;identitiy&quot; to create overlapping bars</span>
 <span class="kw">ggplot</span>(by_month_mean) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> mean_captures, 
                          <span class="dt">colour =</span> genus),
            <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">position =</span><span class="st">&quot;identity&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-13-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use the position</span>
+<p><img src="img/r-lesson-unnamed-chunk-14-2.png" width="672" /></p>
+<p>Alternatively we could set <code>postion = dodge</code> and we get the next plot, where the bars for each genus are side by side, again allowing us to see both the proportions and the mean values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use position = &quot;dodge&quot; to create side by side bars</span>
 <span class="kw">ggplot</span>(by_month_mean) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> plot_type, <span class="dt">y =</span> mean_captures, 
                          <span class="dt">colour =</span> genus),
            <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">position =</span><span class="st">&quot;dodge&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-13-3.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-15-1.png" width="672" /></p>
+<p>For more positional adjustments, check out the help files <code>?postion_jitter</code>, <code>?position_dodge</code>, <code>?position_fill</code>, <code>?position_identity</code>, and <code>?position_stack</code>.</p>
+</div>
 <div id="coordinate-adjustments" class="section level3">
 <h3>Coordinate adjustments</h3>
 <p>Previously, we plotted <code>by_month_genus</code> and the genus labels we overlapping. We could change the label size, but to illustrate another function, let’s flip the plot round using <code>coord_flip()</code> to improve things:</p>
@@ -528,36 +532,40 @@ div.tocify {
            <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type) +
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="factors" class="section level3">
 <h3>Factors</h3>
 <p>Finally for this plot, it would be nice to put the bars in order of size. We can do this by converting the genus to a factor.</p>
-<p>Recall that factors are how R represents catergorical variables, variables with a limited number of values, such as genus.</p>
-<p>Also recall <em>factors look like strings, but behave like integers</em>. That is to say they are words that have values called levels, and an order.</p>
-<p>This is why factors are useful, especially when we want to place things in non-alphabetical order.</p>
+<p>Recall that factors are how R represents categorical variables, variables with a limited number of values, such as genus.</p>
+<p>Also recall <strong>factors look like strings, but behave like integers</strong>. That is to say they are strings of characters with associated values called levels that indicate an order.</p>
+<p>This is why factors are useful, especially when we want to place things in non-alphabetical order. We can take advantage of factor levels to order things as we wish.</p>
 <p>Check out the <a href="http://forcats.tidyverse.org/">forcats</a> tidyverse package to explore the power of factors, but here we’re going to use the <code>fct_reorder()</code> function to convert <code>genus</code> to a factor and in doing so set the level according to to the number of captures.</p>
 <p>Note we still keep x and y mappings, but now x is now a function of both the genus and the capture columns.</p>
 <p>This gives us a nice ordered bar chart.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Order the rodents according to frequency of the </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the forcats tidyverse package</span>
+<span class="kw">library</span>(forcats)
+
+<span class="co"># Order the rodents according to number of captures</span>
 <span class="kw">ggplot</span>(by_month_genus) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">fct_reorder</span>(genus, captures), <span class="dt">y =</span> captures, 
                           <span class="dt">fill =</span> rodent_type), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(~<span class="st"> </span>plot_type) +
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-17-1.png" width="672" /></p>
 <blockquote>
-<h3 id="challenge-3">Challenge</h3>
-<p>To illustrate using the size aesthetic, recreate the <code>by_month_mean</code> plot using geom_point() with the additional arguement of <code>size = rodent_type</code>.</p>
-<p>Also use <code>fct_reorder()</code> to change the x mapping to a factor that is a function of <code>genus</code> and <code>mean_captures</code> such that the plot is ordered by <code>mean_captures</code>.</p>
+<h3 id="challenge-4">Challenge</h3>
+<p>To illustrate using the size aesthetic and factors, recreate the <code>by_month_mean</code> plot using geom_point() with the additional argument of <code>size = rodent_type</code>.</p>
+<p>Use <code>fct_reorder()</code> to change the x mapping to a factor that is a function of <code>genus</code> and <code>mean_captures</code> such that the plot is ordered by <code>mean_captures</code>.</p>
 <p>Don’t forget to change <code>fill</code> to <code>colour</code> when changing from <code>geom_bar()</code> to <code>geom_point()</code>.</p>
 </blockquote>
 </div>
 </div>
 <div id="themes-and-customisations" class="section level2">
 <h2>Themes and customisations</h2>
-<p>When we’re exploring our data we generally don’t mind if the labels and colours etc. are a bit messy. But when we want to publish or communicate our findings to others we want everything to be just so.</p>
-<p>This is where the code can become quite complicated and it’s hard to provide a general case. However, the underlying form remains the same.</p>
+<p>When we’re exploring our data we generally don’t mind if the labels and colours etc… are a bit messy. But when we want to publish or communicate our findings to others we want everything to be just so.</p>
+<p>This is where the code can become quite complicated and it’s hard to provide a general case. However, the underlying template remains the same.</p>
+<p>It’s unlikely that you’ll need to statistical transformations, positional adjustments, coordinate adjustments, and facets all in the same plot, but this provides an idea of what is possible. Remember the aim is clarity, not to make something complicated just because you can.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(
      <span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;),
@@ -566,12 +574,12 @@ div.tocify {
 <span class="st">  </span>) +
 <span class="st">  </span><span class="er">&lt;</span>COORDINATE_FUNCTION&gt;<span class="st"> </span>+
 <span class="st">  </span><span class="er">&lt;</span>FACET_FUNCTION&gt;</code></pre></div>
-<p>To this we add all the additional functions and arguements that will change the plot to make it exactly how we want. It takes time, but remember code is resusable. Solve it once and you’ve solved it forever.</p>
+<p>This template we can use to add all the additional functions and arguments that will change the plot to make it exactly how we want. It takes time, but remember code is reusable. Solve it once and you’ve solved it forever.</p>
 <p>For all the possible customisations check out the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a>, and this chapter of R for data science: <a href="http://r4ds.had.co.nz/graphics-for-communication.html#themes">Graphics for communication</a></p>
 <p>But here’s a few common changes.</p>
 <div id="changing-colours-labels-themes-and-adding-titles" class="section level3">
 <h3>Changing colours, labels, themes and adding titles</h3>
-<p>Recall our boxplot with points overlaid. Following the facet function, we’re going add a succession of functions to change the colours <code>scale_colour_brewer()</code>, change the axis labels, add a title using <code>labs()</code> and change the theme.</p>
+<p>Recall our box-plot with points overlaid. Following the facet function, we’re going add a succession of functions to change the colours <code>scale_colour_brewer()</code>, change the axis labels, add a title using <code>labs()</code> and change the theme.</p>
 <p>Themes deal with non-data elements e.g. the grid, the axes etc. There are a range of built-in themes and packages of themes such as <code>ggthemes</code>. Here we’ll use the built-in theme, <code>theme_bw()</code> that gives a simple layout.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span> by_quarter,
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> rodent_type, <span class="dt">y =</span> captures, 
@@ -585,11 +593,13 @@ div.tocify {
        <span class="dt">y =</span> <span class="st">&quot;Number of captures&quot;</span>,
        <span class="dt">colour =</span> <span class="st">&quot;Rodent type&quot;</span>) +
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-20-1.png" width="672" /></p>
+<p>Check out <code>?scale_colour_brewer</code> and <code>?scale_fill_brewer</code> for more information on colour schemes for discrete data. And <code>?scale_color_continuous</code> for creating colour gradients for continuous data.</p>
 </div>
 </div>
-<div id="re-creating-the-paper-figure" class="section level2">
-<h2>Re-creating the paper figure</h2>
+<div id="recreating-the-paper-figure" class="section level2">
+<h2>Recreating the paper figure</h2>
+<p>With a fair amount of extra code we can mostly re-create the figure from the paper (top two panels only).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create rodent levels by getting the unique values for rodent type</span>
 <span class="co"># and putting them in reverse order for plotting</span>
 rodent_levels &lt;-<span class="st">  </span><span class="kw">rev</span>(<span class="kw">unique</span>(by_quarter$rodent_type))
@@ -617,14 +627,17 @@ by_quarter$rodent_type &lt;-<span class="st"> </span><span class="kw">factor</sp
         <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
         <span class="dt">aspect.ratio =</span> <span class="fl">0.6</span>, 
         <span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre></div>
-<p><img src="img/r-lesson-unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="img/r-lesson-unnamed-chunk-21-1.png" width="672" /></p>
 <div class="figure">
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
 <p class="caption">Figure 1 from Heske et. al., 1994</p>
 </div>
+<p>If you are preparing figures for a manuscript or publication, it’s worth checking out the <a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html">cowplot</a> package that works with ggplot2. This enables easy combinations of different plots and things like panel labels.</p>
 </div>
 <div id="summary" class="section level2">
 <h2>Summary</h2>
+<p>Below is our final template for creating plots with ggplot2.</p>
+<p>To reiterate, often the default functions with no extra arguments are sufficient to create the plot we need. But there is a great deal we can change if we need to.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(
      <span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;),
@@ -635,6 +648,8 @@ by_quarter$rodent_type &lt;-<span class="st"> </span><span class="kw">factor</sp
 <span class="st">  </span><span class="er">&lt;</span>FACET_FUNCTION&gt;<span class="st"> </span>+
 <span class="st">  </span><span class="er">&lt;</span>LABEL FUNCTION&gt;<span class="st"> </span>+
 <span class="st">  </span><span class="er">&lt;</span>THEME FUNCTION&gt;</code></pre></div>
+<p>Moreover, we have written code for our plot. It’s now both reusable and reproducible. This is good for spotting errors, or if we are making the same plots on a regular basis we could even start thinking about how to automate this process. Thirdly, when making plots for publication we can easily amend the code to change the appearance of a plot with minimal effort.</p>
+<p>In the final part of this lesson we’ll cover exporting figures, and how to turn everything we’ve done into a report. minimal effort if our collaborators or an editor</p>
 </div>
 
 <hr/>

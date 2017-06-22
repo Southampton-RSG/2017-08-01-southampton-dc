@@ -26,7 +26,7 @@ library(tidyverse)
 
 # Data visualisation
 
-Let's begin with visualisation of some data using the `ggplot2` pacakage. 
+Let's begin with visualisation of some data using the `ggplot2` package. 
 
 We're starting here as we gather data to ask and answer questions, and visualising data often provides the answers.
 
@@ -36,7 +36,7 @@ course we'll be working within the *tidyverse*, a set of packages that implement
 a coherent set of tools for data science in R. ggplot2 is a package that is part
 of the tidyverse package.
 
-We should have the tidyverse installaed and loaded already, which means ggplot2
+We should have the tidyverse installed and loaded already, which means ggplot2
 is loaded and ready to go.
 
 ## Using graphs to explore data
@@ -69,9 +69,9 @@ ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy))
 This plot shows a negative relationship between engine size and fuel efficiency.
 
 What we did here was call the `ggplot()` function to create an empty graph, 
-where the first arguement is the data (here `mpg`). The we used a `geom_point()` function to add a layer of points mapping the aesthetics for the x and y axes.
+where the first argument is the data (here `mpg`). The we used a `geom_point()` function to add a layer of points mapping the aesthetics for the x and y axes.
 
-Mapping is always paired to aesthetics `aes()`. An asthetic is a visual property
+Mapping is always paired to aesthetics `aes()`. An aesthetic is a visual property
 of the objects in your plot, such a point size, shape or point colour.
 
 > ### Challenge
@@ -83,24 +83,12 @@ of the objects in your plot, such a point size, shape or point colour.
 efficiency (y-axis) ?
 > * Is the trend positive or negative between engine size and city fuel 
 efficiency ?
+>
 
-```{r, echo=FALSE, purl=TRUE}
-
-# Is the trend the same for fuel efficiency in cities? 
-# * Which variable represents city miles per gallon?
-# * Can you produce a plot of engine size (x-axis) against city fuel 
-# efficiency (y-axis) ?
-# * Is the trend positive or negative between engine size and city fuel 
-# efficiency ?
-
-```
-
-<!---
-```{r, echo=FALSE, purl=FALSE}
+```{r, echo=FALSE, purl=FALSE, eval = FALSE}
 ## Answers
 ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy))
 ```
---->
 
 Here we just used the values of x and y as points, but we could add a colour 
 or shape aesthetic too.
@@ -108,8 +96,8 @@ or shape aesthetic too.
 But why? 
 
 Suppose we also were trying to understand the relationship between the type of 
-car, the engine size and fuel efficency. To contain all this information in 
-a single plot we need to have a third aesthetic, a third property to decribe 
+car, the engine size and fuel efficiency. To contain all this information in 
+a single plot we need to have a third aesthetic, a third property to describe 
 the car type, contained in the `class` column.
 
 ```{r,purl=FALSE}
@@ -118,13 +106,13 @@ ggplot(data = mpg) + geom_point(mapping = aes(x=displ, y=hwy, colour=class))
 
 As we might expect, bigger cars such as SUVs tend to have bigger engines and 
 are also less fuel efficient, but some smaller cars such as 2seaters also have
-big engines and greater fuel efficency. Hence we have a more nuanced view with
+big engines and greater fuel efficiency. Hence we have a more nuanced view with
 this additional aesthetic.
 
 Check out the ggplot2 documentation for all the aesthetic possibilities (and 
-google for examples): http://ggplot2.tidyverse.org/reference/
+Google for examples): http://ggplot2.tidyverse.org/reference/
 
-So now we have re-useuable code snippet for generating plots in R:
+So now we have re-usable code snippet for generating plots in R:
 
 ```{r, purl=FALSE,eval=FALSE}
 ggplot(data = <DATA>) + 
@@ -133,7 +121,7 @@ ggplot(data = <DATA>) +
 
 Concretely, in our first example `<DATA>` was `mpg`, the `<GEOM_FUNCTION>` 
 was `geom_point()` and the arguments we supplies to map our aesthetics 
-`<MAPPINGS>` were `x=displ, y=hwy`.
+`<MAPPINGS>` were `x = displ, y = hwy`.
 
 ### What is the availability of different types of diamond?
 
@@ -142,7 +130,7 @@ the same time.
 
 Also, we only looked at one type of geometric object, `geom_point`,
 last time. Geoms are the type of data display ggplot2 creates e.g. points, 
-boxplots, bar charts. Here we'll see some of the other geom types.
+box-plots, bar charts. Here we'll see some of the other geom types.
 
 Let's look at another built in data frame called `diamonds`.
 
@@ -153,7 +141,7 @@ diamonds
 This data set has records of about 54,000 diamonds, including price (dollars), 
 quality of the cut (cut) and weight (carat).
 
-Let's create a barplot of diamond cut quality using our code snippet:
+Let's create a bar-plot of diamond cut quality using our code snippet:
 
 ```{r,purl=FALSE}
 ggplot(data = diamonds) + 
@@ -164,13 +152,13 @@ What's happened here? Rather than plotting the raw data, ggplot has transformed
 the data by counting the the number of diamonds in the row of data frame 
 corresponding with each quality.
 
-This statistical transformation of counting the rows is a default of `geom_bar()`,
-by reading the help we can find out more `?geom_bar`, and how to change it.
+This statistical transformation of counting the rows is a default of `geom_bar()`, by reading the help we can find out more `?geom_bar`, and how to
+change it.
 
 We see that ideal cut quality diamonds are most abundant.
 
 The depth measurement describes the relationship of the height to its width as
-a precentage. Plotting this as a boxplot automatically calculates the the range
+a percentage. Plotting this as a box-plot automatically calculates the the range
 of depths, and associated statistics for each quality type.
 
 ```{r,purl=FALSE}
@@ -178,43 +166,46 @@ ggplot(data = diamonds) +
   geom_boxplot(mapping = aes(x=cut,y=depth))
 ```
 
-As before, we could apply another aesthetic, colour to also look at the same 
+> ### Challenge
+> As before, we could apply another aesthetic, colour to also look at the same 
 relationship, but also across the clarity types.
+>
+> Create a box-plot as before, but add `colour = clarity` to the aesthetics 
+mapping
+>
 
-```{r,purl=FALSE}
+```{r,purl=FALSE, echo=FALSE,eval=FALSE}
 ggplot(data = diamonds) + 
   geom_boxplot(mapping = aes(x=cut,y=depth, colour=clarity))
 ```
 
-This is getting a bit harder to read, so finally we introduce the idea of facets.
-Rather than mapping an additional aesthetic, we can used facets to split this 
-into subplots using the following code:
+<!-- This is getting a bit harder to read, so finally we introduce the idea of facets. -->
+<!-- Rather than mapping an additional aesthetic, we can used facets to split this  -->
+<!-- into subplots using the following code: -->
 
-```{r,purl=FALSE}
-ggplot(data = diamonds) + 
-  geom_boxplot(mapping = aes(x=cut,y=depth)) +
-  facet_wrap(~ clarity)
-```
+<!-- ```{r,purl=FALSE} -->
+<!-- ggplot(data = diamonds) +  -->
+<!--   geom_boxplot(mapping = aes(x=cut,y=depth)) + -->
+<!--   facet_wrap(~ clarity) -->
+<!-- ``` -->
 
-But we're now struggling to fit the labels on the x-axis, so let's flip them
-with `coord_flip()` to make things easier to read.
+<!-- But we're now struggling to fit the labels on the x-axis, so let's flip them -->
+<!-- with `coord_flip()` to make things easier to read. -->
 
-```{r,purl=FALSE}
-ggplot(data = diamonds) + 
-  geom_boxplot(mapping = aes(x=cut,y=depth)) +
-  facet_wrap(~ clarity) + 
-  coord_flip()
-```
+<!-- ```{r,purl=FALSE} -->
+<!-- ggplot(data = diamonds) +  -->
+<!--   geom_boxplot(mapping = aes(x=cut,y=depth)) + -->
+<!--   facet_wrap(~ clarity) +  -->
+<!--   coord_flip() -->
+<!-- ``` -->
 
-To use `facet_wrap()` with a single variable we call the function with a formula
-such that the first arguement is `~` and then the variable `clarity`. This must
-be a discrete variable.
+<!-- To use `facet_wrap()` with a single variable we call the function with a formula -->
+<!-- such that the first arguement is `~` and then the variable `clarity`. This must -->
+<!-- be a discrete variable. -->
 
-So generally we can see that diamonds of the greateat abundance are also the most
-uniform in terms of depth and clarity.
+Comparing our bar chart and box plot we can see that diamonds of the greatest abundance are also generally the most uniform in terms of depth and clarity.
 
-We'll return to plotting later and look at how to make them suitable for publication
-by performing tasks such as relabelling axes or adding titles.
+We'll return to plotting later and look at how to make them suitable for publication by performing tasks such as relabelling axes or adding titles.
 
 Hopefully you are beginning to see how a single line of code can do a lot.
 
@@ -232,11 +223,11 @@ weight_kg <- 55
 
 Read this as *"weight_kg gets value 55"* in your head.
 
-Using `<-` can be annoying to type, so use RStudio’s keyboard shortcut: 
+Using `<-` can be annoying to type, so use RStudio’s keyboard short cut: 
 Alt + - (the minus sign) to make life easier. 
 
 Object name style is a matter of choice, but must start with a letter and can 
-only cointain letters, numbers, `_` and `.`. We reccomend using descriptive names
+only contain letters, numbers, `_` and `.`. We recommend using descriptive names
 and using `_` between words. Some special symbols cannot be used in variable 
 names, so watch out for those.
 
@@ -260,7 +251,7 @@ is not the same as `weight_kg`. `weight_KG` doesn't exist, hence the error.
 
 ### Calling functions
 
-Functions in R are objects followed by parathenses, such as `library()`. 
+Functions in R are objects followed by parentheses, such as `library()`. 
 Functions have the form:
 
 `function_name(arg1 = val, arg2 = val2, ...)`
@@ -268,24 +259,27 @@ Functions have the form:
 Let's use `seq()` to create a **seq**uence of numbers, and at the same time practice tab completion.
 
 Start typing `se` in the console and you should see a list of functions appear,
-add `q` to shorten the list, then use the up and down arrow to hilight the function
+add `q` to shorten the list, then use the up and down arrow to highlight the function
 of interest `seq()` and hit Tab to select.
 
-RStudio puts the cursor between the parathenses to prompt us to enter some 
-arguements. Here we'll use 1 as the start and 10 as the end:
+RStudio puts the cursor between the parentheses to prompt us to enter some 
+arguments. Here we'll use 1 as the start and 10 as the end:
 
 ```{r, purl=FALSE,results='show'}
 seq(1,10)
 ```
 
-If we left off a parantheses to close the function, then when we hit enter 
+If we left off a parentheses to close the function, then when we hit enter 
 we'll see a `+` indicating RStudio is expecting further code. We either add the 
 missing part or press Escape to cancel the code.
 
-Let's call a function and make an assignment at the same time:
+Let's call a function and make an assignment at the same time. Here we'll use
+the base R function `seq()` which takes three arguments: `from`, `to` and `by`.
+
+Read the following code as *"make an object called my_sequence that stores a sequence of numbers from 2 to 20 by intervals of 2*.
 
 ```{r, purl=FALSE}
-my_sequence <- seq(1,10)
+my_sequence <- seq(2,20,2)
 ```
 
 This time nothing was returned to the console, but we now have an object called
@@ -293,12 +287,16 @@ This time nothing was returned to the console, but we now have an object called
 
 Can you remember how to inspect it?
 
-If we want to subset elements of `my_sequence` we use square brackets `[]`.
+If we want to subset elements of `my_sequence` we use 
+square brackets `[]`.
+
 For example element five would be subset by:
 
 ```{r, purl=FALSE,results='show'}
 my_sequence[5]
 ```
+
+Here the number five is the index of the vector, not the value of the fifth element. The value of the fifth element is 10. 
 
 And returning multiple elements uses a colon `:`, like so
 
@@ -309,14 +307,14 @@ my_sequence[5:8]
 # Atomic vectors
 
 We actually made an atomic vector already when we made `my_sequence`. We made a
-a one dimensional group of numbers, in a sequence from one to ten.
+a one dimensional group of numbers, in a sequence from two to twenty.
 
-We're not going to be working directly with atomic vectors in this workshop, 
+We're not going to be working much with atomic vectors in this workshop, 
 but to make you aware of how R stores data, atomic vector types 
 are: 
 
 + Doubles: regular numbers, +ve or -ve and with or without decimal places. AKA numerics.
-+ Integers: whole numbers, specified with an uppercase L, e.g. `int <- 2L`
++ Integers: whole numbers, specified with an upper-case L, e.g. `int <- 2L`
 + Characters: Strings of text
 + Logicals: these store `TRUE`s and `FALSE`s which are useful for comparisons.
 + Complex: this would be a vector of numbers with imaginary terms. 
@@ -351,18 +349,16 @@ dim(mpg)
 
 # Factors
 
-Factors are Rs way of storing catergorical information such as eye colour or
+Factors are Rs way of storing categorical information such as eye colour or
 car type. A factor is something that can only have certain values.
 
-Factors are useful as they code variables such as "red" or "blue" to integer 
-values e.g. 1 and 2, which can be used in statistical models and when plotting, 
-but they are confusing as they look like strings. 
+Factors are useful as they code string variables such as "red" or "blue" to integer values e.g. 1 and 2, which can be used in statistical models and when plotting, but they are confusing as they look like strings. 
 
 **Factors look like strings, but behave like integers.**
 
 Historically R converts strings to factors when we load and create data, but 
-it's often not what we want as a defualt. Fortunately, in the tidyverse strings
-are not treated as factors by defualt.
+it's often not what we want as a default. Fortunately, in the tidyverse strings
+are not treated as factors by default.
 
 # Lists
 
@@ -380,19 +376,28 @@ list_1
 ```
 
 Note the double brackets to indicate the list elements, i.e. element one is the
-vector of numbers and element two is a vector ofa single character.
+vector of numbers and element two is a vector of a single character.
 
 > ### Challenge
 > Make a list from our vectors `my_sequence` and `cards`
 >
 
 We won't be working with lists in this workshop, but they are a flexible way to 
-store data of different types in R.
+store data of different types in R. 
+
+Accessing list elements uses double square brackets syntax, for example
+`list_1[[1]]` would return the first vector in our list. 
+
+And to access the first element in the first vector would combine double and
+single square brackets like so: `list_1[[1]][1]`.
+
+Don't worry if you find this confusing, everyone does when they first start with 
+R.
 
 # Matrices and arrays
 
 Matrices store values in a two dimensional array, whilst arrays can have n 
-dimensions. We won't be using these either, but they are valid R objects.
+dimensions. We won't be using these either, but they are also valid R objects.
 
 # Data frames
 
@@ -428,6 +433,27 @@ We'll be working with a modified form of data frame called a tibble. One
 advantage of tibbles is that they don't default to treating strings as factors. 
 We deal with modifying data frames when we work with our example data set.
 
+Sub-setting data frames can also be done with square bracket syntax, but as we
+have both rows and columns, we need to provide index values for both row and 
+column.
+
+For example `df[1,2]` means *return the value of `df` row 1, column 2*. This corresponds with the value `A`. 
+
+We can also use the colon operator to choose
+several rows or columns, and by leaving the row or column blank we return all 
+rows or all columns.
+
+```{r, purl=FALSE,results='show'}
+# Subset rows 1 and 2 of column 1
+df[1:2,1]
+
+# Subset all rows of column 3
+df[,3]
+```
+
+Again don't worry too much about this for now, we won't be doing to much of this
+in this lesson, but it's important to be aware of the basic syntax.
+
 > ### Challenge
 > Make a data frame from our vectors `my_sequence` and `cards` and a logical vector.
 >
@@ -441,7 +467,7 @@ We deal with modifying data frames when we work with our example data set.
 
 # Learning more R
 
-We'rehere are many places to start, but swirl can teach you interactively, and at your own pace in RStudio.
+There are many places to start, but swirl can teach you interactively, and at your own pace in RStudio.
 
 Just follow the instructions via this link: http://swirlstats.com/students.html
 

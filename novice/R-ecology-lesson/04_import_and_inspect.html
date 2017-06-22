@@ -376,21 +376,21 @@ div.tocify {
 </div>
 </div>
 <p>In the remaining lessons we are going to recapitulate some of the analysis found in the 1994 paper by Heske et. al., <strong>Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years of Competition</strong>, DOI: 10.2307/1939547.</p>
-<p>Specifically we are going to look at the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangeroo rats over a period from 1977 to 1991.</p>
-<p>Below is an image of one of the species of Kangeroo rats excluded during the study.</p>
+<p>Specifically we are going to look at the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangaroo rats over a period from 1977 to 1991.</p>
+<p>Below is an image of one of the species of kangaroo rats excluded during the study.</p>
 <div class="figure">
 <img src="img/kratsep12.jpg" alt="Merriam’s kangaroo rat, Dipodomys merriami, (https://portalproject.wordpress.com/)" />
 <p class="caption">Merriam’s kangaroo rat, Dipodomys merriami, (<a href="https://portalproject.wordpress.com/" class="uri">https://portalproject.wordpress.com/</a>)</p>
 </div>
-<p>The following image indicates how the exclusion works, where a for number of fenced plots the kangeroo rats were either able to enter by a hole or kept out.</p>
+<p>The following image indicates how the exclusion works, where a for number of fenced plots the kangaroo rats were either able to enter by a hole or kept out.</p>
 <div class="figure">
 <img src="img/fence_hole.JPG" alt="Kangeroo Rat exclusion" />
 <p class="caption">Kangeroo Rat exclusion</p>
 </div>
 <p>The plots are 50 metres by 50 metres, and a survey of the species within each plot has been ongoing once a month for many years.</p>
 <p>Here will practice importing data, transforming data, and plotting data, and finally turning this script into a report.</p>
-<p>A conclusion of the paper is that there is evidence that kangeroo rats compete directly with four other rodent species, as evidenced by an increase in the populations of these four species when Kangeroo Rats are excluded. This can be seen in Figure 1 in the paper, and we will try to reproduce the analysis to generate a similar figure and confirm these observations.</p>
-<p>This figure shows the number of captures of threes species of Kangeroo Rats and five species of smaller granivore rodents over a period from 1977 to 1990. Panel A shows the populations when the eight species were left to compete for resources and Panel B shows the effect of excluding the Kangeroo Rats.</p>
+<p>A conclusion of the paper is that there is evidence that kangaroo rats compete directly with four other rodent species, as evidenced by an increase in the populations of these four species when kangaroo Rats are excluded. This can be seen in Figure 1 in the paper, and we will try to reproduce the analysis to generate a similar figure and confirm these observations.</p>
+<p>This figure shows the number of captures of threes species of kangaroo Rats and five species of smaller granivore rodents over a period from 1977 to 1990. Panel A shows the populations when the eight species were left to compete for resources and Panel B shows the effect of excluding the kangaroo Rats.</p>
 <div class="figure">
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
 <p class="caption">Figure 1 from Heske et. al., 1994</p>
@@ -401,13 +401,13 @@ div.tocify {
 <ul>
 <li>Importing means getting data into our R environment by turning into into a R object that we can then manipulate. The raw data file remains unchanged.</li>
 <li>Inspecting means looking at the dataset to understand what it contains.</li>
-<li>Tidying refers to gettingg data into a consistent format that makes it easy to use in later steps.</li>
+<li>Tidying refers to getting data into a consistent format that makes it easy to use in later steps.</li>
 </ul>
 <p>A note here is that we are focusing on rectangular data, the sort that comes in rows and columns such as in a spreadsheet. Lots of our data types exist, such as images, which are beyond the scope of this lesson, but can also be handled by R.</p>
 <p>A further note on tidy data. Tidy data can also come in various forms, but for rectangular data we will use the convention where every variable forms a column, every row forms an observation and every type of observational unit is stored in a separate table (we only have one table here, so the last point is moot.)</p>
 <div id="using-scripts" class="section level2">
 <h2>Using scripts</h2>
-<p>Using the console is useful, but as we build up a workflow, that is to say, wrting code to:</p>
+<p>Using the console is useful, but as we build up a workflow, that is to say, wring code to:</p>
 <ul>
 <li>load packages</li>
 <li>load data</li>
@@ -439,11 +439,11 @@ div.tocify {
 <p>Now let’s save the script, by going to File &gt; Save and we should find ourselves prompted to save the script in our Project Directory.</p>
 <div id="filenames" class="section level3">
 <h3>Filenames</h3>
-<p>Filenames should be meaningful and end in <code>.R</code>. A good name would be <code>ecology-data-analysis.R</code> and a bad name would be <code>file.R</code>. Let’s use the good example for our filename.</p>
+<p>File names should be meaningful and end in <code>.R</code>. A good name would be <code>ecology-data-analysis.R</code> and a bad name would be <code>file.R</code>. Let’s use the good example for our file name.</p>
 </div>
 <div id="comments" class="section level3">
 <h3>Comments</h3>
-<p>In R, any line begining <code>#</code> is a comment line. Comments all your code to explain (to yourself) what is happening. The script can be turned into a report so the more comments you add the more time you save later on.</p>
+<p>In R, any line beginning <code>#</code> is a comment line. Comments all your code to explain (to yourself) what is happening. The script can be turned into a report so the more comments you add the more time you save later on.</p>
 <p>Starting on line 1, let’s put comment lines for the script title, our name and date.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ecology data analysis</span>
 <span class="co"># My name and today&#39;s date</span></code></pre></div>
@@ -465,7 +465,7 @@ myName &lt;-<span class="st"> &quot;Alistair&quot;</span>
 <span class="co"># Equals signs also create another code region =====</span>
 
 <span class="co"># And hash/pound symbols also create code regions ####</span></code></pre></div>
-<p>We can run each region separately, or the entrire thing.</p>
+<p>We can run each region separately, or the entire thing.</p>
 </div>
 <div id="setting-up-our-r-environment" class="section level3">
 <h3>Setting up our R environment</h3>
@@ -479,7 +479,7 @@ myName &lt;-<span class="st"> &quot;Alistair&quot;</span>
 <h1>Downloading and importing data</h1>
 <div id="downloading-the-rodent-survey-data-from-the-web" class="section level2">
 <h2>Downloading the rodent survey data from the web</h2>
-<p>Often you’ll be working with data you’ve generated and stored locally, but you may need to download data on occaison.</p>
+<p>Often you’ll be working with data you’ve generated and stored locally, but you may need to download data on occasion.</p>
 <p>This gives us the chance to practice creating objects and try out using function with a condition.</p>
 <ul>
 <li>First we create the <code>url</code> object containing the web address of the data we need.</li>
@@ -532,13 +532,13 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <div id="a-note-on-excel-files" class="section level2">
 <h2>A note on Excel files</h2>
 <p>The best way to move data from Excel to R is to export the spreadsheet from Excel as either a <code>.csv</code> or <code>.txt</code> file. These formats can be used with most data analysis software.</p>
-<p>However, <code>readxl</code> is a <code>tidyverse</code> package that can be used for importing exel files to R.</p>
+<p>However, <code>readxl</code> is a <code>tidyverse</code> package that can be used for importing excel files to R.</p>
 <p>Usage instructions can be found here: <a href="http://readxl.tidyverse.org/" class="uri">http://readxl.tidyverse.org/</a></p>
 </div>
 </div>
 <div id="inspecting-the-dataset" class="section level1">
 <h1>Inspecting the dataset</h1>
-<p>Having imported the data, we should look at the structure of the data. We’ll use the <code>glimpse</code> function that trys to provide the most compact and informative view.</p>
+<p>Having imported the data, we should look at the structure of the data. We’ll use the <code>glimpse</code> function that tries to provide the most compact and informative view.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the data with &#39;glimpse&#39; ----------------------------------------------</span>
 
 <span class="kw">glimpse</span>(surveys)</code></pre></div>
@@ -579,8 +579,8 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <p>How long a period does the dataset cover?</p>
 <p>HINT: columns in a data.frame can be accessed using <code>$</code> sign in the form <code>data_frame$column_name</code> HINT: try the <code>range()</code> function on the <code>year</code> column.</p>
 <p>How many different taxa are there? (taxa are organism types e.g. plants or birds)</p>
-<p>HINT: try the <code>distinct()</code> function to find the unique values for taxa. This function is takes arguements of the form <code>distinct(data_frame,column_name)</code>.</p>
-<p>How many species are there? (Use distinct again, but this time add <code>%&gt;% count()</code> to the end of the command. This pipes the output of distint to the <code>count()</code> function)</p>
+<p>HINT: try the <code>distinct()</code> function to find the unique values for taxa. This function is takes arguments of the form <code>distinct(data_frame,column_name)</code>.</p>
+<p>How many species are there? (Use distinct again, but this time add <code>%&gt;% count()</code> to the end of the command. This pipes the output of distinct to the <code>count()</code> function)</p>
 </blockquote>
 </div>
 

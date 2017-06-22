@@ -31,16 +31,16 @@ in the 1994 paper by Heske et. al., **Long-Term Experimental Study of a
 Chihuahuan Desert Rodent Community: 13 Years of Competition**, DOI: 10.2307/1939547.
 
 Specifically we are going to look at the effect on the populations of small
-seed eating rodents as a result of the exclusion of larger competitor kangeroo
+seed eating rodents as a result of the exclusion of larger competitor kangaroo
 rats over a period from 1977 to 1991.
 
-Below is an image of one of the species of Kangeroo rats excluded during the
+Below is an image of one of the species of kangaroo rats excluded during the
 study.
 
 ![Merriam's kangaroo rat, Dipodomys merriami, (https://portalproject.wordpress.com/)](./img/kratsep12.jpg)
 
 The following image indicates how the exclusion works, where a for number of
-fenced plots the kangeroo rats were either able to enter by a hole or kept out.
+fenced plots the kangaroo rats were either able to enter by a hole or kept out.
 
 ![Kangeroo Rat exclusion](./img/fence_hole.JPG)
 
@@ -50,16 +50,16 @@ plot has been ongoing once a month for many years.
 Here will practice importing data, transforming
 data, and plotting data, and finally turning this script into a report.
 
-A conclusion of the paper is that there is evidence that kangeroo rats 
+A conclusion of the paper is that there is evidence that kangaroo rats 
 compete directly with four other rodent species, as evidenced by an increase in
-the populations of these four species when Kangeroo Rats are excluded.
+the populations of these four species when kangaroo Rats are excluded.
 This can be seen in Figure 1 in the paper, and we will try to reproduce the 
 analysis to generate a similar figure and confirm these observations.
 
-This figure shows the number of captures of threes species of Kangeroo Rats
+This figure shows the number of captures of threes species of kangaroo Rats
 and five species of smaller granivore rodents over a period from 1977 to 1990.
 Panel A shows the populations when the eight species were left to compete for 
-resources and Panel B shows the effect of excluding the Kangeroo Rats.
+resources and Panel B shows the effect of excluding the kangaroo Rats.
 
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
@@ -71,7 +71,7 @@ survey data, and the meaning of tidy data.
  + Importing means getting data into our R environment by turning into into a
  R object that we can then manipulate. The raw data file remains unchanged.
  + Inspecting means looking at the dataset to understand what it contains.
- + Tidying refers to gettingg data into a consistent format that makes it easy to
+ + Tidying refers to getting data into a consistent format that makes it easy to
  use in later steps.
  
  A note here is that we are focusing on rectangular data, the sort that comes
@@ -87,7 +87,7 @@ survey data, and the meaning of tidy data.
 ## Using scripts
 
 Using the console is useful, but as we build up a workflow, that is to say,
-wrting code to:
+wring code to:
 
 + load packages 
 + load data
@@ -126,13 +126,13 @@ prompted to save the script in our Project Directory.
 
 ### Filenames
 
-Filenames should be meaningful and end in `.R`. A good name would be 
+File names should be meaningful and end in `.R`. A good name would be 
 `ecology-data-analysis.R` and a bad name would be `file.R`. Let's use the good
-example for our filename.
+example for our file name.
 
 ### Comments
 
-In R, any line begining `#` is  a comment line. Comments all your code to 
+In R, any line beginning `#` is  a comment line. Comments all your code to 
 explain (to yourself) what is happening. The script can be turned into a report
 so the more comments you add the more time you save later on.
 
@@ -171,7 +171,7 @@ myName <- "Alistair"
 
 ```
 
-We can run each region separately, or the entrire thing.
+We can run each region separately, or the entire thing.
 
 ### Setting up our R environment
 
@@ -189,7 +189,7 @@ library(tidyverse)
 ## Downloading the rodent survey data from the web
 
 Often you'll be working with data you've generated and stored locally, but you 
-may need to download data on occaison.
+may need to download data on occasion.
 
 This gives us the chance to practice creating objects and try out using function 
 with a condition. 
@@ -245,14 +245,14 @@ The best way to move data from Excel to R is to export the spreadsheet from
 Excel as either a `.csv` or `.txt` file. These formats can be used with most
 data analysis software.
 
-However, `readxl` is a `tidyverse` package that can be used for importing exel files to R.
+However, `readxl` is a `tidyverse` package that can be used for importing excel files to R.
 
 Usage instructions can be found here: http://readxl.tidyverse.org/ 
 
 # Inspecting the dataset
 
 Having imported the data, we should look at the structure of the data. We'll
-use the `glimpse` function that trys to provide the most compact and informative
+use the `glimpse` function that tries to provide the most compact and informative
 view.
 
 ```{r,purl=FALSE,results='show'}
@@ -289,8 +289,8 @@ glimpse(surveys)
 > How many different taxa are there? (taxa are organism types e.g. plants or birds)
 >
 > HINT: try the `distinct()` function to find the unique values for taxa. This 
-function is takes arguements of the form `distinct(data_frame,column_name)`.
+function is takes arguments of the form `distinct(data_frame,column_name)`.
 >
-> How many species are there? (Use distinct again, but this time add `%>% count()` to the end of the command. This pipes the output of distint to the
+> How many species are there? (Use distinct again, but this time add `%>% count()` to the end of the command. This pipes the output of distinct to the
 `count()` function)
 >
