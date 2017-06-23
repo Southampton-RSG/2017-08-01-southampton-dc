@@ -428,7 +428,7 @@ pub_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span clas
 <p>Here are two bits of code for exporting the same figure as a png and as a pdf.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Write out a png of the figure
 <span class="co"># Open a png file and give it a name</span>
-<span class="kw">png</span>(<span class="st">&quot;data_output/capture_of_rodents.png&quot;</span>)
+<span class="kw">png</span>(<span class="st">&quot;fig_output/capture_of_rodents.png&quot;</span>)
 <span class="co"># Create the plot</span>
 pub_plot
 <span class="co"># Close the file</span>
@@ -436,7 +436,7 @@ pub_plot
 
 <span class="co"># Write out a pdf of the figure</span>
 <span class="co"># Open a pdf file</span>
-<span class="kw">pdf</span>(<span class="st">&quot;data_output/capture_of_rodents.pdf&quot;</span>)
+<span class="kw">pdf</span>(<span class="st">&quot;fig_output/capture_of_rodents.pdf&quot;</span>)
 <span class="co"># Create the plot</span>
 pub_plot
 <span class="co"># Close the file</span>
@@ -577,9 +577,9 @@ pub_plot
 <span class="co">#&#39; and export the figure as pdf.</span>
 <span class="co">#&#39; </span>
 <span class="co"># Write out an excel formatted csv</span>
-<span class="kw">write_excel_csv</span>(surveys_subset,<span class="st">&quot;surveys_subset_excel.csv&quot;</span>)
+<span class="kw">write_excel_csv</span>(surveys_subset,<span class="st">&quot;data_output/surveys_subset_excel.csv&quot;</span>)
 <span class="co"># Write out a pdf of the figure</span>
-<span class="kw">pdf</span>(<span class="st">&quot;capture_of_rodents.pdf&quot;</span>)
+<span class="kw">pdf</span>(<span class="st">&quot;fig_output/capture_of_rodents.pdf&quot;</span>)
 pub_plot
 <span class="kw">dev.off</span>()</code></pre></div>
 <p>When we’re ready we can now <em>knit</em> our scripts to a choice of several formats. Go to <code>File</code> &gt; <code>Knit Document</code> and we’ll be asked to choose an output. Stick with HTML and press <code>Compile</code>.</p>

@@ -122,7 +122,7 @@ and as a pdf.
 ```{r,purl=FALSE,echo=TRUE,eval=FALSE}
 ## Write out a png of the figure
 # Open a png file and give it a name
-png("data_output/capture_of_rodents.png")
+png("fig_output/capture_of_rodents.png")
 # Create the plot
 pub_plot
 # Close the file
@@ -130,7 +130,7 @@ dev.off()
 
 # Write out a pdf of the figure
 # Open a pdf file
-pdf("data_output/capture_of_rodents.pdf")
+pdf("fig_output/capture_of_rodents.pdf")
 # Create the plot
 pub_plot
 # Close the file
@@ -301,9 +301,9 @@ pub_plot
 #' and export the figure as pdf.
 #' 
 # Write out an excel formatted csv
-write_excel_csv(surveys_subset,"surveys_subset_excel.csv")
+write_excel_csv(surveys_subset,"data_output/surveys_subset_excel.csv")
 # Write out a pdf of the figure
-pdf("capture_of_rodents.pdf")
+pdf("fig_output/capture_of_rodents.pdf")
 pub_plot
 dev.off()
 ```

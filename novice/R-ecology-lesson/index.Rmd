@@ -58,7 +58,7 @@ irrespective of subject area.
 
 **Note**:
 
-Much of the material in the first two lessons is derived from [R for data science](http://r4ds.had.co.nz/introduction.html) by Garrett Grolemund and
+Much of the material in these lessons is derived from [R for data science](http://r4ds.had.co.nz/introduction.html) by Garrett Grolemund and
 Hadley Wickham. This book contains many more detailed examples and advanced 
 concepts not covered here.
 
