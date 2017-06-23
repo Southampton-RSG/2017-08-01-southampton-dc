@@ -7,18 +7,18 @@ navbar:
     - text: "Getting started"
       href: 02_intro_to_R.html
     - text: "Importing data"
-      href: 04_import_and_inspect.html
+      href: 03_import_and_inspect.html
     - text: "Transforming data"
-      href: 05_transforming_data.html
+      href: 04_transforming_data.html
     - text: "Visualising data"
-      href: 06_visualising_data.html
+      href: 05_visualising_data.html
     - text: "Communication"
-      href: 07_summary_of_ecology_data.html
+      href: 06_export_and_communication.html
     - text: "Rodent Survey Overview"
-      href: 03_ecology_data_overview.html
+      href: 07_ecology_data_overview.html
   right:
     - icon: fa-github fa-lg
-      href: https://github.com/datacarpentry/R-ecology-lesson
+      href: https://github.com/Southampton-RSG/2017-08-01-southampton-dc/tree/gh-pages/novice/R-ecology-lesson
 output_dir: "."
 exclude: ["CONTRIBUT*.md","index.md","README.md","*.db"]
 include: ["*.Rmd","LICENSE.md"]

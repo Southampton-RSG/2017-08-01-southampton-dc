@@ -66,17 +66,16 @@ concepts not covered here.
 
 1. [R and RStudio](01_R_and_Rstudio.html)
 2. [Introduction to R](02_intro_to_R.html)
-3. [Ecology Data Overiew](03_ecology_data_overview.html)
-4. [Importing and inspecting the data](04_import_and_inspect.html)
-5. [Transforming the data](05_transforming_data.html)
-6. [Data visualization](06_visualising_data.html)
-7. [Communication](07_summary_of_ecology_data.html)
+3. [Importing and inspecting the data](03_import_and_inspect.html)
+4. [Transforming the data](04_transforming_data.html)
+5. [Data visualization](05_visualising_data.html)
+6. [Communication](06_export_and_communication.html)
 
 ### Data
 
 Ideally all datasets should come with a codebook describing the contents, 
 structure, and layout of a data collection. This is a text document containing information intended to be complete and self-explanatory for each variable in a 
-data file. As this has not been generated for this data, we will use the description found in the [Ecology Data Overiew](06-ecology-data-overview.html). 
+data file. As this has not been generated for this data, we will use the description found in the [Ecology Data Overiew](07-ecology-data-overview.html). 
 
 Data files for the lesson are available here: <http://dx.doi.org/10.6084/m9.figshare.1314459>
 
