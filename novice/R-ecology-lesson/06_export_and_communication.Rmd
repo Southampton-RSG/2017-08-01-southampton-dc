@@ -12,11 +12,11 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 
 > ### Learning Objectives
 >
-> By the end of this lesson the learner will:
+> In this lesson the learner will:
 >
-> * Learn how to turn a R script into a shareable report.
-> * How to export data for sharing in CSV format.
-> * How to export figures in pdf or png format.
+> * Turn the R script they have created into a shareable report.
+> * Export data for sharing in CSV format.
+> * Export figures in pdf or png format.
 
 --------------
 

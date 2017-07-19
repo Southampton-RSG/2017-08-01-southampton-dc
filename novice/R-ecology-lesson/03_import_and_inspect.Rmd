@@ -12,12 +12,16 @@ source("setup.R")
 
 > ### Learning Objectives
 >
-> * How to create a script
-> * Learn how to download and import data into a data frame using `download.file()` 
-and the readr package
-> * Learn how examine imported data and what tidy data is.
-> * Describe what a data frame is.
-> * Know how to inspect imported data.
+> By the end of this lesson the learner will have:
+>
+> * Created an initial script for the analysis of the rodent survey data, and
+> run the code they have written.
+> * Downloaded and imported the survey data into a data frame using 
+> the `download.file()` function and the `read_csv()` function from the readr 
+> package.
+> * Examined the structure of the imported data using the `glimpse()` function.
+> * Seen what tidy data looks like, and inspected the data in detail to answer
+> some basic queations about what the dataset contains.
 >
 
 ------------
@@ -27,8 +31,10 @@ and the readr package
 </div>
 
 In the remaining lessons we are going to recapitulate some of the analysis found 
-in the 1994 paper by Heske et. al., **Long-Term Experimental Study of a 
-Chihuahuan Desert Rodent Community: 13 Years of Competition**, DOI: 10.2307/1939547.
+in the 1994 paper by Heske et. al: 
+
+**Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years 
+of Competition**, DOI: 10.2307/1939547.
 
 Specifically we are going to look at the effect on the populations of small
 seed eating rodents as a result of the exclusion of larger competitor kangaroo
@@ -63,7 +69,7 @@ resources and Panel B shows the effect of excluding the kangaroo Rats.
 
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
-# Importing, inspecting and tidy data
+# Importing and inspecting data
 
 First we will learn how to download, import and inspect the rodent 
 survey data, and the meaning of tidy data.
@@ -83,6 +89,10 @@ survey data, and the meaning of tidy data.
  rectangular data we will use the convention where every variable forms a column,
  every row forms an observation and every type of observational unit is stored
  in a separate table (we only have one table here, so the last point is moot.)
+ Data tidying can be done in R or elsewhere.
+ 
+ > <span style="background:yellow"> See the [Data Organisation in Spreadsheets](https://southampton-rsg.github.io/2017-08-01-southampton-dc/novice/spreadsheet-ecology-lesson/)
+> lesson for more about organising data so that it is tidy prior to importing to R.</span>
 
 ## Using scripts
 
@@ -96,7 +106,8 @@ wring code to:
 
 Then it's much more useful to contain this in a script: a document of our code.
 
-Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but **most importantly a script is a record**.
+Why? When we write and save our code in scripts, we can re-use it, share it or 
+edit it. But **most importantly a script is a record**.
 
 Cmd/Ctrl + Shift + N will open a new script file up and you should see something
 like below with the script editor pane open:
@@ -194,9 +205,11 @@ may need to download data on occasion.
 This gives us the chance to practice creating objects and try out using function 
 with a condition. 
 
-+ First we create the `url` object containing the web address of the 
++ First we'll write a comment and create a code section at the same time. This 
+is so we know what this code does, and so we can just run this bit of code easily. 
++ Next we create the `url` object containing the web address of the 
 data we need.
-+ Second we a `path` object containing the address of where we want to download
++ We also need a `path` object containing the address of where we want to download
 the data to and what to call the file. In this case it is the `data` folder we
 created and we will call it `portal_data_joined.csv`.
 + Then we use an `if` statement combined with a condition with the logical (TRUE/FALSE)
@@ -239,6 +252,10 @@ which has many functions for reading files, including `read_csv()`
 surveys <- read_csv('data/portal_data_joined.csv')
 ```
 
+The `read_csv()` function outputs a message telling us how it interpreted each
+column of data and what data type it stored them as. We can override these
+settings if needed, see the help file for more information `?read_csv`.
+
 ## A note on Excel files
 
 The best way to move data from Excel to R is to export the spreadsheet from
@@ -253,32 +270,36 @@ Usage instructions can be found here: http://readxl.tidyverse.org/
 
 Having imported the data, we should look at the structure of the data. We'll
 use the `glimpse` function that tries to provide the most compact and informative
-view.
+view. The arguement we supply to glimpse is the `surveys` object we created in 
+our environment when we imported the data.
 
 ```{r,purl=FALSE,results='show'}
-# Inspect the data with 'glimpse' ----------------------------------------------
-
+# Inspect the data with 'glimpse'
 glimpse(surveys)
-
-# This data is tidy already: each variable is a column, each observation is a
-# row and each cell contains a single variable.
-
-# Q: Is there missing data?
-
-# Q: How long a period does the dataset cover?
-
-# Q: How many different taxa are there? 
-# (taxa are organism types e.g. plants or birds)
-
-# Q: How many species are there?
-# (individual species belong in their taxa)
-
-# For this analysis we need to subset the plots that were used in the paper,
-# the species and taxa that were analysed, the time period of the experiment, and
-# remove any missing data.
 ```
 
+This data is tidy already: each variable is a column, each observation is a
+row and each cell contains a single variable.
+
+> <span style="background:yellow"> See the [Data Organisation in Spreadsheets](https://southampton-rsg.github.io/2017-08-01-southampton-dc/novice/spreadsheet-ecology-lesson/)
+> lessons for more about organising data so that it is tidy prior to importing to R.</span>
+
+There are a number of questions we might want to ask, such as:
+
+* Is there missing data?
+* How long a period does the dataset cover?
+* How many different taxa are there? (taxa are organism types e.g. plants or birds)
+* How many species are there? (individual species belong in their taxa)
+
+For this analysis we need only the data required to create the plots that 
+appear in the paper. This means subsetting `surveys` to keep only the species 
+and taxa that were analysed, the time period of the experiment, and if necessary,
+remove any missing data.
+
 > ### Challenge
+> This challenge can be done in the console, or you can add your code to your
+> script if you prefer.
+>
 > Is there missing data? (R uses `NA` to represent missing values.)
 >
 > How long a period does the dataset cover?

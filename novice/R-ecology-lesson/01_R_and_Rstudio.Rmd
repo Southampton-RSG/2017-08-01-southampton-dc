@@ -13,22 +13,21 @@ knitr::opts_chunk$set(results='hide', fig.path='img/r-lesson-')
 
 > ### Learning Objectives
 >
-> After completing this module, the learner should be able to:
+> After completing this module, the learner will:
 >
-> * Understand what R is and the the relationship between R and RStudio
-> * Have a general understanding of the RStudio interactive development envrionment
-> * Know how to create a R project
-> * Know how to use the built-in RStudio help interface to search for more information on R functions.
+> * Know what R is and the the relationship between R and RStudio.
+> * Navigate and set-up the RStudio interactive development envrionment.
+> * Have created a R project for this workshop.
+> * Have used the built-in RStudio help interface to search for more information on R functions.
 > * Know best practices for seeking help with R on-line.
 
 ------------
 
-
-## What are R and RStudio?
-
 ***"There are only two kinds of languages: the ones people complain about and the ones nobody uses"***
 
 *Bjarne Stroustrup*
+
+## What are R and RStudio?
 
 **R** is a programming language that follows the philosophy laid down by it's
 predecessor S. The philosophy being that users begin in an interactive
@@ -38,13 +37,15 @@ It was created in 1993, and in 1996 it was documented in a paper entitled:
 *Ross Ihaka and Robert Gentleman. R: A language for data analysis and graphics. 
 Journal of Computational and Graphical Statistics, 5(3):299–314, 1996*
 
-Reasons it has become popular include that it is both open source and cross platform,
+Reasons R has become popular include that it is both open source and cross platform,
 and that it has broad functionality, from the analysis of data and creating 
 powerful graphical visualisations and web apps.
 
 Like all languages though it has limitations, for example the syntax is initially
 confusing.
 
+An environment is where we bring our data to work with it. Here we work in a R 
+envrionment, using the R language as a set of tools.
 **RStudio** is an integrated development environment, or IDE for R programming. 
 It is regularly updated, and upgrading enables access to the latest features. 
 
@@ -52,18 +53,20 @@ The latest version can be downloaded here: http://www.rstudio.com/download
 
 ## Why learn R, or any language ?
 
-Working with scripts makes the steps you used in your analysis clear, and the
-code you write can be inspected by someone else who can give you feedback and
-spot mistakes.
+We can write R code without saving it, but it's generally more useful to write and 
+save our code as a script. Working with scripts makes the steps you used in your 
+analysis clear, and thecode you write can be inspected by someone else who can give 
+you feedback and spot mistakes.
 
-Working with scripts forces you to have deeper understanding of what you are
-doing, and facilitates your learning and comprehension of the methods you use:
+Learning R (or any programming language) and working with scripts forces you to 
+have deeper understanding of what you are doing, facilitates your learning 
+and comprehension of the methods you use:
 
 + Writing and publishing code is important for reproducible resarch
 + R has many thousands of packages covering many disciplines.
 + R can work with many types of data.
 + They is a large R community for development and support.
-+ Using R (or Python) gives you control over your figures and reports.
++ Using R gives you control over your figures and reports.
 
 ## Finding your way around RStudio
 
@@ -73,8 +76,8 @@ Integrated Development Environment (IDE).
 We will use R Studio IDE to write code, navigate the files found on our computer,
 inspect the variables we are going to create, and visualize the plots we will
 generate. R Studio can also be used for other things (e.g., version control,
-developing packages, writing Shiny apps) that we will not cover during the
-workshop.
+developing packages, writing Shiny apps) that we don't have time to cover during
+this workshop.
 
 ![RStudio interface screeshot](img/rstudio_ide_image.png)
 

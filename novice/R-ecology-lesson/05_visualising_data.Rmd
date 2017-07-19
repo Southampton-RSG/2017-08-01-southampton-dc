@@ -58,14 +58,14 @@ by_month_mean <- by_month_genus %>% group_by(genus,plot_type,rodent_type) %>%
 
 > ### Learning Objectives
 >
-> By the end of this lesson the learner will:
+> In this lesson the learner will:
 >
 > + Use geometrical objects and aesthetic mappings to produce time series plots, 
-boxplots and bar charts
-> + Understand how to use facets to create subplots of data
-> + Understand how factors and statistical mappings can transform plots
-> + Understand how to make positional and coordinate adjustments
-> + Understand how to use themes and to customize plots
+boxplots and bar charts.
+> + Use facets to create subplots of data.
+> + Use factors and statistical mappings to transform plots.
+> + Make positional and coordinate adjustments to transform plots.
+> + Use themes to customize plots
 
 ------------
 
@@ -89,7 +89,7 @@ this straight forward as we have a tidy data set i.e. each observation forms
 a row and each variable forms a column. We have four variables: `rodent_type`,
 `quarter`, `plot_type` and `captures`.
 
-Here's the figure from the paper again:
+Here's the figure from the paper again for reference:
 
 ![Figure 1 from Heske et. al., 1994](./img/HeskeBrown&Mistry1994E_Fig_1.png)
 
@@ -130,7 +130,8 @@ plots, one for the granivores and the other for the kangaroo rats.
 
 Creating sub-plots based on the `rodent_type` variable uses facets. If we 
 are faceting plots by a single variable we use `facet_wrap()`. The first
-argument is `~` followed by the variable name, here  `rodent_type`. This argument is called a formula. There are many additional arguments that can
+argument is `~` followed by the variable name, here  `rodent_type`. 
+This argument is called a formula. There are many additional arguments that can 
 be provided, see `?facet_wrap`.
 
 Using `facet_wrap(~ rodent_type)` gives us this plot:
@@ -145,27 +146,28 @@ ggplot(data = by_quarter,
 
 ```
 
-So this is starting to look more like the published figure, and we can confirm
-that the granivore populations do increase when the kangaroo rats are excluded.
+So this is starting to look more like the published figure, and **now we can confirm
+that the granivore populations do increase when the kangaroo rats are excluded.**
 
 However we can improve things, and we'll come back making the figure more 
 polished at the end of this lesson.
 
-If we wanted to plot the combination of two variable we'd use `facet_grid()`
+If we wanted to plot the combination of two variables we'd use `facet_grid()`
 in which the formula becomes `first_variable ~ second_variable`.
 
 > ### Challenge
-> Try plotting `by_quarter` using `facet_grid()` and arguments 
-`plot_type` and `rodent_type`
+> Try plotting `by_quarter` using `facet_grid()` with the variables 
+> `plot_type` and `rodent_type` as arguments as described above for plotting 
+> the combination of two variables
 >
 > We don't need to map the colour aesthetic.
-> The plot should look like the one below
+> The plot should look like the one below:
 >
 
 ```{r,by_quarter_3,purl=FALSE,eval=TRUE, echo=FALSE}
 # Plot a facet grid of plot_type ~ rodent_type
 ggplot(data = by_quarter,
-       mapping = aes(x=quarter,y=captures)) +
+       mapping = aes(x = quarter,y = captures)) +
   geom_line() +
   geom_point() +
   facet_grid(plot_type ~ rodent_type)
@@ -217,11 +219,11 @@ explore data for patterns it can be very useful.
 ```{r,mpg_jitter,purl=FALSE,echo=TRUE}
 # Without jitter
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x= displ, y= hwy, colour= class))
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
 # With jitter
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x= displ, y= hwy, colour= class),position = "jitter")
-
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class),
+             position = "jitter")
 ```
 
 Let's add points to our box-plot and for the challenge try comparing the plot
@@ -402,22 +404,33 @@ Recall that factors are how R represents categorical variables, variables with
 a limited number of values, such as genus.
 
 Also recall **factors look like strings, but behave like integers**. That is to 
-say they are strings of characters with associated values called levels that 
-indicate an order.
+say they are strings of characters with associated values called levels 
+that can be used to order catergories.
 
 This is why factors are useful, especially when we want to place things in 
 non-alphabetical order. We can take advantage of factor levels to order things
 as we wish.
 
 Check out the [forcats](http://forcats.tidyverse.org/) tidyverse package to 
-explore the power of factors, but here we're going to use the `fct_reorder()` 
-function to convert `genus` to a factor and in doing so set the level according 
-to to the number of captures. 
+explore the power of factors, but here to give you a taste of what is possible
+we're going to use the `forcats` package `fct_reorder()` function to convert 
+`genus` into a factor and in doing so set the level according to to the number 
+of captures. In this way we can order the bars in our plot according to the 
+number of captures and see the pattern more clearly.
+
+In `fct_reorder()`, the first argument is the variable we wish to make into a 
+factor `genus`, and the second argument is variable we wish to use to create 
+the order. Here we want to order according to the number of captures, 
+so `captures` is the second argument. 
 
 Note we still keep x and y mappings, but now x is now a function of both the 
 genus and the capture columns.
 
-This gives us a nice ordered bar chart.
+This gives us a nice ordered bar chart by genus and number of captures during 
+the experimental period. 
+
+**We can clearly see that kangaroo rat exclosure works,
+and that this corresponds with an increase in granivore captures these plots.**
 
 ```{r,by_month_bar_6,purl=FALSE,echo=TRUE}
 # Load the forcats tidyverse package
@@ -461,11 +474,7 @@ etc... are a bit messy. But when we want to publish or communicate our findings
 to others we want everything to be just so.
 
 This is where the code can become quite complicated and it's hard to provide
-a general case. However, the underlying template remains the same.
-
-It's unlikely that you'll need to statistical transformations, positional adjustments, coordinate adjustments, and facets all in the same plot, but this 
-provides an idea of what is possible. Remember the aim is clarity, not to
-make something complicated just because you can.
+a general case. However, the underlying template remains the same:
 
 ```{r, purl=FALSE,eval=FALSE}
 ggplot(data = <DATA>) + 
@@ -478,7 +487,15 @@ ggplot(data = <DATA>) +
   <FACET_FUNCTION>
 ```
 
-This template we can use to add all the additional functions and arguments that will change the plot to make it exactly how we want. It takes time, but remember code is reusable. Solve it once and you've solved it forever.
+
+It's unlikely that you'll need to statistical transformations, positional 
+adjustments, coordinate adjustments, and facets all in the same plot, but this 
+provides an idea of what is possible. Remember the aim is clarity, not to
+make something complicated just because you can.
+
+This template we can use to add all the additional functions and arguments that 
+will change the plot to make it exactly how we want. It takes time, but remember 
+code is reusable. Solve it once and you've solved it forever.
 
 For all the possible customisations check out the 
 [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/index.html), and
@@ -521,7 +538,19 @@ on colour schemes for discrete data. And `?scale_color_continuous` for creating 
 ## Recreating the paper figure
 
 With a fair amount of extra code we can mostly re-create the figure from the
-paper (top two panels only).
+paper (top two panels only). Interestingly, the shape of the data is not 
+identitical in both plots, suggesting that there are differences in the datasets
+used to generate these plots. This doesn't mean our plot is incorrect or more
+correct, but emphasises two issues: 
+
+1. Raw data is simply the form you receive it in. Raw does not mean that the data
+has not been transformed previously. Hence it is likely that there are differences
+between the raw dataset we have, and the dataset used for the paper.
+
+2. Why scripts are so useful if you want to reproduce an analysis. There is no
+script available for the paper figure, so we cannot check how it was generated.
+But our figure is in principal reproducible by anyone capable of running our
+script.
 
 ```{r,paper_figure,purl=FALSE,echo=TRUE, fig.height=10}
 # Create rodent levels by getting the unique values for rodent type

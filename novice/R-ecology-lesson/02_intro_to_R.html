@@ -360,10 +360,12 @@ div.tocify {
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
-<p>By the end of this lesson the learner will:</p>
+<p>By the end of this lesson the learner will have:</p>
 <ul>
-<li>Have been introduced to ggplot2 for visualisation</li>
-<li>Performed some more object assignments and functions calls.</li>
+<li>Used ggplot2 to create visualisations to answer questions about two datasets.</li>
+<li>Performed object assignments and functions calls.</li>
+<li>Been introduced to the six atomic vector types in R.</li>
+<li>Grouped data types into a <code>list</code> and a <code>data.frame</code> and learnt how to access individual elements of these objects. The learner will experience how R stores data in the R environment, and how to interact with it.</li>
 </ul>
 </blockquote>
 <hr />
@@ -571,7 +573,7 @@ cards</code></pre></div>
 </div>
 <div id="factors" class="section level1">
 <h1>Factors</h1>
-<p>Factors are Rs way of storing categorical information such as eye colour or car type. A factor is something that can only have certain values.</p>
+<p>Factors are Rs way of storing categorical information such as eye colour or car type. A factor is something that can only have certain values, and can be ordered (such as <code>low</code>,<code>medium</code>,<code>high</code>) or unordered such as types of fruit.</p>
 <p>Factors are useful as they code string variables such as “red” or “blue” to integer values e.g. 1 and 2, which can be used in statistical models and when plotting, but they are confusing as they look like strings.</p>
 <p><strong>Factors look like strings, but behave like integers.</strong></p>
 <p>Historically R converts strings to factors when we load and create data, but it’s often not what we want as a default. Fortunately, in the tidyverse strings are not treated as factors by default.</p>

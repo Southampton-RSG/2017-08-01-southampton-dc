@@ -360,13 +360,13 @@ div.tocify {
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
-<p>By the end of this lesson the learner will:</p>
+<p>In this lesson the learner will:</p>
 <ul>
-<li>Use geometrical objects and aesthetic mappings to produce time series plots, boxplots and bar charts</li>
-<li>Understand how to use facets to create subplots of data</li>
-<li>Understand how factors and statistical mappings can transform plots</li>
-<li>Understand how to make positional and coordinate adjustments</li>
-<li>Understand how to use themes and to customize plots</li>
+<li>Use geometrical objects and aesthetic mappings to produce time series plots, boxplots and bar charts.</li>
+<li>Use facets to create subplots of data.</li>
+<li>Use factors and statistical mappings to transform plots.</li>
+<li>Make positional and coordinate adjustments to transform plots.</li>
+<li>Use themes to customize plots</li>
 </ul>
 </blockquote>
 <hr />
@@ -381,7 +381,7 @@ div.tocify {
 <p>We’ve transformed the surveys data ready for plotting, but what do we want to plot?</p>
 <p>We want to plot the number of captures as a function of quarter in which they took place, whilst comparing both kangaroo rats and granivores, as well as comparing kangaroo rat exclosure with plots containing kangaroo rats and granivores.</p>
 <p>Such a plot should inform us about the effect of kangaroo rat exclosure on the granivore population. All the work we did to transform the data should make this straight forward as we have a tidy data set i.e. each observation forms a row and each variable forms a column. We have four variables: <code>rodent_type</code>, <code>quarter</code>, <code>plot_type</code> and <code>captures</code>.</p>
-<p>Here’s the figure from the paper again:</p>
+<p>Here’s the figure from the paper again for reference:</p>
 <div class="figure">
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
 <p class="caption">Figure 1 from Heske et. al., 1994</p>
@@ -410,13 +410,13 @@ div.tocify {
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>rodent_type)</code></pre></div>
 <p><img src="img/r-lesson-by_quarter_2-1.png" width="960" /></p>
-<p>So this is starting to look more like the published figure, and we can confirm that the granivore populations do increase when the kangaroo rats are excluded.</p>
+<p>So this is starting to look more like the published figure, and <strong>now we can confirm that the granivore populations do increase when the kangaroo rats are excluded.</strong></p>
 <p>However we can improve things, and we’ll come back making the figure more polished at the end of this lesson.</p>
-<p>If we wanted to plot the combination of two variable we’d use <code>facet_grid()</code> in which the formula becomes <code>first_variable ~ second_variable</code>.</p>
+<p>If we wanted to plot the combination of two variables we’d use <code>facet_grid()</code> in which the formula becomes <code>first_variable ~ second_variable</code>.</p>
 <blockquote>
 <h3 id="challenge">Challenge</h3>
-<p>Try plotting <code>by_quarter</code> using <code>facet_grid()</code> and arguments <code>plot_type</code> and <code>rodent_type</code></p>
-<p>We don’t need to map the colour aesthetic. The plot should look like the one below</p>
+<p>Try plotting <code>by_quarter</code> using <code>facet_grid()</code> with the variables <code>plot_type</code> and <code>rodent_type</code> as arguments as described above for plotting the combination of two variables</p>
+<p>We don’t need to map the colour aesthetic. The plot should look like the one below:</p>
 </blockquote>
 <p><img src="img/r-lesson-by_quarter_3-1.png" width="672" /></p>
 </div>
@@ -443,11 +443,12 @@ div.tocify {
 <p>It’s a little counter intuitive to add noise to a plot, but when we’re trying to explore data for patterns it can be very useful.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Without jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span> displ, <span class="dt">y=</span> hwy, <span class="dt">colour=</span> class))</code></pre></div>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">colour =</span> class))</code></pre></div>
 <p><img src="img/r-lesson-mpg_jitter-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With jitter</span>
 <span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span> displ, <span class="dt">y=</span> hwy, <span class="dt">colour=</span> class),<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">colour =</span> class),
+             <span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre></div>
 <p><img src="img/r-lesson-mpg_jitter-2.png" width="672" /></p>
 <p>Let’s add points to our box-plot and for the challenge try comparing the plot to one where the points are jittered.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Boxplot without jitter</span>
@@ -538,11 +539,13 @@ div.tocify {
 <h3>Factors</h3>
 <p>Finally for this plot, it would be nice to put the bars in order of size. We can do this by converting the genus to a factor.</p>
 <p>Recall that factors are how R represents categorical variables, variables with a limited number of values, such as genus.</p>
-<p>Also recall <strong>factors look like strings, but behave like integers</strong>. That is to say they are strings of characters with associated values called levels that indicate an order.</p>
+<p>Also recall <strong>factors look like strings, but behave like integers</strong>. That is to say they are strings of characters with associated values called levels that can be used to order catergories.</p>
 <p>This is why factors are useful, especially when we want to place things in non-alphabetical order. We can take advantage of factor levels to order things as we wish.</p>
-<p>Check out the <a href="http://forcats.tidyverse.org/">forcats</a> tidyverse package to explore the power of factors, but here we’re going to use the <code>fct_reorder()</code> function to convert <code>genus</code> to a factor and in doing so set the level according to to the number of captures.</p>
+<p>Check out the <a href="http://forcats.tidyverse.org/">forcats</a> tidyverse package to explore the power of factors, but here to give you a taste of what is possible we’re going to use the <code>forcats</code> package <code>fct_reorder()</code> function to convert <code>genus</code> into a factor and in doing so set the level according to to the number of captures. In this way we can order the bars in our plot according to the number of captures and see the pattern more clearly.</p>
+<p>In <code>fct_reorder()</code>, the first argument is the variable we wish to make into a factor <code>genus</code>, and the second argument is variable we wish to use to create the order. Here we want to order according to the number of captures, so <code>captures</code> is the second argument.</p>
 <p>Note we still keep x and y mappings, but now x is now a function of both the genus and the capture columns.</p>
-<p>This gives us a nice ordered bar chart.</p>
+<p>This gives us a nice ordered bar chart by genus and number of captures during the experimental period.</p>
+<p><strong>We can clearly see that kangaroo rat exclosure works, and that this corresponds with an increase in granivore captures these plots.</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the forcats tidyverse package</span>
 <span class="kw">library</span>(forcats)
 
@@ -564,8 +567,7 @@ div.tocify {
 <div id="themes-and-customisations" class="section level2">
 <h2>Themes and customisations</h2>
 <p>When we’re exploring our data we generally don’t mind if the labels and colours etc… are a bit messy. But when we want to publish or communicate our findings to others we want everything to be just so.</p>
-<p>This is where the code can become quite complicated and it’s hard to provide a general case. However, the underlying template remains the same.</p>
-<p>It’s unlikely that you’ll need to statistical transformations, positional adjustments, coordinate adjustments, and facets all in the same plot, but this provides an idea of what is possible. Remember the aim is clarity, not to make something complicated just because you can.</p>
+<p>This is where the code can become quite complicated and it’s hard to provide a general case. However, the underlying template remains the same:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> &lt;DATA&gt;) +<span class="st"> </span>
 <span class="st">  </span><span class="er">&lt;</span>GEOM_FUNCTION&gt;(
      <span class="dt">mapping =</span> <span class="kw">aes</span>(&lt;MAPPINGS&gt;),
@@ -574,6 +576,7 @@ div.tocify {
 <span class="st">  </span>) +
 <span class="st">  </span><span class="er">&lt;</span>COORDINATE_FUNCTION&gt;<span class="st"> </span>+
 <span class="st">  </span><span class="er">&lt;</span>FACET_FUNCTION&gt;</code></pre></div>
+<p>It’s unlikely that you’ll need to statistical transformations, positional adjustments, coordinate adjustments, and facets all in the same plot, but this provides an idea of what is possible. Remember the aim is clarity, not to make something complicated just because you can.</p>
 <p>This template we can use to add all the additional functions and arguments that will change the plot to make it exactly how we want. It takes time, but remember code is reusable. Solve it once and you’ve solved it forever.</p>
 <p>For all the possible customisations check out the <a href="http://ggplot2.tidyverse.org/reference/index.html">ggplot2 documentation</a>, and this chapter of R for data science: <a href="http://r4ds.had.co.nz/graphics-for-communication.html#themes">Graphics for communication</a></p>
 <p>But here’s a few common changes.</p>
@@ -599,7 +602,11 @@ div.tocify {
 </div>
 <div id="recreating-the-paper-figure" class="section level2">
 <h2>Recreating the paper figure</h2>
-<p>With a fair amount of extra code we can mostly re-create the figure from the paper (top two panels only).</p>
+<p>With a fair amount of extra code we can mostly re-create the figure from the paper (top two panels only). Interestingly, the shape of the data is not identitical in both plots, suggesting that there are differences in the datasets used to generate these plots. This doesn’t mean our plot is incorrect or more correct, but emphasises two issues:</p>
+<ol style="list-style-type: decimal">
+<li><p>Raw data is simply the form you receive it in. Raw does not mean that the data has not been transformed previously. Hence it is likely that there are differences between the raw dataset we have, and the dataset used for the paper.</p></li>
+<li><p>Why scripts are so useful if you want to reproduce an analysis. There is no script available for the paper figure, so we cannot check how it was generated. But our figure is in principal reproducible by anyone capable of running our script.</p></li>
+</ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create rodent levels by getting the unique values for rodent type</span>
 <span class="co"># and putting them in reverse order for plotting</span>
 rodent_levels &lt;-<span class="st">  </span><span class="kw">rev</span>(<span class="kw">unique</span>(by_quarter$rodent_type))

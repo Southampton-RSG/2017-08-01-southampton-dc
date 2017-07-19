@@ -79,7 +79,7 @@ data file. As this has not been generated for this data, we will use the descrip
 
 Data files for the lesson are available here: <http://dx.doi.org/10.6084/m9.figshare.1314459>
 
-We will download the *combined.csv* file during the lesson.
+<span style="background:yellow">We will download the *combined.csv* file during the lesson.</span>
 
 ## Requirements
 
@@ -183,6 +183,11 @@ More about the [tidyverse](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/)
 
 * After starting RStudio, at the console type:
   `install.packages("tidyverse")`
+
+<span style="background:yellow">If you receive a message that the `tidyverse` 
+pacakge is not available, you will need to install the latest version of R 
+from the [CRAN website](http://cran.r-project.org/bin/windows/base/release.htm).
+See above notes.</span>
 
 ## Contributors
 

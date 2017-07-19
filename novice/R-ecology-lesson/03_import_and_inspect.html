@@ -360,12 +360,12 @@ div.tocify {
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
+<p>By the end of this lesson the learner will have:</p>
 <ul>
-<li>How to create a script</li>
-<li>Learn how to download and import data into a data frame using <code>download.file()</code> and the readr package</li>
-<li>Learn how examine imported data and what tidy data is.</li>
-<li>Describe what a data frame is.</li>
-<li>Know how to inspect imported data.</li>
+<li>Created an initial script for the analysis of the rodent survey data, and run the code they have written.</li>
+<li>Downloaded and imported the survey data into a data frame using the <code>download.file()</code> function and the <code>read_csv()</code> function from the readr package.</li>
+<li>Examined the structure of the imported data using the <code>glimpse()</code> function.</li>
+<li>Seen what tidy data looks like, and inspected the data in detail to answer some basic queations about what the dataset contains.</li>
 </ul>
 </blockquote>
 <hr />
@@ -375,7 +375,8 @@ div.tocify {
 
 </div>
 </div>
-<p>In the remaining lessons we are going to recapitulate some of the analysis found in the 1994 paper by Heske et. al., <strong>Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years of Competition</strong>, DOI: 10.2307/1939547.</p>
+<p>In the remaining lessons we are going to recapitulate some of the analysis found in the 1994 paper by Heske et. al:</p>
+<p><strong>Long-Term Experimental Study of a Chihuahuan Desert Rodent Community: 13 Years of Competition</strong>, DOI: 10.2307/1939547.</p>
 <p>Specifically we are going to look at the effect on the populations of small seed eating rodents as a result of the exclusion of larger competitor kangaroo rats over a period from 1977 to 1991.</p>
 <p>Below is an image of one of the species of kangaroo rats excluded during the study.</p>
 <div class="figure">
@@ -395,8 +396,8 @@ div.tocify {
 <img src="./img/HeskeBrown&amp;Mistry1994E_Fig_1.png" alt="Figure 1 from Heske et. al., 1994" />
 <p class="caption">Figure 1 from Heske et. al., 1994</p>
 </div>
-<div id="importing-inspecting-and-tidy-data" class="section level1">
-<h1>Importing, inspecting and tidy data</h1>
+<div id="importing-and-inspecting-data" class="section level1">
+<h1>Importing and inspecting data</h1>
 <p>First we will learn how to download, import and inspect the rodent survey data, and the meaning of tidy data.</p>
 <ul>
 <li>Importing means getting data into our R environment by turning into into a R object that we can then manipulate. The raw data file remains unchanged.</li>
@@ -404,7 +405,10 @@ div.tocify {
 <li>Tidying refers to getting data into a consistent format that makes it easy to use in later steps.</li>
 </ul>
 <p>A note here is that we are focusing on rectangular data, the sort that comes in rows and columns such as in a spreadsheet. Lots of our data types exist, such as images, which are beyond the scope of this lesson, but can also be handled by R.</p>
-<p>A further note on tidy data. Tidy data can also come in various forms, but for rectangular data we will use the convention where every variable forms a column, every row forms an observation and every type of observational unit is stored in a separate table (we only have one table here, so the last point is moot.)</p>
+<p>A further note on tidy data. Tidy data can also come in various forms, but for rectangular data we will use the convention where every variable forms a column, every row forms an observation and every type of observational unit is stored in a separate table (we only have one table here, so the last point is moot.) Data tidying can be done in R or elsewhere.</p>
+<blockquote>
+<p><span style="background:yellow"> See the <a href="https://southampton-rsg.github.io/2017-08-01-southampton-dc/novice/spreadsheet-ecology-lesson/">Data Organisation in Spreadsheets</a> lesson for more about organising data so that it is tidy prior to importing to R.</span></p>
+</blockquote>
 <div id="using-scripts" class="section level2">
 <h2>Using scripts</h2>
 <p>Using the console is useful, but as we build up a workflow, that is to say, wring code to:</p>
@@ -415,7 +419,7 @@ div.tocify {
 <li>and output some results</li>
 </ul>
 <p>Then it’s much more useful to contain this in a script: a document of our code.</p>
-<p>Why? When we write and save our code in scripts, we can re-use it, sharing or editing., but <strong>most importantly a script is a record</strong>.</p>
+<p>Why? When we write and save our code in scripts, we can re-use it, share it or edit it. But <strong>most importantly a script is a record</strong>.</p>
 <p>Cmd/Ctrl + Shift + N will open a new script file up and you should see something like below with the script editor pane open:</p>
 <div class="figure">
 <img src="img/rstudio_screenshot_four_panes.PNG" />
@@ -482,8 +486,9 @@ myName &lt;-<span class="st"> &quot;Alistair&quot;</span>
 <p>Often you’ll be working with data you’ve generated and stored locally, but you may need to download data on occasion.</p>
 <p>This gives us the chance to practice creating objects and try out using function with a condition.</p>
 <ul>
-<li>First we create the <code>url</code> object containing the web address of the data we need.</li>
-<li>Second we a <code>path</code> object containing the address of where we want to download the data to and what to call the file. In this case it is the <code>data</code> folder we created and we will call it <code>portal_data_joined.csv</code>.</li>
+<li>First we’ll write a comment and create a code section at the same time. This is so we know what this code does, and so we can just run this bit of code easily.</li>
+<li>Next we create the <code>url</code> object containing the web address of the data we need.</li>
+<li>We also need a <code>path</code> object containing the address of where we want to download the data to and what to call the file. In this case it is the <code>data</code> folder we created and we will call it <code>portal_data_joined.csv</code>.</li>
 <li>Then we use an <code>if</code> statement combined with a condition with the logical (TRUE/FALSE) <code>file.exists()</code> function to decide whether or not to download the data. The NOT condition <code>!</code> means if <code>portal_data_joined.csv</code> doesn’t exist already, download it.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Download the and import the data ---------------------------------------------</span>
@@ -528,6 +533,7 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 #&gt;   taxa = col_character(),
 #&gt;   plot_type = col_character()
 #&gt; )</code></pre>
+<p>The <code>read_csv()</code> function outputs a message telling us how it interpreted each column of data and what data type it stored them as. We can override these settings if needed, see the help file for more information <code>?read_csv</code>.</p>
 </div>
 <div id="a-note-on-excel-files" class="section level2">
 <h2>A note on Excel files</h2>
@@ -538,9 +544,8 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 </div>
 <div id="inspecting-the-dataset" class="section level1">
 <h1>Inspecting the dataset</h1>
-<p>Having imported the data, we should look at the structure of the data. We’ll use the <code>glimpse</code> function that tries to provide the most compact and informative view.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the data with &#39;glimpse&#39; ----------------------------------------------</span>
-
+<p>Having imported the data, we should look at the structure of the data. We’ll use the <code>glimpse</code> function that tries to provide the most compact and informative view. The arguement we supply to glimpse is the <code>surveys</code> object we created in our environment when we imported the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the data with &#39;glimpse&#39;</span>
 <span class="kw">glimpse</span>(surveys)</code></pre></div>
 <pre><code>#&gt; Observations: 34,786
 #&gt; Variables: 13
@@ -557,24 +562,21 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 #&gt; $ species         &lt;chr&gt; &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;...
 #&gt; $ taxa            &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Roden...
 #&gt; $ plot_type       &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;C...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># This data is tidy already: each variable is a column, each observation is a</span>
-<span class="co"># row and each cell contains a single variable.</span>
-
-<span class="co"># Q: Is there missing data?</span>
-
-<span class="co"># Q: How long a period does the dataset cover?</span>
-
-<span class="co"># Q: How many different taxa are there? </span>
-<span class="co"># (taxa are organism types e.g. plants or birds)</span>
-
-<span class="co"># Q: How many species are there?</span>
-<span class="co"># (individual species belong in their taxa)</span>
-
-<span class="co"># For this analysis we need to subset the plots that were used in the paper,</span>
-<span class="co"># the species and taxa that were analysed, the time period of the experiment, and</span>
-<span class="co"># remove any missing data.</span></code></pre></div>
+<p>This data is tidy already: each variable is a column, each observation is a row and each cell contains a single variable.</p>
+<blockquote>
+<p><span style="background:yellow"> See the <a href="https://southampton-rsg.github.io/2017-08-01-southampton-dc/novice/spreadsheet-ecology-lesson/">Data Organisation in Spreadsheets</a> lessons for more about organising data so that it is tidy prior to importing to R.</span></p>
+</blockquote>
+<p>There are a number of questions we might want to ask, such as:</p>
+<ul>
+<li>Is there missing data?</li>
+<li>How long a period does the dataset cover?</li>
+<li>How many different taxa are there? (taxa are organism types e.g. plants or birds)</li>
+<li>How many species are there? (individual species belong in their taxa)</li>
+</ul>
+<p>For this analysis we need only the data required to create the plots that appear in the paper. This means subsetting <code>surveys</code> to keep only the species and taxa that were analysed, the time period of the experiment, and if necessary, remove any missing data.</p>
 <blockquote>
 <h3 id="challenge">Challenge</h3>
+<p>This challenge can be done in the console, or you can add your code to your script if you prefer.</p>
 <p>Is there missing data? (R uses <code>NA</code> to represent missing values.)</p>
 <p>How long a period does the dataset cover?</p>
 <p>HINT: columns in a data.frame can be accessed using <code>$</code> sign in the form <code>data_frame$column_name</code> HINT: try the <code>range()</code> function on the <code>year</code> column.</p>

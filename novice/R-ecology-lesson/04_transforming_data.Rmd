@@ -127,6 +127,10 @@ paper figure, from the start of the surveys in 1977 until the end of 1990.
 surveys_filtered <- surveys %>% filter(year <= 1990)
 ```
 
+> <span style="background:yellow">See 
+>[SQL basic queries lesson](http://www.datacarpentry.org/sql-ecology-lesson/01-sql-basic-queries/)
+> to compare using `dplyr` in R with filtering and selecting in SQL.</span>
+>
 
 To reproduce the analysis in the paper we need to know which which four plots 
 the different treatments were carried out on.
@@ -275,6 +279,10 @@ surveys %>% mutate(weight_kg = weight / 1000) %>%
   glimpse()
 ```
 
+> <span style="background:yellow">See 
+>[SQL basic queries lesson](http://www.datacarpentry.org/sql-ecology-lesson/01-sql-basic-queries/)
+> to compare using `dplyr` in R with performing calculations in SQL.</span>
+>
 
 ## Putting it all together
 
@@ -380,8 +388,11 @@ by_quarter <- surveys_subset %>%
 glimpse(by_quarter)
 ```
 
-We have now transformed the dataset from a 35,000 by 13 table to the 185 by 4 
-table that we need for re-creating the plot shown in the paper.
+**We have now transformed the dataset from a 35,000 observations of 13 variables
+table to the 185 observations of 4 variables table that we need for re-creating 
+the plot shown in the paper.**
+
+Compare the output of `glimpse(surveys)` to `glimpse(by_quarter)`.
 
 But, this is not the only way to look at the data, so we'll keep the unsummarised
 subset too. We could export the subset for sharing, but generally it's better
@@ -415,3 +426,8 @@ ggplot(by_month_genus,
        aes(x = mean_captures, y = fct_reorder(genus,mean_captures))) +
   geom_point() + facet_grid(~ plot_type)
 ```
+
+> <span style="background:yellow">See 
+>[SQL aggregation lesson](http://www.datacarpentry.org/sql-ecology-lesson/02-sql-aggregation/)
+> to compare using `dplyr` in R with creating grouped summaries in SQL.</span>
+>

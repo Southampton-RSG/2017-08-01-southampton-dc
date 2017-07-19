@@ -446,6 +446,9 @@ surveys %&gt;%<span class="st"> </span><span class="kw">filter</span>(month ==<s
 <p>Using the pipe <code>%&gt;%</code> is optional, but recommended.</p>
 <p>Ctl+Shift+M is a shortcut to create a pipe.</p>
 </blockquote>
+<blockquote>
+<p><span style="background:yellow">See <a href="http://www.datacarpentry.org/sql-ecology-lesson/01-sql-basic-queries/">SQL basic queries lesson</a> to compare using <code>dplyr</code> in R with filtering and selecting in SQL.</span></p>
+</blockquote>
 <p>To reproduce the analysis in the paper we need to know which which four plots the different treatments were carried out on.</p>
 <p>The codes for the twenty four plots are found <a href="https://github.com/weecology/PortalData/blob/master/SiteandMethods/Portal_plot_treatments.csv">here</a>.</p>
 <p>To save time, here is a summary of the ones we need, which you can paste into your script:</p>
@@ -588,6 +591,9 @@ surveys_mutated &lt;-<span class="st"> </span>surveys_mutate %&gt;%
 <p>Create a data frame called <code>surveys_kg</code> with a new variable that converts the the original data frame <code>surveys</code> <code>weight</code> variable to kilograms, call the new variable <code>weight_kg</code>.</p>
 <p><code>weight</code> is in grams, so you need to divide by 1000 to convert to kg. Missing values can be removed using the <code>filter()</code> and <code>is.na()</code> functions like so: <code>filter(!is.na(weight))</code>. We need <code>!</code> to make it “is not a NA”.</p>
 </blockquote>
+<blockquote>
+<p><span style="background:yellow">See <a href="http://www.datacarpentry.org/sql-ecology-lesson/01-sql-basic-queries/">SQL basic queries lesson</a> to compare using <code>dplyr</code> in R with performing calculations in SQL.</span></p>
+</blockquote>
 </div>
 <div id="putting-it-all-together" class="section level2">
 <h2>Putting it all together</h2>
@@ -661,12 +667,16 @@ by_quarter &lt;-<span class="st"> </span>surveys_subset %&gt;%<span class="st"> 
 #&gt; $ quarter     &lt;dbl&gt; 1977.3, 1977.3, 1977.4, 1977.4, 1978.1, 1978.2, 19...
 #&gt; $ plot_type   &lt;chr&gt; &quot;Control&quot;, &quot;Long-term Krat Exclosure&quot;, &quot;Control&quot;, ...
 #&gt; $ captures    &lt;dbl&gt; 2.3333333, 0.6666667, 1.3333333, 1.0000000, 1.0000...</code></pre>
-<p>We have now transformed the dataset from a 35,000 by 13 table to the 185 by 4 table that we need for re-creating the plot shown in the paper.</p>
+<p><strong>We have now transformed the dataset from a 35,000 observations of 13 variables table to the 185 observations of 4 variables table that we need for re-creating the plot shown in the paper.</strong></p>
+<p>Compare the output of <code>glimpse(surveys)</code> to <code>glimpse(by_quarter)</code>.</p>
 <p>But, this is not the only way to look at the data, so we’ll keep the unsummarised subset too. We could export the subset for sharing, but generally it’s better to share the raw data (if it’s not too large) and a script containing the code that will reproduce your transformations. Raw data is the form you received it in, it doesn’t necessarily mean that the data hasn’t been manipulated upstream.</p>
 <blockquote>
 <h3 id="challenge-2">Challenge</h3>
 <p>Create a summary of <code>surveys_subset</code> called <code>by_month_genus</code> grouped by <code>genus</code> , <code>date</code> and <code>plot_type</code>, and summarised using <code>summarise(n())</code>.</p>
 <p>There are five genus, three kangeroo rats in the Dipodomys genus, and the granivores make up the other four genus)</p>
+</blockquote>
+<blockquote>
+<p><span style="background:yellow">See <a href="http://www.datacarpentry.org/sql-ecology-lesson/02-sql-aggregation/">SQL aggregation lesson</a> to compare using <code>dplyr</code> in R with creating grouped summaries in SQL.</span></p>
 </blockquote>
 </div>
 
