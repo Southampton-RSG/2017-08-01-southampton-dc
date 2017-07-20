@@ -236,7 +236,7 @@ lut <- c("DM" = "Kangaroo Rat",
          "PP" = "Granivore",
          "PF" = "Granivore",
          "PE" = "Granivore",
-         "PM"=  "Granivore",
+         "PM" = "Granivore",
          "RM" = "Granivore")
 
 # Mutate surveys_selected
