@@ -17,11 +17,12 @@ surveys <- read_csv('data/portal_data_joined.csv')
 > ### Learning Objectives
 >
 > By the end of this lesson the learner will have been introduced the key verbs 
-of the `dplyr` package needed to transform data into new forms. They will be
+of the `dplyr` package needed to transform tidy data into new forms. They will be
 able to:
 >
-> * Filter rows with `filter()`
-> * Select columns with `select()`
+> * Filter observations with `filter()`
+> * Arrange observations according to variable(s) with `arrange()`.
+> * Select variables with `select()`
 > * Add new variables with `mutate()`
 > * Create grouped summaries with `group_by` and `summarise()`
 >
@@ -152,10 +153,30 @@ exp_plots <- c(8,11,12,14,3,15,19,21)
 surveys_filtered <- surveys_filtered %>% filter(plot_id %in% exp_plots)
 ```
 
+## Arranging observations
+
+Although we don't need to do this here, it is worth mentioning the other key
+verb for working with the observations in the rows is `arrange()` which enables
+you to arrange the observations in a data frame according to one or more variables.
+
+As with `filter()` we supply the variable or variables of interest as the arguments
+to `arrange()`.
+
+For example we could arrange the observations according to the `record_id` 
+variable:
+```{r,purl=FALSE,results='show'}
+# Look at the original order of the observations
+surveys
+# Arrange the surveys according to record_id. Note the default is ascending order
+surveys %>% arrange(record_id)
+```
+
+Check out the `?arrange` for more examples and information about using this function.
+
 ## Selecting variables
 
-Selecting columns can be done in various ways. For example, by the column number,
-the variable name or by range. Check the help function `?select` for more options.
+Selecting the variables contained in the columns can be done in various ways. 
+For example, by the column number, the variable name or by range. Check the help function `?select` for more options.
 
 
 ```{r,purl=FALSE,results='show'}

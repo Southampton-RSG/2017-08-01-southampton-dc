@@ -360,10 +360,11 @@ div.tocify {
 <hr />
 <blockquote>
 <h3 id="learning-objectives">Learning Objectives</h3>
-<p>By the end of this lesson the learner will have been introduced the key verbs of the <code>dplyr</code> package needed to transform data into new forms. They will be able to:</p>
+<p>By the end of this lesson the learner will have been introduced the key verbs of the <code>dplyr</code> package needed to transform tidy data into new forms. They will be able to:</p>
 <ul>
-<li>Filter rows with <code>filter()</code></li>
-<li>Select columns with <code>select()</code></li>
+<li>Filter observations with <code>filter()</code></li>
+<li>Arrange observations according to variable(s) with <code>arrange()</code>.</li>
+<li>Select variables with <code>select()</code></li>
 <li>Add new variables with <code>mutate()</code></li>
 <li>Create grouped summaries with <code>group_by</code> and <code>summarise()</code></li>
 </ul>
@@ -461,9 +462,50 @@ exp_plots &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="d
 <span class="co"># Keep only the rows corresponding with the experimental plot_id&#39;s</span>
 surveys_filtered &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span class="st"> </span><span class="kw">filter</span>(plot_id %in%<span class="st"> </span>exp_plots)</code></pre></div>
 </div>
+<div id="arranging-observations" class="section level2">
+<h2>Arranging observations</h2>
+<p>Although we don’t need to do this here, it is worth mentioning the other key verb for working with the observations in the rows is <code>arrange()</code> which enables you to arrange the observations in a data frame according to one or more variables.</p>
+<p>As with <code>filter()</code> we supply the variable or variables of interest as the arguments to <code>arrange()</code>.</p>
+<p>For example we could arrange the observations according to the <code>record_id</code> variable:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Look at the original order of the observations</span>
+surveys</code></pre></div>
+<pre><code>#&gt; # A tibble: 34,786 × 13
+#&gt;    record_id month   day  year plot_id species_id   sex hindfoot_length
+#&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;      &lt;chr&gt; &lt;chr&gt;           &lt;int&gt;
+#&gt; 1          1     7    16  1977       2         NL     M              32
+#&gt; 2         72     8    19  1977       2         NL     M              31
+#&gt; 3        224     9    13  1977       2         NL  &lt;NA&gt;              NA
+#&gt; 4        266    10    16  1977       2         NL  &lt;NA&gt;              NA
+#&gt; 5        349    11    12  1977       2         NL  &lt;NA&gt;              NA
+#&gt; 6        363    11    12  1977       2         NL  &lt;NA&gt;              NA
+#&gt; 7        435    12    10  1977       2         NL  &lt;NA&gt;              NA
+#&gt; 8        506     1     8  1978       2         NL  &lt;NA&gt;              NA
+#&gt; 9        588     2    18  1978       2         NL     M              NA
+#&gt; 10       661     3    11  1978       2         NL  &lt;NA&gt;              NA
+#&gt; # ... with 34,776 more rows, and 5 more variables: weight &lt;int&gt;,
+#&gt; #   genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Arrange the surveys according to record_id. Note the default is ascending order</span>
+surveys %&gt;%<span class="st"> </span><span class="kw">arrange</span>(record_id)</code></pre></div>
+<pre><code>#&gt; # A tibble: 34,786 × 13
+#&gt;    record_id month   day  year plot_id species_id   sex hindfoot_length
+#&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;      &lt;chr&gt; &lt;chr&gt;           &lt;int&gt;
+#&gt; 1          1     7    16  1977       2         NL     M              32
+#&gt; 2          2     7    16  1977       3         NL     M              33
+#&gt; 3          3     7    16  1977       2         DM     F              37
+#&gt; 4          4     7    16  1977       7         DM     M              36
+#&gt; 5          5     7    16  1977       3         DM     M              35
+#&gt; 6          6     7    16  1977       1         PF     M              14
+#&gt; 7          7     7    16  1977       2         PE     F              NA
+#&gt; 8          8     7    16  1977       1         DM     M              37
+#&gt; 9          9     7    16  1977       1         DM     F              34
+#&gt; 10        10     7    16  1977       6         PF     F              20
+#&gt; # ... with 34,776 more rows, and 5 more variables: weight &lt;int&gt;,
+#&gt; #   genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+<p>Check out the <code>?arrange</code> for more examples and information about using this function.</p>
+</div>
 <div id="selecting-variables" class="section level2">
 <h2>Selecting variables</h2>
-<p>Selecting columns can be done in various ways. For example, by the column number, the variable name or by range. Check the help function <code>?select</code> for more options.</p>
+<p>Selecting the variables contained in the columns can be done in various ways. For example, by the column number, the variable name or by range. Check the help function <code>?select</code> for more options.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select the year and plot type columns</span>
 surveys %&gt;%<span class="st"> </span><span class="kw">select</span>(year,plot_type)</code></pre></div>
 <pre><code>#&gt; # A tibble: 34,786 × 2
