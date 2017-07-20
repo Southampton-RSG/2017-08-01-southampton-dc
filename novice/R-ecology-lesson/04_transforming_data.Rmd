@@ -192,15 +192,26 @@ a function of the `species_id` column.
 
 This is a little tricky, but the steps are as follows:
 
-1. Create character vectors corresponding with the `species_id`'s we are 
-interested in. Here they are called: `rodents` and `krats`.
-2. Filter for the eight rodents of interest, using our `rodents` vector.
-3. Then create a new `rodent_type` column using `species_id` such that if the 
-`species_id` matches a value in `krats` the value is `"Kangeroo Rat"` and if it
-doesn't match, then the value of `rodent_type` is `"Granivore"`.
+1. We create a lookup table in the form of a named vector which we'll call `lut`. 
+The names of each  element in `lut` correspond with one of the eight `species_id` 
+we are interested in.. The values of each named element are either `Kangaroo Rat` 
+or `Granivore`.
+
+2. Next we can use the lookup table to filter `surveys_selected` 
+for observations where the `species_id` match the names of the lookup table elements
+by passing `lut` as an argument to the function `names()`.
+
+3. Now when we subset the lookup table with a character string, here 
+`species_id` from the `surveys_selected`, it will return the values in the lookup
+table that correspond with the names in the `species_id` character string. For 
+example, subsetting `"DM"` in the lookup table will return the value `Kangaroo Rat`.
+
+4. Using `mutate` we can create a new variable called `rodent_type` that contains
+the values return from subsetting the lookup table using `species_id` from the `surveys_selected`.
 
 The codes associated with the forty species in the survey data are found 
-[here](https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv), but to save time the relevant codes are shown below.
+[here](https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv), but to save time the relevant codes are shown below. These codes are
+used to createthe lookup table `lut` as shown.
 
 
 ```{r,purl=FALSE,results='show'}
@@ -216,30 +227,31 @@ The codes associated with the forty species in the survey data are found
 # PM 	Peromyscus maniculatus 	    Rodent 	Deer Mouse
 # RM 	Reithrodontomys megalotis 	Rodent 	Western harvest mouse
 
-# Create a character vector for rodents
-rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM")
-
-# Create a character vector for Kangeroo Rats by subsetting the first
-# three elements of rodents
-krats <- rodents[1:3]
+# Create a named vector as a lookup table, where the names of each vector
+# element correspond with the species_id, and the values of each vector 
+# element are either Kangaroo Rat or Granivore
+lut <- c("DM" = "Kangaroo Rat",
+         "DO" = "Kangaroo Rat",
+         "DS" = "Kangaroo Rat",
+         "PP" = "Granivore",
+         "PF" = "Granivore",
+         "PE" = "Granivore",
+         "PM"=  "Granivore",
+         "RM" = "Granivore")
 
 # Mutate surveys_selected
-surveys_mutate <- surveys_selected %>%
+surveys_mutate_rodent <- surveys_selected %>%
   # Filter for observations only for the eight rodents species.
-  filter(species_id %in% rodents) %>% 
+  # The condition is where species_id matches the names of the lookup table
+  # vector elements
+  filter(species_id %in% names(lut)) %>% 
   # Create a new variable called rodent_type as a function of species_id
-  # we use the if_else() function to test whether the species_id corresponds
-  # with a Kangeroo rat or a Granivore
-  # The first arguement to if_else is the conditon: if species_id is in krats.
-  # The second arguement is the value of rodent_type if the condition is true,
-  # in this case "Kangeroo rat"
-  # The third arguement is the value if the condition is false,
-  # in this case "Granivore"
-  mutate(rodent_type = if_else(species_id %in% krats, "Kangeroo Rat",
-                               "Granivore"))
+  # by using the look-up table to return values of Kangaroo Rat and Granivore
+  # that match the species_id code.
+  mutate(rodent_type = lut[species_id])
 
 # Check the output using a summary pipe, we should have 8 species of 2 types
-surveys_mutate %>% group_by(species_id,rodent_type) %>% summarise()
+surveys_mutate_rodent %>% group_by(species_id,rodent_type) %>% summarise()
 ```
 
 We'll come back to `group_by()` and `summarise()` very shortly.
@@ -257,12 +269,12 @@ column variables.
 ```{r,purl=FALSE,results='show'}
 # Mutate surveys_selected to create a Date column from the day,month and year
 # variables
-surveys_mutated <- surveys_mutate %>%
+surveys_mutate_date <- surveys_mutate_rodent %>%
   # Convert day, month and year using lubridate
   mutate(date = lubridate::dmy(sprintf('%02d%02d%04d', day, month, year)))
 
 # Check the output
-glimpse(surveys_mutated)
+glimpse(surveys_mutate_date)
 ```
 
 > ### Challenge
@@ -297,11 +309,11 @@ surveys_subset <- surveys %>%
   # Filter observations from 1977 to 1990, for the 3 K-rats and 5 granivores, 
   # and for the 4 experimental plots
   filter(year <= 1990,                    
-         species_id %in% rodents,         
+         species_id %in% names(lut),         
          plot_id %in% exp_plots) %>%      
-  # Make variable to indicate whether species is K-rat or Granivore
-  mutate(rodent_type = if_else(species_id %in% krats, "Kangeroo Rat",
-                               "Granivore"),
+  # Use lookup table to create variable to indicate whether species is K-rat 
+  # or Granivore
+  mutate(rodent_type = lut[species_id],
          # Make combined date variable
          date = lubridate::dmy(sprintf('%02d%02d%04d', 
                                        day, month, year)),
@@ -335,7 +347,7 @@ show a summary of these two variables only.
 ```{r,purl=FALSE,results='show'}
 
 # Check the output using a summary pipe, we should have 8 species of 2 types
-surveys_mutate %>% group_by(species_id,rodent_type) %>% summarise()
+surveys_mutate_rodent %>% group_by(species_id,rodent_type) %>% summarise()
 
 ```
 
@@ -401,30 +413,48 @@ code that will reproduce your transformations. Raw data is the form you received
 it in, it doesn't necessarily mean that the data hasn't been manipulated 
 upstream.
 
+We'll finish this lesson with a challenge that uses the transformed data and 
+rolls it up into 4 observations of 3 variables data frame by sucessive use 
+of grouping and summarising.
+
 > ### Challenge
-> Create a summary of `surveys_subset` called `by_month_genus` grouped by 
-`genus` , `date` and `plot_type`, and summarised using `summarise(n())`.
+> Use the `group_by()` and `summarise()` functions successively to examine
+> whether the exclosure of kangaroo rats is successful or not.
 >
-> There are five genus, three kangeroo rats in the Dipodomys genus, 
-and the granivores make up the other four genus)
+> First calculate the monthly captures per rodent type and plot type, then the
+> yearly captures, and finally the total captures:
+>
+> 1. Create a summary data frame of `surveys_subset` called `per_month` grouping by 
+> `rodent_type` ,`plot_type`, `year` and `month`. Pipe the output to `summarise()`
+> to create a new variable that calculates the monthly captures
+> for each genus by replacing `_` in `summarise(montly = _)` with the 
+> row counting function `n()`.
+> 2. Create a `per_year` data frame, using `per_month` with `summarise()` to create
+> a `yearly` variable that sums the monthly captures. Provide `per_month` and
+> `sum(monthly)` as the arguments to `summarise()`.
+> 3. Finally create a `total` data frame, summing the total caputures per rodent
+> type and plot type by providing `per_year` and and `sum(yearly)` as the 
+> arguments to `summarise()`.
+>
+> Inspect `total` to see if the number of captures indicates whether the 
+> exlosure works to keep kangaroo rats out.
+>
 
 ```{r,purl=FALSE,echo=FALSE,eval=FALSE}
 # Challenge, summarise by month and by genus instead
-by_month_genus <- surveys_subset %>% 
-  group_by(genus,date,plot_type,rodent_type) %>% 
-  summarise(captures = n()) 
+per_month <- surveys_subset %>% 
+  group_by(rodent_type,plot_type,year,month) %>% 
+  summarise(monthly = n()) 
 
-by_month_mean <- by_month_genus %>% group_by(genus,plot_type,rodent_type) %>%
-  summarise(mean_captures = mean(captures))
+per_month
 
-# Orders the rodents alphabetically
-ggplot(by_month_mean, aes(x = mean_captures,y=genus)) +
-  geom_point() + facet_grid(~ plot_type)
+per_year <- summarise(per_month, yearly = sum(monthly))
 
-# Orders the rodents according to number of captures
-ggplot(by_month_genus,
-       aes(x = mean_captures, y = fct_reorder(genus,mean_captures))) +
-  geom_point() + facet_grid(~ plot_type)
+per_year
+
+total <- summarise(per_year,total_captures = sum(yearly))
+
+total
 ```
 
 > <span style="background:yellow">See 

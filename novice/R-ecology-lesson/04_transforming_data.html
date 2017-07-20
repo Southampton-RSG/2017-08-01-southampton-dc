@@ -506,11 +506,12 @@ surveys_selected &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span clas
 <p>We could do this using <code>mutate</code> to create a <code>rodent_type</code> variable that is a function of the <code>species_id</code> column.</p>
 <p>This is a little tricky, but the steps are as follows:</p>
 <ol style="list-style-type: decimal">
-<li>Create character vectors corresponding with the <code>species_id</code>’s we are interested in. Here they are called: <code>rodents</code> and <code>krats</code>.</li>
-<li>Filter for the eight rodents of interest, using our <code>rodents</code> vector.</li>
-<li>Then create a new <code>rodent_type</code> column using <code>species_id</code> such that if the <code>species_id</code> matches a value in <code>krats</code> the value is <code>&quot;Kangeroo Rat&quot;</code> and if it doesn’t match, then the value of <code>rodent_type</code> is <code>&quot;Granivore&quot;</code>.</li>
+<li><p>We create a lookup table in the form of a named vector which we’ll call <code>lut</code>. The names of each element in <code>lut</code> correspond with one of the eight <code>species_id</code> we are interested in.. The values of each named element are either <code>Kangaroo Rat</code> or <code>Granivore</code>.</p></li>
+<li><p>Next we can use the lookup table to filter <code>surveys_selected</code> for observations where the <code>species_id</code> match the names of the lookup table elements by passing <code>lut</code> as an argument to the function <code>names()</code>.</p></li>
+<li><p>Now when we subset the lookup table with a character string, here <code>species_id</code> from the <code>surveys_selected</code>, it will return the values in the lookup table that correspond with the names in the <code>species_id</code> character string. For example, subsetting <code>&quot;DM&quot;</code> in the lookup table will return the value <code>Kangaroo Rat</code>.</p></li>
+<li><p>Using <code>mutate</code> we can create a new variable called <code>rodent_type</code> that contains the values return from subsetting the lookup table using <code>species_id</code> from the <code>surveys_selected</code>.</p></li>
 </ol>
-<p>The codes associated with the forty species in the survey data are found <a href="https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv">here</a>, but to save time the relevant codes are shown below.</p>
+<p>The codes associated with the forty species in the survey data are found <a href="https://github.com/weecology/PortalData/blob/master/Rodents/Portal_rodent_species.csv">here</a>, but to save time the relevant codes are shown below. These codes are used to createthe lookup table <code>lut</code> as shown.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Kangeroo Rats:</span>
 <span class="co"># DM    Dipodomys merriami          Rodent  Merriam&#39;s kangaroo rat</span>
 <span class="co"># DO    Dipodomys ordii             Rodent  Ord&#39;s kangaroo rat</span>
@@ -523,38 +524,39 @@ surveys_selected &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span clas
 <span class="co"># PM    Peromyscus maniculatus      Rodent  Deer Mouse</span>
 <span class="co"># RM    Reithrodontomys megalotis   Rodent  Western harvest mouse</span>
 
-<span class="co"># Create a character vector for rodents</span>
-rodents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span>,<span class="st">&quot;DO&quot;</span>,<span class="st">&quot;DS&quot;</span>,<span class="st">&quot;PP&quot;</span>,<span class="st">&quot;PF&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PM&quot;</span>,<span class="st">&quot;RM&quot;</span>)
-
-<span class="co"># Create a character vector for Kangeroo Rats by subsetting the first</span>
-<span class="co"># three elements of rodents</span>
-krats &lt;-<span class="st"> </span>rodents[<span class="dv">1</span>:<span class="dv">3</span>]
+<span class="co"># Create a named vector as a lookup table, where the names of each vector</span>
+<span class="co"># element correspond with the species_id, and the values of each vector </span>
+<span class="co"># element are either Kangaroo Rat or Granivore</span>
+lut &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span> =<span class="st"> &quot;Kangaroo Rat&quot;</span>,
+         <span class="st">&quot;DO&quot;</span> =<span class="st"> &quot;Kangaroo Rat&quot;</span>,
+         <span class="st">&quot;DS&quot;</span> =<span class="st"> &quot;Kangaroo Rat&quot;</span>,
+         <span class="st">&quot;PP&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;PF&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;PE&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;PM&quot;</span>=<span class="st">  &quot;Granivore&quot;</span>,
+         <span class="st">&quot;RM&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>)
 
 <span class="co"># Mutate surveys_selected</span>
-surveys_mutate &lt;-<span class="st"> </span>surveys_selected %&gt;%
+surveys_mutate_rodent &lt;-<span class="st"> </span>surveys_selected %&gt;%
 <span class="st">  </span><span class="co"># Filter for observations only for the eight rodents species.</span>
-<span class="st">  </span><span class="kw">filter</span>(species_id %in%<span class="st"> </span>rodents) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="co"># The condition is where species_id matches the names of the lookup table</span>
+<span class="st">  </span><span class="co"># vector elements</span>
+<span class="st">  </span><span class="kw">filter</span>(species_id %in%<span class="st"> </span><span class="kw">names</span>(lut)) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="co"># Create a new variable called rodent_type as a function of species_id</span>
-<span class="st">  </span><span class="co"># we use the if_else() function to test whether the species_id corresponds</span>
-<span class="st">  </span><span class="co"># with a Kangeroo rat or a Granivore</span>
-<span class="st">  </span><span class="co"># The first arguement to if_else is the conditon: if species_id is in krats.</span>
-<span class="st">  </span><span class="co"># The second arguement is the value of rodent_type if the condition is true,</span>
-<span class="st">  </span><span class="co"># in this case &quot;Kangeroo rat&quot;</span>
-<span class="st">  </span><span class="co"># The third arguement is the value if the condition is false,</span>
-<span class="st">  </span><span class="co"># in this case &quot;Granivore&quot;</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> <span class="kw">if_else</span>(species_id %in%<span class="st"> </span>krats, <span class="st">&quot;Kangeroo Rat&quot;</span>,
-                               <span class="st">&quot;Granivore&quot;</span>))
+<span class="st">  </span><span class="co"># by using the look-up table to return values of Kangaroo Rat and Granivore</span>
+<span class="st">  </span><span class="co"># that match the species_id code.</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> lut[species_id])
 
 <span class="co"># Check the output using a summary pipe, we should have 8 species of 2 types</span>
-surveys_mutate %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span><span class="kw">summarise</span>()</code></pre></div>
+surveys_mutate_rodent %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span><span class="kw">summarise</span>()</code></pre></div>
 <pre><code>#&gt; Source: local data frame [8 x 2]
 #&gt; Groups: species_id [?]
 #&gt; 
 #&gt;   species_id  rodent_type
 #&gt;        &lt;chr&gt;        &lt;chr&gt;
-#&gt; 1         DM Kangeroo Rat
-#&gt; 2         DO Kangeroo Rat
-#&gt; 3         DS Kangeroo Rat
+#&gt; 1         DM Kangaroo Rat
+#&gt; 2         DO Kangaroo Rat
+#&gt; 3         DS Kangaroo Rat
 #&gt; 4         PE    Granivore
 #&gt; 5         PF    Granivore
 #&gt; 6         PM    Granivore
@@ -566,12 +568,12 @@ surveys_mutate %&gt;%<span class="st"> </span><span class="kw">group_by</span>(s
 <p>We call the <code>lubridate</code> function <code>dmy()</code> explicitly by using the package name followed by two colons. This in turn uses the <code>sprintf()</code> function to parse the column variables.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mutate surveys_selected to create a Date column from the day,month and year</span>
 <span class="co"># variables</span>
-surveys_mutated &lt;-<span class="st"> </span>surveys_mutate %&gt;%
+surveys_mutate_date &lt;-<span class="st"> </span>surveys_mutate_rodent %&gt;%
 <span class="st">  </span><span class="co"># Convert day, month and year using lubridate</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> lubridate::<span class="kw">dmy</span>(<span class="kw">sprintf</span>(<span class="st">&#39;%02d%02d%04d&#39;</span>, day, month, year)))
 
 <span class="co"># Check the output</span>
-<span class="kw">glimpse</span>(surveys_mutated)</code></pre></div>
+<span class="kw">glimpse</span>(surveys_mutate_date)</code></pre></div>
 <pre><code>#&gt; Observations: 4,795
 #&gt; Variables: 12
 #&gt; $ record_id   &lt;int&gt; 5, 13, 63, 221, 303, 315, 1279, 2341, 2462, 3013, ...
@@ -584,7 +586,7 @@ surveys_mutated &lt;-<span class="st"> </span>surveys_mutate %&gt;%
 #&gt; $ species     &lt;chr&gt; &quot;merriami&quot;, &quot;merriami&quot;, &quot;merriami&quot;, &quot;merriami&quot;, &quot;m...
 #&gt; $ taxa        &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, ...
 #&gt; $ plot_type   &lt;chr&gt; &quot;Long-term Krat Exclosure&quot;, &quot;Long-term Krat Exclos...
-#&gt; $ rodent_type &lt;chr&gt; &quot;Kangeroo Rat&quot;, &quot;Kangeroo Rat&quot;, &quot;Kangeroo Rat&quot;, &quot;K...
+#&gt; $ rodent_type &lt;chr&gt; &quot;Kangaroo Rat&quot;, &quot;Kangaroo Rat&quot;, &quot;Kangaroo Rat&quot;, &quot;K...
 #&gt; $ date        &lt;date&gt; 1977-07-16, 1977-07-16, 1977-08-19, 1977-09-13, 1...</code></pre>
 <blockquote>
 <h3 id="challenge-1">Challenge</h3>
@@ -603,11 +605,11 @@ surveys_mutated &lt;-<span class="st"> </span>surveys_mutate %&gt;%
 <span class="st">  </span><span class="co"># Filter observations from 1977 to 1990, for the 3 K-rats and 5 granivores, </span>
 <span class="st">  </span><span class="co"># and for the 4 experimental plots</span>
 <span class="st">  </span><span class="kw">filter</span>(year &lt;=<span class="st"> </span><span class="dv">1990</span>,                    
-         species_id %in%<span class="st"> </span>rodents,         
+         species_id %in%<span class="st"> </span><span class="kw">names</span>(lut),         
          plot_id %in%<span class="st"> </span>exp_plots) %&gt;%<span class="st">      </span>
-<span class="st">  </span><span class="co"># Make variable to indicate whether species is K-rat or Granivore</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> <span class="kw">if_else</span>(species_id %in%<span class="st"> </span>krats, <span class="st">&quot;Kangeroo Rat&quot;</span>,
-                               <span class="st">&quot;Granivore&quot;</span>),
+<span class="st">  </span><span class="co"># Use lookup table to create variable to indicate whether species is K-rat </span>
+<span class="st">  </span><span class="co"># or Granivore</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> lut[species_id],
          <span class="co"># Make combined date variable</span>
          <span class="dt">date =</span> lubridate::<span class="kw">dmy</span>(<span class="kw">sprintf</span>(<span class="st">&#39;%02d%02d%04d&#39;</span>, 
                                        day, month, year)),
@@ -627,15 +629,15 @@ surveys_mutated &lt;-<span class="st"> </span>surveys_mutate %&gt;%
 <p><code>summarise()</code> is only really useful when paired with <code>group_by()</code> which defines the variables upon which we operate upon.</p>
 <p>In the previous section we used this pairing to check when the species were correctly assigned their rodent type. We first grouped <code>species_id</code> and <code>rodent_type</code> together and then used <code>summarise()</code> without any arguments to show a summary of these two variables only.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check the output using a summary pipe, we should have 8 species of 2 types</span>
-surveys_mutate %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span><span class="kw">summarise</span>()</code></pre></div>
+surveys_mutate_rodent %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span><span class="kw">summarise</span>()</code></pre></div>
 <pre><code>#&gt; Source: local data frame [8 x 2]
 #&gt; Groups: species_id [?]
 #&gt; 
 #&gt;   species_id  rodent_type
 #&gt;        &lt;chr&gt;        &lt;chr&gt;
-#&gt; 1         DM Kangeroo Rat
-#&gt; 2         DO Kangeroo Rat
-#&gt; 3         DS Kangeroo Rat
+#&gt; 1         DM Kangaroo Rat
+#&gt; 2         DO Kangaroo Rat
+#&gt; 3         DS Kangaroo Rat
 #&gt; 4         PE    Granivore
 #&gt; 5         PF    Granivore
 #&gt; 6         PM    Granivore
@@ -670,10 +672,17 @@ by_quarter &lt;-<span class="st"> </span>surveys_subset %&gt;%<span class="st"> 
 <p><strong>We have now transformed the dataset from a 35,000 observations of 13 variables table to the 185 observations of 4 variables table that we need for re-creating the plot shown in the paper.</strong></p>
 <p>Compare the output of <code>glimpse(surveys)</code> to <code>glimpse(by_quarter)</code>.</p>
 <p>But, this is not the only way to look at the data, so we’ll keep the unsummarised subset too. We could export the subset for sharing, but generally it’s better to share the raw data (if it’s not too large) and a script containing the code that will reproduce your transformations. Raw data is the form you received it in, it doesn’t necessarily mean that the data hasn’t been manipulated upstream.</p>
+<p>We’ll finish this lesson with a challenge that uses the transformed data and rolls it up into 4 observations of 3 variables data frame by sucessive use of grouping and summarising.</p>
 <blockquote>
 <h3 id="challenge-2">Challenge</h3>
-<p>Create a summary of <code>surveys_subset</code> called <code>by_month_genus</code> grouped by <code>genus</code> , <code>date</code> and <code>plot_type</code>, and summarised using <code>summarise(n())</code>.</p>
-<p>There are five genus, three kangeroo rats in the Dipodomys genus, and the granivores make up the other four genus)</p>
+<p>Use the <code>group_by()</code> and <code>summarise()</code> functions successively to examine whether the exclosure of kangaroo rats is successful or not.</p>
+<p>First calculate the monthly captures per rodent type and plot type, then the yearly captures, and finally the total captures:</p>
+<ol style="list-style-type: decimal">
+<li>Create a summary data frame of <code>surveys_subset</code> called <code>per_month</code> grouping by <code>rodent_type</code> ,<code>plot_type</code>, <code>year</code> and <code>month</code>. Pipe the output to <code>summarise()</code> to create a new variable that calculates the monthly captures for each genus by replacing <code>_</code> in <code>summarise(montly = _)</code> with the row counting function <code>n()</code>.</li>
+<li>Create a <code>per_year</code> data frame, using <code>per_month</code> with <code>summarise()</code> to create a <code>yearly</code> variable that sums the monthly captures. Provide <code>per_month</code> and <code>sum(monthly)</code> as the arguments to <code>summarise()</code>.</li>
+<li>Finally create a <code>total</code> data frame, summing the total caputures per rodent type and plot type by providing <code>per_year</code> and and <code>sum(yearly)</code> as the arguments to <code>summarise()</code>.</li>
+</ol>
+<p>Inspect <code>total</code> to see if the number of captures indicates whether the exlosure works to keep kangaroo rats out.</p>
 </blockquote>
 <blockquote>
 <p><span style="background:yellow">See <a href="http://www.datacarpentry.org/sql-ecology-lesson/02-sql-aggregation/">SQL aggregation lesson</a> to compare using <code>dplyr</code> in R with creating grouped summaries in SQL.</span></p>
