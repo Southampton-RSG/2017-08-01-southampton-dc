@@ -509,27 +509,33 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <span class="co"># exclusion plots</span>
 exp_plots &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">3</span>,<span class="dv">15</span>,<span class="dv">19</span>,<span class="dv">21</span>)
 
-<span class="co"># Create a character vector for rodents of interest</span>
-rodents &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span>,<span class="st">&quot;DO&quot;</span>,<span class="st">&quot;DS&quot;</span>,<span class="st">&quot;PP&quot;</span>,<span class="st">&quot;PF&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PM&quot;</span>,<span class="st">&quot;RM&quot;</span>)
-<span class="co"># Create a character vector for Kangeroo Rats by subsetting the first</span>
-<span class="co"># three elements of rodents</span>
-krats &lt;-<span class="st"> </span>rodents[<span class="dv">1</span>:<span class="dv">3</span>]
+<span class="co"># Create a character vector for rodents</span>
+<span class="co"># Create a named vector as a lookup table, where the names of each vector</span>
+<span class="co"># element correspond with the species_id, and the values of each vector </span>
+<span class="co"># element are either Kangaroo Rat or Granivore</span>
+lut &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DM&quot;</span> =<span class="st"> &quot;Kangaroo Rat&quot;</span>,
+         <span class="st">&quot;DO&quot;</span> =<span class="st"> &quot;Kangaroo Rat&quot;</span>,
+         <span class="st">&quot;DS&quot;</span> =<span class="st"> &quot;Kangaroo Rat&quot;</span>,
+         <span class="st">&quot;PP&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;PF&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;PE&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;PM&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>,
+         <span class="st">&quot;RM&quot;</span> =<span class="st"> &quot;Granivore&quot;</span>)
 
-<span class="co">#&#39;###Subset the data</span>
 surveys_subset &lt;-<span class="st"> </span>surveys %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="co"># Filter observations from 1977 to 1990, for the 3 K-rats and 5 granivores, </span>
 <span class="st">  </span><span class="co"># and for the 4 experimental plots</span>
 <span class="st">  </span><span class="kw">filter</span>(year &lt;=<span class="st"> </span><span class="dv">1990</span>,                    
-         species_id %in%<span class="st"> </span>rodents,         
+         species_id %in%<span class="st"> </span><span class="kw">names</span>(lut),         
          plot_id %in%<span class="st"> </span>exp_plots) %&gt;%<span class="st">      </span>
-<span class="st">  </span><span class="co"># Make variable to indicate whether species is K-rat or Granivore</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> <span class="kw">if_else</span>(species_id %in%<span class="st"> </span>krats, <span class="st">&quot;Kangeroo Rat&quot;</span>,
-                               <span class="st">&quot;Granivore&quot;</span>),
+<span class="st">  </span><span class="co"># Use lookup table to create variable to indicate whether species is K-rat </span>
+<span class="st">  </span><span class="co"># or Granivore</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rodent_type =</span> lut[species_id],
          <span class="co"># Make combined date variable</span>
          <span class="dt">date =</span> lubridate::<span class="kw">dmy</span>(<span class="kw">sprintf</span>(<span class="st">&#39;%02d%02d%04d&#39;</span>, 
                                        day, month, year)),
-         <span class="co"># Add the quartley period</span>
-         <span class="dt">quarter =</span> lubridate::<span class="kw">quarter</span>(date,<span class="dt">with_year =</span> <span class="ot">TRUE</span>)) %&gt;%<span class="st"> </span>
+  <span class="co"># Add the quartley period</span>
+  <span class="dt">quarter =</span> lubridate::<span class="kw">quarter</span>(date,<span class="dt">with_year =</span> <span class="ot">TRUE</span>)) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="co"># Drop unwanted variables</span>
 <span class="st">  </span><span class="kw">select</span>(-sex,-hindfoot_length,-weight)
 
