@@ -23,7 +23,7 @@ able to:
 > * Filter observations with `filter()`
 > * Arrange observations according to variable(s) with `arrange()`.
 > * Select variables with `select()`
-> * Add new variables with `mutate()`
+> * Create new variables from existing variables with `mutate()`
 > * Create grouped summaries with `group_by` and `summarise()`
 >
 > The learner will also be introduced to piping operations and working with dates 
@@ -84,7 +84,8 @@ data frame, the second is the variable and condition on which we wish to filter.
 
 (Note that we aren't assigning the output to an object here, so we can see it.)
 
-
+![](./img/dplyr_filter.png)
+<br>
 ```{r,purl=FALSE,results='show'}
 # Filter observations that only occurred from 1985 onwards
  filter(surveys, year >= 1985)
@@ -164,6 +165,10 @@ to `arrange()`.
 
 For example we could arrange the observations according to the `record_id` 
 variable:
+
+![](./img/dplyr_arrange.png)
+<br>
+
 ```{r,purl=FALSE,results='show'}
 # Look at the original order of the observations
 surveys
@@ -178,7 +183,8 @@ Check out the `?arrange` for more examples and information about using this func
 Selecting the variables contained in the columns can be done in various ways. 
 For example, by the column number, the variable name or by range. Check the help function `?select` for more options.
 
-
+![](./img/dplyr_select.png)
+<br>
 ```{r,purl=FALSE,results='show'}
 # Select the year and plot type columns
 surveys %>% select(year,plot_type)
@@ -210,6 +216,9 @@ to have a variable the categorised the rodents as either "Kangaroo Rat" or
 
 We could do this using `mutate` to create a `rodent_type` variable that is
 a function of the `species_id` column.
+
+![](./img/dplyr_mutate.png)
+<br>
 
 This is a little tricky, but the steps are as follows:
 
@@ -353,11 +362,14 @@ of all the animals surveyed in the original data frame using `mean()`. (Here the
 `na.rm = TRUE` argument is given to remove missing values from the data, 
 otherwise R would return `NA` when trying to average.)
 
+![](./img/dplyr_summarise.png)
+<br>
+
 ```{r,purl=FALSE,results='show'}
 surveys %>% summarise(average_weight = mean(weight,na.rm=TRUE))
 ```
 
-`summarise()` is only really useful when paired with `group_by()`
+`summarise()` is most useful when paired with `group_by()`
 which defines the variables upon which we operate upon. 
 
 In the previous section we used this pairing to check when the species were 
@@ -365,11 +377,14 @@ correctly assigned their rodent type. We first grouped `species_id` and
 `rodent_type` together and then used `summarise()` without any arguments to
 show a summary of these two variables only.
 
+![](./img/dplyr_group_by.png)
+<br>
+
 ```{r,purl=FALSE,results='show'}
 
 # Check the output using a summary pipe, we should have 8 species of 2 types
-surveys_mutate_rodent %>% group_by(species_id,rodent_type) %>% summarise()
-
+surveys_mutate_rodent %>% group_by(species_id,rodent_type) %>% 
+  summarise()
 ```
 
 Let's re-cap what we've done so far, and remind ourselves of the question we're

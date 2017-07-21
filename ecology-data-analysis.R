@@ -32,7 +32,7 @@ library(tidyverse)
 # URL for portal joined survey data
 url <- "https://ndownloader.figshare.com/files/2292169"
 # Path and filename for downloading
-path <- "data/combined.csv"
+path <- "novice/R-ecology-lesson/data/combined.csv"
 
 # Check if the file exists, and if not download it to the data folder
 if (!file.exists(path)) { download.file(url,path) }
@@ -42,7 +42,7 @@ if (!file.exists(path)) { download.file(url,path) }
 # read_csv creates a 'tibble' a modified form of data frame with enhanced
 # printing and checking capabilites.
 #surveys <- read_csv('novice/R-ecology-lesson/data/portal_data_joined.csv')
-surveys <- read_csv('data/portal_data_joined.csv')
+surveys <- read_csv('novice/R-ecology-lesson/data/portal_data_joined.csv')
 
 # Inspect the data with 'glimpse' ----------------------------------------------
 
@@ -96,7 +96,7 @@ rodents <- c("DM","DO","DS","PP","PF","PE","PM","RM")
 
 # Control Plots: 2,8,12,22
 # Treatment Plots: 3,15,19,21
-plots <- c(8,11,12,14,3,15,19,21)
+exp_plots <- c(8,11,12,14,3,15,19,21)
 
 # Let's get filter the data we need:
 # surveys_sub <- surveys %>%

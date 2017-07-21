@@ -365,7 +365,7 @@ div.tocify {
 <li>Filter observations with <code>filter()</code></li>
 <li>Arrange observations according to variable(s) with <code>arrange()</code>.</li>
 <li>Select variables with <code>select()</code></li>
-<li>Add new variables with <code>mutate()</code></li>
+<li>Create new variables from existing variables with <code>mutate()</code></li>
 <li>Create grouped summaries with <code>group_by</code> and <code>summarise()</code></li>
 </ul>
 <p>The learner will also be introduced to piping operations and working with dates along the way.</p>
@@ -402,6 +402,7 @@ div.tocify {
 <p>Consider the surveys data and sub-setting observations that only occurred from 1985 onwards. It’s fairly natural to say <em>“filter the survey where the year variable is equal or greater than 1985”</em>. And indeed this is how we use <code>filter</code> as a verb.</p>
 <p>In the code below, we give the filter function two arguments. The first is the data frame, the second is the variable and condition on which we wish to filter.</p>
 <p>(Note that we aren’t assigning the output to an object here, so we can see it.)</p>
+<p><img src="img/dplyr_filter.png" /> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter observations that only occurred from 1985 onwards</span>
  <span class="kw">filter</span>(surveys, year &gt;=<span class="st"> </span><span class="dv">1985</span>)</code></pre></div>
 <pre><code>#&gt; # A tibble: 25,290 × 13
@@ -467,6 +468,7 @@ surveys_filtered &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span clas
 <p>Although we don’t need to do this here, it is worth mentioning the other key verb for working with the observations in the rows is <code>arrange()</code> which enables you to arrange the observations in a data frame according to one or more variables.</p>
 <p>As with <code>filter()</code> we supply the variable or variables of interest as the arguments to <code>arrange()</code>.</p>
 <p>For example we could arrange the observations according to the <code>record_id</code> variable:</p>
+<p><img src="img/dplyr_arrange.png" /> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Look at the original order of the observations</span>
 surveys</code></pre></div>
 <pre><code>#&gt; # A tibble: 34,786 × 13
@@ -506,6 +508,7 @@ surveys %&gt;%<span class="st"> </span><span class="kw">arrange</span>(record_id
 <div id="selecting-variables" class="section level2">
 <h2>Selecting variables</h2>
 <p>Selecting the variables contained in the columns can be done in various ways. For example, by the column number, the variable name or by range. Check the help function <code>?select</code> for more options.</p>
+<p><img src="img/dplyr_select.png" /> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select the year and plot type columns</span>
 surveys %&gt;%<span class="st"> </span><span class="kw">select</span>(year,plot_type)</code></pre></div>
 <pre><code>#&gt; # A tibble: 34,786 × 2
@@ -546,6 +549,7 @@ surveys_selected &lt;-<span class="st"> </span>surveys_filtered %&gt;%<span clas
 <h2>Creating new variables</h2>
 <p>Often we need to create new variables that are functions of existing columns. For example, in the survey data there are forty species, of which we are only interested in eight. Moreover, we are interested in comparing the three Kangaroo Rat species with the five smaller granivores, so it would be useful to have a variable the categorised the rodents as either “Kangaroo Rat” or “Carnivore”.</p>
 <p>We could do this using <code>mutate</code> to create a <code>rodent_type</code> variable that is a function of the <code>species_id</code> column.</p>
+<p><img src="img/dplyr_mutate.png" /> <br></p>
 <p>This is a little tricky, but the steps are as follows:</p>
 <ol style="list-style-type: decimal">
 <li><p>We create a lookup table in the form of a named vector which we’ll call <code>lut</code>. The names of each element in <code>lut</code> correspond with one of the eight <code>species_id</code> we are interested in.. The values of each named element are either <code>Kangaroo Rat</code> or <code>Granivore</code>.</p></li>
@@ -663,15 +667,18 @@ surveys_mutate_date &lt;-<span class="st"> </span>surveys_mutate_rodent %&gt;%
 <div id="grouped-summaries" class="section level2">
 <h2>Grouped summaries</h2>
 <p>The last verb we’ll consider is <code>summarise()</code>, which collapses a data frame into a single row. For example, we could use it to find the average weight of all the animals surveyed in the original data frame using <code>mean()</code>. (Here the <code>na.rm = TRUE</code> argument is given to remove missing values from the data, otherwise R would return <code>NA</code> when trying to average.)</p>
+<p><img src="img/dplyr_summarise.png" /> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surveys %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">average_weight =</span> <span class="kw">mean</span>(weight,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>#&gt; # A tibble: 1 × 1
 #&gt;   average_weight
 #&gt;            &lt;dbl&gt;
 #&gt; 1       42.67243</code></pre>
-<p><code>summarise()</code> is only really useful when paired with <code>group_by()</code> which defines the variables upon which we operate upon.</p>
+<p><code>summarise()</code> is most useful when paired with <code>group_by()</code> which defines the variables upon which we operate upon.</p>
 <p>In the previous section we used this pairing to check when the species were correctly assigned their rodent type. We first grouped <code>species_id</code> and <code>rodent_type</code> together and then used <code>summarise()</code> without any arguments to show a summary of these two variables only.</p>
+<p><img src="img/dplyr_group_by.png" /> <br></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check the output using a summary pipe, we should have 8 species of 2 types</span>
-surveys_mutate_rodent %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span><span class="kw">summarise</span>()</code></pre></div>
+surveys_mutate_rodent %&gt;%<span class="st"> </span><span class="kw">group_by</span>(species_id,rodent_type) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>()</code></pre></div>
 <pre><code>#&gt; Source: local data frame [8 x 2]
 #&gt; Groups: species_id [?]
 #&gt; 
