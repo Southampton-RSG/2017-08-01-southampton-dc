@@ -12,7 +12,7 @@ humantime: "9:00 am - 4:30 pm"    # human-readable times for the workshop (e.g.,
 startdate: 2017-08-01      # machine-readable start date for the workshop in YYYY-MM-DD format like 2015-01-01
 enddate: 2017-08-02        # machine-readable end date for the workshop in YYYY-MM-DD format like 2015-01-02
 instructor: ["Simon Hettrick", "Alistair Bailey", "Rob Blair" ] # boxed, comma-separated list of instructors' names as strings, like ["Kay McNulty", "Betty Jennings", "Betty Snyder"]
-helper: ["Arshad Emmambux", "Olivier Phillipe"]     # boxed, comma-separated list of helpers' names, like ["Marlyn Wescoff", "Fran Bilas", "Ruth Lichterman"]
+helper: ["Arshad Emmambux", "Olivier Phillipe", "Robin Wilson"]     # boxed, comma-separated list of helpers' names, like ["Marlyn Wescoff", "Fran Bilas", "Ruth Lichterman"]
 contact: ["rsg-info@soton.ac.uk"]    # boxed, comma-separated list of contact email addresses for the host, lead instructor, or whoever else is handling questions, like ["marlyn.wescoff@example.org", "fran.bilas@example.org", "ruth.lichterman@example.org"]
 etherpad:             # optional: URL for the workshop Etherpad if there is one
 eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite registration, e.g., "1234567890AB" (if Eventbrite is being used)
@@ -407,14 +407,14 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
 
 <p>
   To participate in a Data Carpentry workshop, you will need
-  to bring a laptop with the software described below. <strong>Some of the software requires you to use the <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> browser so you should download and install it first.</strong>
+  to bring a laptop with the software described below.
 </p>
 
 <div id="editor"> <!-- Start of 'spreadsheet' section. -->
   <h3>Spreadsheet</h3>
 
   <p>
-    To work with with spreadsheets, we can useMicrosoft Excel, OpenOffice.org, or other programs.
+    To work with with spreadsheets, we can use Microsoft Excel, OpenOffice.org, or other programs.
     Commands may differ a bit between programs, but general ideas for thinking about spreadsheets are the same.
     For this lesson, <strong>if you don’t have a spreadsheet program already</strong>, you can use LibreOffice. It’s a free, open source spreadsheet program.
   </p>
@@ -454,36 +454,35 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
     <div class="col-md-4">
       <h4 id="openrefine-windows">Windows</h4>
       <ul>
-        <li>OpenRefine uses Java. If you don't already have it installed, install it from <a href="https://www.java.com/inc/BrowserRedirect1.jsp">here</a>.
-        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> installed. (Unfortunately, OpenRefine may not work correctly with Internet Explorer or Microsoft Edge).</li>
+        <li>OpenRefine uses the Java Runtime Enviroment. If you don't already have it installed, install it from <a href="https://java.com/en/download/">here</a>.
         <li>Download the OpenRefine 2.7 Windows Kit from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
         <li>Unzip the downloaded file into a directory by right-clicking and
         selecting “Extract…”. Name that directory something like 'OpenRefine'. <strong>Remember where you extracted it</strong></li>
         <li>Go to your newly created OpenRefine directory using File Explorer.</li>
         <li>Double click "openrefine" (the icon is a blue diamond).  A black console window will apppear, and your default browser shortly afterwards.</li>
-        <li>If your default browser is not Firefox, or OpenRefine does not automatically open for you, point Firefox at http://127.0.0.1:3333/ or http://localhost:3333.</li>
+        <li>If OpenRefine does not automatically open for you, point your web browser at http://127.0.0.1:3333/ or http://localhost:3333.</li>
       </ul>
     </div>
     <div class="col-md-4">
       <h4 id="openrefine-mac">Mac OS X</h4>
       <ul>
-        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> installed. (Unfortunately, OpenRefine may not work correctly with Safari).</li>
+        <li>Open Refine uses the Java Run Environment. To check you have Java installed, open System Preferences and look for a Java icon. If you don't have it, <a href="https://www.java.com/en/download/mac_download.jsp">download</a> and install it.</li>
         <li>Download the OpenRefine 2.7 Mac Kit from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
         <li>Open the downloaded file and drag the OpenRefine icon to Applications as instructed.</li>
         <li>Launch OpenRefine from Applications.</li>
         <li>If you receive a warning about installing untrusted applications: Applications -> Utilities -> Terminal and type the following: <code>spctl --add /Applications/OpenRefine.app</code> and try again.
-	<li>If your default browser is not Firefox, or OpenRefine does not automatically open for you, point Firefox at http://127.0.0.1:3333/ or http://localhost:3333.</li>
+	<li>If OpenRefine does not automatically open for you, point your web browser at http://127.0.0.1:3333/ or http://localhost:3333.</li>
       </ul>
     </div>
     <div class="col-md-4">
       <h4 id="openrefine-linux">Linux</h4>
       <ul>
-        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> installed.</li>
+        <li>OpenRefine uses the Java Runtime Enviroment. To check if you have Java installed, open a terminal and type <code>java -version</code>.  If you don't have it, the run <code>sudo apt-get install default-jre</code>(Ubuntu) or <code>sudo dnf install java-1.8.0-openjdk</code>(Fedora)</li>
         <li>Download the OpenRefine 2.7 Linux kit from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
         <li>Unzip the downloaded file into a directory. Name that directory something like "OpenRefine".</li>
         <li>Go to your newly created OpenRefine directory.</li>
         <li>Type <code>./refine</code> into the terminal within the OpenRefine directory</li>
-        <li>If you are using a different browser, or OpenRefine does not automatically open for you, point Firefox at http://127.0.0.1:3333/ or http://localhost:3333 to launch the program.</li>
+        <li>If OpenRefine does not automatically open for you, point your browser at http://127.0.0.1:3333/ or http://localhost:3333 to launch the program.</li>
       </ul>
     </div>
   </div>
@@ -545,28 +544,26 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
 
   <p>
     SQL is a specialized programming language used with databases.  We
-    use a simple database manager called
-    <a href="http://www.sqlite.org/">SQLite</a> in our lessons.
+    use a very lightweight database system called SQLite in our lessons.  On its own, it's so light, it doesn't even include a user interface!  So, we use <a href="http://sqlitebrowser.org/">DB Browser for SQLite</a>. 
   </p>
 
   <div class="row">
     <div class="col-md-4">
       <h4 id="sql-windows">Windows</h4>
       <p>
-        The <a href="{{site.swc_installer}}">Software Carpentry Windows Installer</a>
-        installs SQLite for Windows.
+        Download and install <a href="https://github.com/sqlitebrowser/sqlitebrowser/releases/download/v3.9.1/DB.Browser.for.SQLite-3.9.1-win32.exe">DB Browser for SQLite (Windows)</a>
       </p>
     </div>
     <div class="col-md-4">
       <h4 id="sql-macosx">Mac OS X</h4>
       <p>
-        SQLite comes pre-installed on Mac OS X.
+        Download and install <a href="https://github.com/sqlitebrowser/sqlitebrowser/releases/download/v3.9.1/DB.Browser.for.SQLite-3.9.1v2.dmg">DB Browser for SQLite (Mac)</a>
       </p>
     </div>
     <div class="col-md-4">
       <h4 id="sql-linux">Linux</h4>
       <p>
-        SQLite comes pre-installed on Linux.
+        Download and install <a href="https://github.com/sqlitebrowser/sqlitebrowser/archive/v3.9.1.tar.gz">DB Browser for SQLite (Linux)</a>
       </p>
     </div>
   </div>
