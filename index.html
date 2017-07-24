@@ -12,7 +12,7 @@ humantime: "9:00 am - 4:30 pm"    # human-readable times for the workshop (e.g.,
 startdate: 2017-08-01      # machine-readable start date for the workshop in YYYY-MM-DD format like 2015-01-01
 enddate: 2017-08-02        # machine-readable end date for the workshop in YYYY-MM-DD format like 2015-01-02
 instructor: ["Simon Hettrick", "Alistair Bailey", "Rob Blair" ] # boxed, comma-separated list of instructors' names as strings, like ["Kay McNulty", "Betty Jennings", "Betty Snyder"]
-helper: ["Arshad Emmambux", "Olivier Phillipe", "Robin Wilson"]     # boxed, comma-separated list of helpers' names, like ["Marlyn Wescoff", "Fran Bilas", "Ruth Lichterman"]
+helper: ["Arshad Emmambux", "Olivier Phillipe"]     # boxed, comma-separated list of helpers' names, like ["Marlyn Wescoff", "Fran Bilas", "Ruth Lichterman"]
 contact: ["rsg-info@soton.ac.uk"]    # boxed, comma-separated list of contact email addresses for the host, lead instructor, or whoever else is handling questions, like ["marlyn.wescoff@example.org", "fran.bilas@example.org", "ruth.lichterman@example.org"]
 etherpad:             # optional: URL for the workshop Etherpad if there is one
 eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite registration, e.g., "1234567890AB" (if Eventbrite is being used)
@@ -407,15 +407,14 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
 
 <p>
   To participate in a Data Carpentry workshop, you will need
-  to bring a laptop with the software described below. In addition, you will
-  need an up-to-date web browser.
+  to bring a laptop with the software described below. Some of the software requires you to use the <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> browser so you should download and install it before you arrive.
 </p>
 
 <div id="editor"> <!-- Start of 'spreadsheet' section. -->
   <h3>Spreadsheet</h3>
 
   <p>
-    To interact with spreadsheets, we can useMicrosoft Excel, OpenOffice.org, or other programs.
+    To work with with spreadsheets, we can useMicrosoft Excel, OpenOffice.org, or other programs.
     Commands may differ a bit between programs, but general ideas for thinking about spreadsheets are the same.
     For this lesson, <strong>if you don’t have a spreadsheet program already</strong>, you can use LibreOffice. It’s a free, open source spreadsheet program.
   </p>
@@ -456,36 +455,33 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
       <h4 id="openrefine-windows">Windows</h4>
       <ul>
         <li>OpenRefine uses Java. If you don't already have it installed, install it from <a href="https://www.java.com/inc/BrowserRedirect1.jsp">here</a>.
-        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> or <a href="https://www.google.com/chrome/index.html">Chrome</a> installed. (Unfortunately, OpenRefine will not work correctly with Internet Explorer or Microsoft Edge).</li>
+        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> installed. (Unfortunately, OpenRefine may not work correctly with Internet Explorer or Microsoft Edge).</li>
         <li>Download the OpenRefine 2.7 Windows Kit from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
         <li>Unzip the downloaded file into a directory by right-clicking and
         selecting “Extract…”. Name that directory something like 'OpenRefine'. <strong>Remember where you extracted it</strong></li>
         <li>Go to your newly created OpenRefine directory using File Explorer.</li>
         <li>Double click "openrefine" (the icon is a blue diamond).  A black console window will apppear, and your default browser shortly afterwards.</li>
-        <li>If your default browser is not Firefox or Chrome, or OpenRefine does not automatically open for you, point your browser at http://127.0.0.1:3333/ or http://localhost:3333.</li>
+        <li>If your default browser is not Firefox, or OpenRefine does not automatically open for you, point Firefox at http://127.0.0.1:3333/ or http://localhost:3333.</li>
       </ul>
     </div>
     <div class="col-md-4">
       <h4 id="openrefine-mac">Mac OS X</h4>
       <ul>
-        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> or <a href="https://www.google.com/chrome/index.html">Chrome</a> installed. (Unfortunately, OpenRefine may not work correctly with Safari).</li>
+        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> installed. (Unfortunately, OpenRefine may not work correctly with Safari).</li>
         <li>Download the OpenRefine 2.7 Mac Kit from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
         <li>Open the downloaded file and drag the OpenRefine icon to Applications as instructed.</li>
         <li>Launch OpenRefine from Applications.</li>
-        <li>If you receive a warning about installing untrusted applications: Applications -> Utilities -> Terminal and type the following: <pre>spctl --add /Applications/OpenRefine.app</pre> and try again.
-        <li>Your defauly web browser should now open. If you are using a browser other than Firefox / Chrome, or OpenRefine does not automatically open for you, point your browser at http://127.0.0.1:3333/ or http://localhost:3333 to launch the program.</li>
+        <li>If you receive a warning about installing untrusted applications: Applications -> Utilities -> Terminal and type the following: <code>spctl --add /Applications/OpenRefine.app</code> and try again.
+	<li>If your default browser is not Firefox, or OpenRefine does not automatically open for you, point Firefox at http://127.0.0.1:3333/ or http://localhost:3333.</li>
       </ul>
     </div>
     <div class="col-md-4">
       <h4 id="openrefine-linux">Linux</h4>
       <ul>
-        <li>Check that you have Firefox or Chrome browsers installed and set as your
-      default browser. OpenRefine runs in your default browser. </li>
-        <li>Download software from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
-        <li>Unzip the downloaded file into a directory. Name
-      that directory something like OpenRefine.</li>
+        <li>Check that you have <a href="https://www.mozilla.org/en-GB/firefox/new/">Firefox</a> installed.</li>
+        <li>Download the OpenRefine 2.7 Linux kir from <a href="http://openrefine.org/download.html">http://openrefine.org</a></li>
+        <li>Unzip the downloaded file into a directory. Name that directory something like "OpenRefine".</li>
         <li>Go to your newly created OpenRefine directory.</li>
-        <li>Launch OpenRefine</li>
         <li>Type ./refine into the terminal within the OpenRefine directory</li>
         <li>If you are using a different browser, or OpenRefine does not automatically open for you, point your browser at http://127.0.0.1:3333/ or http://localhost:3333 to launch the program.</li>
       </ul>
@@ -497,8 +493,7 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
 
 <div id="r"> <!-- Start of 'R' section. -->
   <h3>R</h3>
-
-  <p>
+<p>
     <a href="http://www.r-project.org">R</a> is a programming language
     that is especially powerful for data exploration, visualization, and
     statistical analysis. To interact with R, we use
@@ -606,3 +601,16 @@ eventbrite: 35783179453           # optional: alphanumeric key for Eventbrite re
   </ol>
 </div>
 -->
+---
+layout: workshop      # DON'T CHANGE THIS.
+root: .               # DON'T CHANGE THIS EITHER.  (THANK YOU.)
+carpentry: "dc"    # what kind of Carpentry (must be either "dc" or "swc")
+venue: "University of Southampton"        # brief name of host site without address (e.g., "Euphoric State University")
+address: "Room 2207, Building 85 (Biological Sciences Building)"      # full street address of workshop (e.g., "Room A, 123 Forth Street, Blimingen, Euphoria")
+country: "gb"      # lowercase two-letter ISO country code such as "fr" (see https://en.wikipedia.org/wiki/ISO_3166-1)
+language: "en"     # lowercase two-letter ISO language code such as "fr" (see https://en.wikipedia.org/wiki/ISO_639-1)
+latlng: "50.936484, -1.395341"       # decimal latitude and longitude of workshop venue (e.g., "41.7901128,-87.6007318" - use http://www.latlong.net/)
+humandate: "Aug 01-Aug 02, 2017"    # human-readable dates for the workshop (e.g., "Feb 17-18, 2020")
+humantime: "9:00 am - 4:30 pm"    # human-readable times for the workshop (e.g., "9:00 am - 4:30 pm")
+startdate: 2017-08-01      # machine-readable start date for the workshop in YYYY-MM-DD format like 2015-01-01
+enddate: 2017-08-02        # machine-readable end date for the workshop in YYYY-MM-DD format like 2015-01-02
