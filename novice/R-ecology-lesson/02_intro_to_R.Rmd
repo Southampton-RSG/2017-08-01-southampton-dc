@@ -35,20 +35,25 @@ Let's begin with visualisation of some data using the `ggplot2` package.
 
 We're starting here as we gather data to ask and answer questions, and visualising data often provides the answers.
 
-We're using ggplot2 as this implements the *grammer of graphics*, for describing
+We're using `ggplot2` as this implements the *grammer of graphics*, for describing
 and building graphs. This is far from the only way to create graphs, but in this
 course we'll be working within the *tidyverse*, a set of packages that implement
 a coherent set of tools for data science in R. ggplot2 is a package that is part
 of the tidyverse package.
 
-We should have the tidyverse installed and loaded already, which means ggplot2
-is loaded and ready to go.
+We should have the tidyverse installed and if it isn't loaded already, we load it using the `library()` function. We pass
+the name of the package `tidyverse` to the function by putting
+it inside the round brackets: `library(tidyverse)` and pressing
+`Enter`. 
+
+As part of the tidyverse package, `ggplot2` is then loaded into 
+our R environment and we're ready to go.
 
 ## Using graphs to explore data
 
 ### Do cars with big engines use more fuel than cars with small engines?
 
-Included in ggplot2 is a data frame called `mpg` containing variables in columns
+Included in `ggplot2` is a data frame called `mpg` containing variables in columns
 and observations in rows collected by the US Environmental Protection Agency for
 38 models of cars.
 
@@ -231,9 +236,10 @@ Read this as *"weight_kg gets value 55"* in your head.
 Using `<-` can be annoying to type, so use RStudio’s keyboard short cut: 
 Alt + - (the minus sign) to make life easier. 
 
-Object name style is a matter of choice, but must start with a letter and can 
-only contain letters, numbers, `_` and `.`. We recommend using descriptive names
-and using `_` between words. Some special symbols cannot be used in variable 
+Object name style is a matter of choice, but must start with a 
+letter and can only contain letters, numbers, `_` and `.`. We 
+recommend using descriptive names and using  the underscore `_`
+between words. Some special symbols cannot be used in variable 
 names, so watch out for those.
 
 So here we've used the name to indicate its value represents a weight in kilograms. Look in your environment pane and you'll see the `weight_kg` object containing the (data) value 55.
@@ -281,7 +287,8 @@ missing part or press Escape to cancel the code.
 Let's call a function and make an assignment at the same time. Here we'll use
 the base R function `seq()` which takes three arguments: `from`, `to` and `by`.
 
-Read the following code as *"make an object called my_sequence that stores a sequence of numbers from 2 to 20 by intervals of 2*.
+Read the following code as *"make an object called my_sequence that stores a sequence of numbers **from** 2 **to** 20 **by**
+intervals of 2*.
 
 ```{r, purl=FALSE}
 my_sequence <- seq(2,20,2)

@@ -379,13 +379,14 @@ div.tocify {
 <h1>Data visualisation</h1>
 <p>Let’s begin with visualisation of some data using the <code>ggplot2</code> package.</p>
 <p>We’re starting here as we gather data to ask and answer questions, and visualising data often provides the answers.</p>
-<p>We’re using ggplot2 as this implements the <em>grammer of graphics</em>, for describing and building graphs. This is far from the only way to create graphs, but in this course we’ll be working within the <em>tidyverse</em>, a set of packages that implement a coherent set of tools for data science in R. ggplot2 is a package that is part of the tidyverse package.</p>
-<p>We should have the tidyverse installed and loaded already, which means ggplot2 is loaded and ready to go.</p>
+<p>We’re using <code>ggplot2</code> as this implements the <em>grammer of graphics</em>, for describing and building graphs. This is far from the only way to create graphs, but in this course we’ll be working within the <em>tidyverse</em>, a set of packages that implement a coherent set of tools for data science in R. ggplot2 is a package that is part of the tidyverse package.</p>
+<p>We should have the tidyverse installed and if it isn’t loaded already, we load it using the <code>library()</code> function. We pass the name of the package <code>tidyverse</code> to the function by putting it inside the round brackets: <code>library(tidyverse)</code> and pressing <code>Enter</code>.</p>
+<p>As part of the tidyverse package, <code>ggplot2</code> is then loaded into our R environment and we’re ready to go.</p>
 <div id="using-graphs-to-explore-data" class="section level2">
 <h2>Using graphs to explore data</h2>
 <div id="do-cars-with-big-engines-use-more-fuel-than-cars-with-small-engines" class="section level3">
 <h3>Do cars with big engines use more fuel than cars with small engines?</h3>
-<p>Included in ggplot2 is a data frame called <code>mpg</code> containing variables in columns and observations in rows collected by the US Environmental Protection Agency for 38 models of cars.</p>
+<p>Included in <code>ggplot2</code> is a data frame called <code>mpg</code> containing variables in columns and observations in rows collected by the US Environmental Protection Agency for 38 models of cars.</p>
 <p>Type <code>mpg</code> in the console window to take a look at this R object:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mpg</code></pre></div>
 <pre><code>## # A tibble: 234 × 11
@@ -505,7 +506,7 @@ div.tocify {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg &lt;-<span class="st"> </span><span class="dv">55</span></code></pre></div>
 <p>Read this as <em>“weight_kg gets value 55”</em> in your head.</p>
 <p>Using <code>&lt;-</code> can be annoying to type, so use RStudio’s keyboard short cut: Alt + - (the minus sign) to make life easier.</p>
-<p>Object name style is a matter of choice, but must start with a letter and can only contain letters, numbers, <code>_</code> and <code>.</code>. We recommend using descriptive names and using <code>_</code> between words. Some special symbols cannot be used in variable names, so watch out for those.</p>
+<p>Object name style is a matter of choice, but must start with a letter and can only contain letters, numbers, <code>_</code> and <code>.</code>. We recommend using descriptive names and using the underscore <code>_</code> between words. Some special symbols cannot be used in variable names, so watch out for those.</p>
 <p>So here we’ve used the name to indicate its value represents a weight in kilograms. Look in your environment pane and you’ll see the <code>weight_kg</code> object containing the (data) value 55.</p>
 <p>We can inspect an object by typing it’s name:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">weight_kg</code></pre></div>
@@ -524,7 +525,7 @@ div.tocify {
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
 <p>If we left off a parentheses to close the function, then when we hit enter we’ll see a <code>+</code> indicating RStudio is expecting further code. We either add the missing part or press Escape to cancel the code.</p>
 <p>Let’s call a function and make an assignment at the same time. Here we’ll use the base R function <code>seq()</code> which takes three arguments: <code>from</code>, <code>to</code> and <code>by</code>.</p>
-<p>Read the following code as *“make an object called my_sequence that stores a sequence of numbers from 2 to 20 by intervals of 2*.</p>
+<p>Read the following code as *“make an object called my_sequence that stores a sequence of numbers <strong>from</strong> 2 <strong>to</strong> 20 <strong>by</strong> intervals of 2*.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_sequence &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">2</span>,<span class="dv">20</span>,<span class="dv">2</span>)</code></pre></div>
 <p>This time nothing was returned to the console, but we now have an object called <code>my_sequence</code> in our environment.</p>
 <p>Can you remember how to inspect it?</p>

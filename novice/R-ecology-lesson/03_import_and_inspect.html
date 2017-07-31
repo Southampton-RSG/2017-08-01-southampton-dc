@@ -383,6 +383,11 @@ div.tocify {
 <img src="img/kratsep12.jpg" alt="Merriam’s kangaroo rat, Dipodomys merriami, (https://portalproject.wordpress.com/)" />
 <p class="caption">Merriam’s kangaroo rat, Dipodomys merriami, (<a href="https://portalproject.wordpress.com/" class="uri">https://portalproject.wordpress.com/</a>)</p>
 </div>
+<p>Here is one of the smaller species whose populations were not excluded:</p>
+<div class="figure">
+<img src="img/silky-pocket-mouse.jpg" alt="Silky pocket mouse,Perognathus flavus" />
+<p class="caption">Silky pocket mouse,Perognathus flavus</p>
+</div>
 <p>The following image indicates how the exclusion works, where a for number of fenced plots the kangaroo rats were either able to enter by a hole or kept out.</p>
 <div class="figure">
 <img src="img/fence_hole.JPG" alt="Kangeroo Rat exclusion" />
@@ -517,22 +522,22 @@ if (!<span class="kw">file.exists</span>(path)) { <span class="kw">download.file
 <span class="co"># read_csv creates a &#39;tibble&#39; a modified form of data frame with enhanced</span>
 <span class="co"># printing and checking capabilites.</span>
 surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;data/portal_data_joined.csv&#39;</span>)</code></pre></div>
-<pre><code>#&gt; Parsed with column specification:
-#&gt; cols(
-#&gt;   record_id = col_integer(),
-#&gt;   month = col_integer(),
-#&gt;   day = col_integer(),
-#&gt;   year = col_integer(),
-#&gt;   plot_id = col_integer(),
-#&gt;   species_id = col_character(),
-#&gt;   sex = col_character(),
-#&gt;   hindfoot_length = col_integer(),
-#&gt;   weight = col_integer(),
-#&gt;   genus = col_character(),
-#&gt;   species = col_character(),
-#&gt;   taxa = col_character(),
-#&gt;   plot_type = col_character()
-#&gt; )</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   record_id = col_integer(),
+##   month = col_integer(),
+##   day = col_integer(),
+##   year = col_integer(),
+##   plot_id = col_integer(),
+##   species_id = col_character(),
+##   sex = col_character(),
+##   hindfoot_length = col_integer(),
+##   weight = col_integer(),
+##   genus = col_character(),
+##   species = col_character(),
+##   taxa = col_character(),
+##   plot_type = col_character()
+## )</code></pre>
 <p>The <code>read_csv()</code> function outputs a message telling us how it interpreted each column of data and what data type it stored them as. We can override these settings if needed, see the help file for more information <code>?read_csv</code>.</p>
 </div>
 <div id="a-note-on-excel-files" class="section level2">
@@ -547,21 +552,21 @@ surveys &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <p>Having imported the data, we should look at the structure of the data. We’ll use the <code>glimpse</code> function that tries to provide the most compact and informative view. The arguement we supply to glimpse is the <code>surveys</code> object we created in our environment when we imported the data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the data with &#39;glimpse&#39;</span>
 <span class="kw">glimpse</span>(surveys)</code></pre></div>
-<pre><code>#&gt; Observations: 34,786
-#&gt; Variables: 13
-#&gt; $ record_id       &lt;int&gt; 1, 72, 224, 266, 349, 363, 435, 506, 588, 661,...
-#&gt; $ month           &lt;int&gt; 7, 8, 9, 10, 11, 11, 12, 1, 2, 3, 4, 5, 6, 8, ...
-#&gt; $ day             &lt;int&gt; 16, 19, 13, 16, 12, 12, 10, 8, 18, 11, 8, 6, 9...
-#&gt; $ year            &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1978...
-#&gt; $ plot_id         &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2...
-#&gt; $ species_id      &lt;chr&gt; &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;...
-#&gt; $ sex             &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, NA, NA, NA, NA, NA, NA, &quot;M&quot;, NA, NA,...
-#&gt; $ hindfoot_length &lt;int&gt; 32, 31, NA, NA, NA, NA, NA, NA, NA, NA, NA, 32...
-#&gt; $ weight          &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, 218, NA, NA, 2...
-#&gt; $ genus           &lt;chr&gt; &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;N...
-#&gt; $ species         &lt;chr&gt; &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;...
-#&gt; $ taxa            &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Roden...
-#&gt; $ plot_type       &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;C...</code></pre>
+<pre><code>## Observations: 34,786
+## Variables: 13
+## $ record_id       &lt;int&gt; 1, 72, 224, 266, 349, 363, 435, 506, 588, 661,...
+## $ month           &lt;int&gt; 7, 8, 9, 10, 11, 11, 12, 1, 2, 3, 4, 5, 6, 8, ...
+## $ day             &lt;int&gt; 16, 19, 13, 16, 12, 12, 10, 8, 18, 11, 8, 6, 9...
+## $ year            &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1978...
+## $ plot_id         &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2...
+## $ species_id      &lt;chr&gt; &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;, &quot;NL&quot;...
+## $ sex             &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, NA, NA, NA, NA, NA, NA, &quot;M&quot;, NA, NA,...
+## $ hindfoot_length &lt;int&gt; 32, 31, NA, NA, NA, NA, NA, NA, NA, NA, NA, 32...
+## $ weight          &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, 218, NA, NA, 2...
+## $ genus           &lt;chr&gt; &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;Neotoma&quot;, &quot;N...
+## $ species         &lt;chr&gt; &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;, &quot;albigula&quot;...
+## $ taxa            &lt;chr&gt; &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Rodent&quot;, &quot;Roden...
+## $ plot_type       &lt;chr&gt; &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;Control&quot;, &quot;C...</code></pre>
 <p>This data is tidy already: each variable is a column, each observation is a row and each cell contains a single variable.</p>
 <blockquote>
 <p><span style="background:yellow"> See the <a href="https://southampton-rsg.github.io/2017-08-01-southampton-dc/novice/spreadsheet-ecology-lesson/">Data Organisation in Spreadsheets</a> lessons for more about organising data so that it is tidy prior to importing to R.</span></p>

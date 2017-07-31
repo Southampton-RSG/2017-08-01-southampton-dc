@@ -4,7 +4,7 @@ author: "Alistair Bailey"
 minutes: 30
 ---
 
-```{r, echo=FALSE, purl=FALSE, message = FALSE}
+```{r, echo=FALSE, purl=FALSE, message = FALSE, eval=FALSE}
 source("setup.R")
 ```
 
@@ -44,6 +44,10 @@ Below is an image of one of the species of kangaroo rats excluded during the
 study.
 
 ![Merriam's kangaroo rat, Dipodomys merriami, (https://portalproject.wordpress.com/)](./img/kratsep12.jpg)
+
+Here is one of the smaller species whose populations were not excluded:
+
+![Silky pocket mouse,Perognathus flavus](./img/silky-pocket-mouse.jpg)
 
 The following image indicates how the exclusion works, where a for number of
 fenced plots the kangaroo rats were either able to enter by a hole or kept out.
@@ -218,7 +222,7 @@ the data. The NOT condition `!` means if `portal_data_joined.csv` doesn't
 exist already, download it.
 
 
-```{r purl=FALSE}
+```{r purl=FALSE, eval=FALSE}
 # Download the and import the data ---------------------------------------------
 
 # First we assign the web address as a string to a R object called 'url'.
